@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CinemaCMS | {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'cms/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'cms/dist/css/adminlte.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+      <img src="{% static 'cms/dist/img/CinemaCMSLogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">CinemaCMS</span>
+    </a>
+    <!-- Список админ страниц -->
+    <div class="sidebar">
+        <div class="os-content" size="padding: 0px, 8px; height: 100%; width: 100%;">
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordition="false">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Cтатистика
+                                </font></font>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Баннеры/Слайдеры
+                                </font></font>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Фильмы
+                                </font></font>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Кинотеатры
+                                </font></font>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Новости
+                                </font></font>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Акции
+                                </font></font>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Страницы
+                                </font></font>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Пользователи
+                                </font></font>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Рассылка
+                                </font></font>
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Верхняя панель -->
+    <nav class="navbar navbar-expand navbar-white navbar-light">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item d-done d-sm-inline-block">
+                <a href="#" class="nav-link">
+                    <img src="{% static 'cms/dist/img/account.png' %}" alt="Account">
+                    <span>Администратор</span>
+                </a>
+            </li>
+            <li class="nav-item d-done d-sm-inline-block">
+                <a href="#" class="nav-link">
+                    <img src="{% static 'cms/dist/img/exit.png' %}" alt="Exit">
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="content-header">
+      <div class="container-fluid">
+          <h1>{% block header %}{% endblock %}</h1>
+      </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </section>
+  </div>
+
+
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="{% static 'cms/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'cms/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'cms/dist/js/adminlte.min.js' %}"></script>
+</body>
+</html>
