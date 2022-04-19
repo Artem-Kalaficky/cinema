@@ -31,14 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'cms.apps.CmsConfig',
+    'main.apps.MainConfig',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cms.apps.CmsConfig',
-    'main.apps.MainConfig',
 ]
 
 MIDDLEWARE = [
@@ -106,6 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#AUTH_USER_MODEL = 'users.models.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

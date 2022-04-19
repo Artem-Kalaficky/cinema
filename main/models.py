@@ -2,6 +2,9 @@ import datetime
 
 from django.db import models
 
+import users.models
+#from users.models import UserProfile
+
 
 class Image(models.Model):
     image = models.ImageField(verbose_name="Картинка")
@@ -109,7 +112,7 @@ class NewsOrProm(models.Model):
     images = models.ManyToManyField(Image, verbose_name="Галерея картинок")
     link_to_video = models.URLField(verbose_name="Видео-ссылка")
     pub_date = models.DateField(verbose_name="Дата публикации")
-    status = models.BooleanField(verbose_name="Статус")
+    status = models.BooleanField(default=True, verbose_name="Статус")
     seo = models.OneToOneField(Seo, on_delete=models.PROTECT, verbose_name="SEO блок")
     type = models.BooleanField(verbose_name="Тип")
 
@@ -118,6 +121,57 @@ class NewsOrProm(models.Model):
 
     class Meta:
         ordering = ['-pub_date']
+
+
+class Page(models.Model):
+    telephone1 = models.CharField(max_length=20, null=True, blank=True, verbose_name="Телефон 1")
+    telephone2 = models.CharField(max_length=20, null=True, blank=True, verbose_name="Телефон 2")
+    contact = models.ForeignKey(Contact, on_delete=models.PROTECT, null=True, blank=True, verbose_name="Контанкты")
+    name = models.CharField(max_length=20, null=True, blank=True, verbose_name="Название")
+    description = models.TextField(null=True, blank=True, verbose_name="Описание")
+    main_picture = models.ImageField(null=True, blank=True, verbose_name="Главная картинка")
+    images = models.ManyToManyField(Image, blank=True, verbose_name="Галерея картинок")
+    date_created = models.DateField(verbose_name="Дата создания")
+    status = models.BooleanField(default=True, verbose_name="Статус")
+    is_main_page = models.BooleanField(default=False, verbose_name="Является главной")
+    seo_text = models.TextField(null=True, blank=True, verbose_name="SEO текст")
+    seo = models.OneToOneField(Seo, on_delete=models.PROTECT, verbose_name="SEO блок")
+
+    class Meta:
+        verbose_name_plural = 'Страницы'
+        verbose_name = 'Страница'
+
+
+class Slider(models.Model):
+    images = models.ManyToManyField(Image, verbose_name="Галерея картинок")
+    url = models.URLField(verbose_name="URL")
+    text = models.TextField(null=True, blank=True, verbose_name="Текст")
+    SPEEDS = (
+        (None, 'Выберете скорость'),
+        ('1', '5c'),
+        ('2', '10c'),
+        ('3', '15'),
+    )
+    speed = models.CharField(max_length=1, default='1', verbose_name="Скорость вращения")
+    status = models.BooleanField(default=True, verbose_name="Статус")
+
+    class Meta:
+        verbose_name = 'Главный слайдер'
+
+
+class Background(models.Model):
+    pass
+
+
+# class Email(models.Model):
+#     letter = models.FileField(verbose_name="Письмо")
+#     user = models.ForeignKey(UserProfile, on_delete=models.PROTECT, verbose_name="Пользователь")
+#
+#     class Meta:
+#         verbose_name = 'E-mail'
+
+
+
 
 
 
