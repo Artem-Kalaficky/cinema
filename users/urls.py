@@ -4,5 +4,5 @@ from .views import login
 
 
 urlpatterns = [
-    path('', login, name='cms')
+    path('', login, name='login')
 ]
