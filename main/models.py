@@ -21,11 +21,11 @@ class Seo(models.Model):
 
 
 class Cinema(models.Model):
-    name = models.CharField(max_length=30, verbose_name="Название")
+    name = models.CharField(max_length=30, verbose_name="Название кинотеатра")
     description = models.TextField(verbose_name="Описание")
     condition = models.TextField(verbose_name="Условия")
     logo = models.ImageField(upload_to='gallery/', verbose_name="Логотип")
-    top_banner = models.ImageField(upload_to='gallery/', verbose_name="Верхний баннер")
+    top_banner = models.ImageField(upload_to='gallery/', verbose_name="Фото верхнего баннера")
     images = models.ManyToManyField(Image, verbose_name="Галерея картинок")
     seo = models.OneToOneField(Seo, on_delete=models.PROTECT, verbose_name="SEO блок")
 
@@ -38,10 +38,10 @@ class Cinema(models.Model):
 
 
 class Contact(models.Model):
-    name = models.OneToOneField(Cinema, on_delete=models.PROTECT, verbose_name="Название")
+    name = models.OneToOneField(Cinema, on_delete=models.PROTECT, verbose_name="Название кинотеатра")
     address = models.TextField(verbose_name="Адресс")
-    coordinate = models.URLField(verbose_name="Координаты")
-    logo = models.ImageField(upload_to='gallery/', verbose_name="Логотип")
+    coordinate = models.URLField(verbose_name="Координаты для карты")
+    logo = models.ImageField(upload_to='gallery/', verbose_name="Лого")
 
     class Meta:
         verbose_name = 'Контакты'
@@ -49,9 +49,9 @@ class Contact(models.Model):
 
 class Hall(models.Model):
     cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE, verbose_name="Кинотеатр")
-    hall_number = models.IntegerField(verbose_name="Номер")
-    description = models.TextField(verbose_name="Описание")
-    scheme = models.ImageField(upload_to='gallery/', verbose_name="Схема")
+    hall_number = models.IntegerField(verbose_name="Номер зала")
+    description = models.TextField(verbose_name="Описание зала")
+    scheme = models.ImageField(upload_to='gallery/', verbose_name="Схема зала")
     top_banner = models.ImageField(upload_to='gallery/', verbose_name="Верхний баннер")
     images = models.ManyToManyField(Image, verbose_name="Галерея картинок")
     seo = models.OneToOneField(Seo, on_delete=models.PROTECT, verbose_name="SEO блок")
@@ -64,11 +64,11 @@ class Hall(models.Model):
 
 
 class Film(models.Model):
-    name = models.CharField(max_length=128, verbose_name="Название")
+    name = models.CharField(max_length=128, verbose_name="Название фильма")
     description = models.TextField(verbose_name="Описание")
     main_picture = models.ImageField(upload_to='gallery/', verbose_name="Главная картинка")
     images = models.ManyToManyField(Image, verbose_name="Галерея картинок")
-    trailer = models.URLField(verbose_name="Ссылка трейлера")
+    trailer = models.URLField(verbose_name="Ссылка на трейлер")
     type_2d = models.BooleanField(default=True, verbose_name="2D")
     type_3d = models.BooleanField(default=False, verbose_name="3D")
     type_imax = models.BooleanField(default=False, verbose_name="IMax")
@@ -106,7 +106,7 @@ class NewsOrProm(models.Model):
     description = models.TextField(verbose_name="Описание")
     main_picture = models.ImageField(upload_to='gallery/', verbose_name="Главная картинка")
     images = models.ManyToManyField(Image, verbose_name="Галерея картинок")
-    link_to_video = models.URLField(verbose_name="Видео-ссылка")
+    link_to_video = models.URLField(verbose_name="Ссылка на видео")
     pub_date = models.DateField(verbose_name="Дата публикации")
     status = models.BooleanField(default=True, verbose_name="Статус")
     seo = models.OneToOneField(Seo, on_delete=models.PROTECT, verbose_name="SEO блок")

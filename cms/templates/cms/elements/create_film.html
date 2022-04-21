@@ -3,5 +3,11 @@
 {% block title %}Добавить фильм{% endblock %}
 
 {% block content %}
-    <h2>Добавляем фильм</h2>
+    <div style="margin: 30px 50px 0 50px">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Сохранить">
+        </form>
+    </div>
 {% endblock %}
