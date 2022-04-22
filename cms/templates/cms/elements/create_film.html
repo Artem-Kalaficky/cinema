@@ -6,8 +6,64 @@
     <div style="margin: 30px 50px 0 50px">
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Сохранить">
+            <div style="margin-bottom: 30px">
+                {{ form.name.errors }}
+                <label for="id_name">Название фильма</label>
+                <span style="margin-left: 20px">{{ form.name }}</span>
+            </div>
+            <div style="margin-bottom: 30px">
+                {{ form.description.errors }}
+                <label for="id_description" style="vertical-align: top">Описание</label>
+                <span style="margin-left: 20px">{{ form.description }}</span>
+            </div>
+
+
+            <div style="margin-bottom: 30px">
+                {{ form.main_picture.errors }}
+                <label for="id_main_picture">Главная картинка</label>
+                <span style="margin-left: 20px" id="output"></span>
+                <label for="output">{{ form.main_picture }}</label>
+            </div>
+
+
+            <div style="margin-bottom: 30px">
+                {{ form.trailer.errors }}
+                <label for="id_trailer" style="vertical-align: top">Ссылка на трейлер</label>
+                <span style="margin-left: 20px">{{ form.trailer }}</span>
+            </div>
+            <div style="margin-bottom: 30px">
+                <span style="margin-right: 50px; "><b>Тип кино</b></span>
+                <span>{{ form.type_2d }}</span>
+                <label for="id_type_2d" style="vertical-align: top; margin-right: 20px">2D</label>
+                <span>{{ form.type_3d }}</span>
+                <label for="id_type_3d" style="vertical-align: top; margin-right: 20px">3D</label>
+                <span>{{ form.type_imax }}</span>
+                <label for="id_type_imax" style="vertical-align: top; margin-right: 20px">IMAX</label>
+            </div>
+            <span><b>SEO блок:</b></span>
+            <div style="text-align: right; margin: 0 465px 70px 0">
+                <div style="margin-bottom: 15px">
+                    {{ form_seo.url.errors }}
+                    <label for="id_url" style="vertical-align: top">URL:</label>
+                    <span style="margin-left: 10px">{{ form_seo.url }}</span>
+                </div>
+                <div style="margin-bottom: 15px">
+                    {{ form_seo.title.errors }}
+                    <label for="id_title" style="vertical-align: top">Title:</label>
+                    <span style="margin-left: 10px">{{ form_seo.title }}</span>
+                </div>
+                <div style="margin-bottom: 15px">
+                    {{ form_seo.keyword.errors }}
+                    <label for="id_keyword" style="vertical-align: top">Keywords:</label>
+                    <span style="margin-left: 10px">{{ form_seo.keyword }}</span>
+                </div>
+                <div style="margin-bottom: 30px">
+                    {{ form_seo.description.errors }}
+                    <label for="id_description" style="vertical-align: top">Description:</label>
+                    <span style="margin-left: 10px">{{ form_seo.description }}</span>
+                </div>
+            </div>
+            <input type="submit" value="Сохранить" style="margin: 0 auto; display: block">
         </form>
     </div>
 {% endblock %}
