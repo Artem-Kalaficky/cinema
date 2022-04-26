@@ -1,69 +1,70 @@
 {% extends 'cms/layout/base.html' %}
+{% load static %}
 
 {% block title %}Добавить фильм{% endblock %}
 
 {% block content %}
     <div style="margin: 30px 50px 0 50px">
-        <form method="post">
+        <form id="form-container" enctype="multipart/form-data" method="post">
             {% csrf_token %}
             <div style="margin-bottom: 30px">
-                {{ form.name.errors }}
+                {{ base_form.name.errors }}
                 <label for="id_name">Название фильма</label>
-                <span style="margin-left: 20px">{{ form.name }}</span>
+                <span style="margin-left: 20px">{{ base_form.name }}</span>
             </div>
             <div style="margin-bottom: 30px">
-                {{ form.description.errors }}
+                {{ base_form.description.errors }}
                 <label for="id_description" style="vertical-align: top">Описание</label>
-                <span style="margin-left: 20px">{{ form.description }}</span>
+                <span style="margin-left: 20px">{{ base_form.description }}</span>
             </div>
 
 
             <div style="margin-bottom: 30px">
-                {{ form.main_picture.errors }}
+                {{ base_form.main_picture.errors }}
                 <label for="id_main_picture">Главная картинка</label>
-                <span style="margin-left: 20px" id="output"></span>
-                <label for="output">{{ form.main_picture }}</label>
+                <span style="margin-left: 20px">{{ base_form.main_picture }}</span>
             </div>
 
+            <span><b>Галерея картинок:</b></span>
+            {{ formset.management_form }}
+            {% for form in gallery_formset %}
+            <div class="gallery-formset">
+                {{ form.as_p }}
+            </div>
+            {% endfor %}
+            <button id="add-form" type="button">Добавить</button>
 
             <div style="margin-bottom: 30px">
-                {{ form.trailer.errors }}
+                {{ base_form.trailer.errors }}
                 <label for="id_trailer" style="vertical-align: top">Ссылка на трейлер</label>
-                <span style="margin-left: 20px">{{ form.trailer }}</span>
+                <span style="margin-left: 20px">{{ base_form.trailer }}</span>
             </div>
             <div style="margin-bottom: 30px">
                 <span style="margin-right: 50px; "><b>Тип кино</b></span>
-                <span>{{ form.type_2d }}</span>
+                <span>{{ base_form.type_2d }}</span>
                 <label for="id_type_2d" style="vertical-align: top; margin-right: 20px">2D</label>
-                <span>{{ form.type_3d }}</span>
+                <span>{{ base_form.type_3d }}</span>
                 <label for="id_type_3d" style="vertical-align: top; margin-right: 20px">3D</label>
-                <span>{{ form.type_imax }}</span>
+                <span>{{ base_form.type_imax }}</span>
                 <label for="id_type_imax" style="vertical-align: top; margin-right: 20px">IMAX</label>
             </div>
+            <div style="margin-bottom: 30px">
+                {{ base_form.premier_date.errors }}
+                <label for="id_premier_date" style="vertical-align: top">Дата премьеры</label>
+                <span style="margin-left: 20px">{{ base_form.premier_date }}</span>
+            </div>
+
             <span><b>SEO блок:</b></span>
             <div style="text-align: right; margin: 0 465px 70px 0">
-                <div style="margin-bottom: 15px">
-                    {{ form_seo.url.errors }}
-                    <label for="id_url" style="vertical-align: top">URL:</label>
-                    <span style="margin-left: 10px">{{ form_seo.url }}</span>
-                </div>
-                <div style="margin-bottom: 15px">
-                    {{ form_seo.title.errors }}
-                    <label for="id_title" style="vertical-align: top">Title:</label>
-                    <span style="margin-left: 10px">{{ form_seo.title }}</span>
-                </div>
-                <div style="margin-bottom: 15px">
-                    {{ form_seo.keyword.errors }}
-                    <label for="id_keyword" style="vertical-align: top">Keywords:</label>
-                    <span style="margin-left: 10px">{{ form_seo.keyword }}</span>
-                </div>
-                <div style="margin-bottom: 30px">
-                    {{ form_seo.description.errors }}
-                    <label for="id_description" style="vertical-align: top">Description:</label>
-                    <span style="margin-left: 10px">{{ form_seo.description }}</span>
+                {{ form_seo.management_form }}
+                <div>
+                    {{ seo_formset.as_p }}
                 </div>
             </div>
             <input type="submit" value="Сохранить" style="margin: 0 auto; display: block">
         </form>
     </div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'cms/scripts/gallery_formset.js' %}"></script>
 {% endblock %}

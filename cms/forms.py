@@ -1,15 +1,15 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, modelformset_factory
 from django import forms
-from django.forms.widgets import TextInput, Textarea, URLInput, FileInput
+from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, DateInput
 
-from main.models import Film, Seo
+from main.models import Film, Seo, Image
 
 
 
 class FilmForm(ModelForm):
     class Meta:
         model = Film
-        fields = ('name', 'description', 'main_picture', 'trailer', 'type_2d', 'type_3d', 'type_imax')
+        fields = ('name', 'description', 'main_picture', 'trailer', 'type_2d', 'type_3d', 'type_imax', 'premier_date')
         widgets = {'name':         TextInput(attrs={'placeholder': 'Название фильма',
                                                     'size': 30}),
                    'description':  Textarea(attrs={'rows': 4,
@@ -17,10 +17,11 @@ class FilmForm(ModelForm):
                                                    'placeholder': 'Текст'}),
                    'trailer':      URLInput(attrs={'placeholder': 'Ссылка на видео в youtube',
                                                    'size': 90}),
-                   'main_picture': FileInput(attrs={'type': 'file'}),}
+                   'main_picture': FileInput(attrs={'type': 'file'}),
+                   'premier_date': DateInput(attrs={'placeholder': 'xx.xx.xxxx'}),}
 
 
-class FilmSeoForm(ModelForm):
+class SeoForm(ModelForm):
     class Meta:
         model = Seo
         fields = ('url', 'title', 'keyword', 'description')
@@ -34,5 +35,16 @@ class FilmSeoForm(ModelForm):
                                                   'cols': 68,
                                                   'placeholder': 'Description'}),}
 
+
+
+class ImageForm(ModelForm):
+    class Meta:
+        model = Image
+        fields = ('image',)
+        widgets = {'image': FileInput(attrs={'type': 'file'})}
+
+
+FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, can_delete=True)
+FilmSeoFormSet = modelformset_factory(Seo, form=SeoForm)
 
 
