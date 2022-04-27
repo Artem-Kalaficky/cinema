@@ -24,16 +24,9 @@ def add_film(request):
     seo_formset = FilmSeoFormSet(request.POST or None, queryset=Seo.objects.none(), prefix='seo_formset')
 
     if request.method == 'POST' and base_form.is_valid() and gallery_formset.is_valid() and seo_formset.is_valid():
-        if base_form.cleaned_data and gallery_formset.cleaned_data and seo_formset.cleaned_data:
-            for form in gallery_formset:
-                film = form.save(commit=False)
-                film.image = form.instance
-                film.save()
-            for form in seo_formset:
-                film = form.save(commit=False)
-                film.seo = form.instance
-                film.save()
-            base_form.save()
+        base_form.save()
+        gallery_formset.save()
+        seo_formset.save()
         return redirect('film')
 
     context = {'base_form': base_form,

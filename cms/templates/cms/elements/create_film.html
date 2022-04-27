@@ -26,7 +26,7 @@
             </div>
 
             <span><b>Галерея картинок:</b></span>
-            {{ formset.management_form }}
+            {{ gallery_formset.management_form }}
             {% for form in gallery_formset %}
             <div class="gallery-formset">
                 {{ form.as_p }}
