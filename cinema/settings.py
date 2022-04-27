@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -109,13 +110,22 @@ AUTH_PASSWORD_VALIDATORS = [
 
 #AUTH_USER_MODEL = 'users.models.User'
 
+#MEDIA
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
-
+#MULTILANGUAGES
 LANGUAGE_CODE = 'ru'
+LANGUAGES = (
+    ('ru', 'Russian'),
+    ('uk', 'Ukraine'),
+)
+USE_I18N = True
+LOCALE_PATHS = (
+    'locale',
+)
 
 TIME_ZONE = 'UTC'
 

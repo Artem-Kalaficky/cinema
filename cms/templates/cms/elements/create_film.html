@@ -55,13 +55,32 @@
             </div>
 
             <span><b>SEO блок:</b></span>
-            <div style="text-align: right; margin: 0 465px 70px 0">
-                {{ form_seo.management_form }}
-                <div>
-                    {{ seo_formset.as_p }}
+            <div style="text-align: right; margin: 0 465px 60px 0">
+                <div style="margin-bottom: 15px">
+                    {{ seo_form.url.errors }}
+                    <label for="id_url" style="vertical-align: top">URL:</label>
+                    <span style="margin-left: 10px">{{ seo_form.url }}</span>
+                </div>
+                <div style="margin-bottom: 15px">
+                    {{ seo_form.title.errors }}
+                    <label for="id_title" style="vertical-align: top">Title:</label>
+                    <span style="margin-left: 10px">{{ seo_form.title }}</span>
+                </div>
+                <div style="margin-bottom: 15px">
+                    {{ seo_form.keyword.errors }}
+                    <label for="id_keyword" style="vertical-align: top">Keywords:</label>
+                    <span style="margin-left: 10px">{{ seo_form.keyword }}</span>
+                </div>
+                <div style="margin-bottom: 30px">
+                    {{ seo_form.description.errors }}
+                    <label for="id_description" style="vertical-align: top">Description:</label>
+                    <span style="margin-left: 10px">{{ seo_form.description }}</span>
                 </div>
             </div>
-            <input type="submit" value="Сохранить" style="margin: 0 auto; display: block">
+            <div style="padding-bottom: 30px; display: flex; margin: 0 500px 0 500px">
+                <input type="submit" value="Сохранить" style="margin: 0 auto; display: block">
+                <input type="reset" value="Вернуть базовую версию" style="margin: 0 auto; display: block">
+            </div>
         </form>
     </div>
 {% endblock %}

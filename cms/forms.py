@@ -45,6 +45,6 @@ class ImageForm(ModelForm):
 
 
 FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, can_delete=True)
-FilmSeoFormSet = modelformset_factory(Seo, form=SeoForm)
+
 
 

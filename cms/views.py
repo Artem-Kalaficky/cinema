@@ -5,8 +5,8 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 
-from main.models import Film, Image, Seo
-from .forms import FilmForm, FilmSeoFormSet, FilmGalleryFormSet
+from main.models import Film, Image
+from .forms import FilmForm, SeoForm, FilmGalleryFormSet
 
 
 def cms(request):
@@ -20,18 +20,21 @@ def film_list(request):
 
 def add_film(request):
     base_form = FilmForm(request.POST or None, request.FILES or None, prefix='base_form')
-    gallery_formset = FilmGalleryFormSet(request.POST or None, request.FILES or None, queryset=Image.objects.none(), prefix='gallery_formset')
-    seo_formset = FilmSeoFormSet(request.POST or None, queryset=Seo.objects.none(), prefix='seo_formset')
+    gallery_formset = FilmGalleryFormSet(request.POST or None, request.FILES or None,
+                                         queryset=Image.objects.none(), prefix='gallery_formset')
+    seo_form = SeoForm(request.POST or None, prefix='seo_form')
 
-    if request.method == 'POST' and base_form.is_valid() and gallery_formset.is_valid() and seo_formset.is_valid():
-        base_form.save()
+    if request.method == 'POST' and base_form.is_valid() and gallery_formset.is_valid() and seo_form.is_valid():
         gallery_formset.save()
-        seo_formset.save()
+        seo_form.save()
+        film = base_form.save(commit=False)
+        film.seo = seo_form.instance
+        film.save()
         return redirect('film')
 
     context = {'base_form': base_form,
                'gallery_formset': gallery_formset,
-               'seo_formset': seo_formset}
+               'seo_form': seo_form}
     return render(request, 'cms/elements/create_film.html', context)
 
 
