@@ -44,7 +44,7 @@ class ImageForm(ModelForm):
         widgets = {'image': FileInput(attrs={'type': 'file'})}
 
 
-FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, can_delete=True)
+FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
 
 
 

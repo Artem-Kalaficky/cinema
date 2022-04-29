@@ -1,20 +1,17 @@
-let galleryFormset = document.querySelectorAll(".gallery-formset")
-let formContainer = document.querySelector("#form-container")
-let addButton = document.querySelector("#add-form")
-let totalForms = document.querySelector("#id_gallery_formset-TOTAL_FORMS")
+const addImageFormBtn = document.querySelector("#add-image-form");
+const submitFormBtn = document.querySelector('[type="submit"]');
+const imageForm = document.getElementsByClassName("image-form");
+const mainForm = document.querySelector("#form-container");
+const totalForms = document.querySelector("#id_gallery_formset-TOTAL-FORMS");
 
-let formNum = galleryFormset.length-1
-addButton.addEventListener('click', addForm)
+let formCount = imageForm.length-1;
 
-function addForm(e) {
-    e.preventDefault()
-
-    let newForm = galleryFormset[0].cloneNode(true)
-    let formRegex = RegExp(`gallery_formset-(\\d){1}-`,'g')
-
-    formNum++
-    newForm.innerHTML = newForm.innerHTML.replace(formRegex, `gallery_formset-${formNum}-`)
-    formContainer.insertBefore(newForm, addButton)
-
-    totalForms.setAttribute('value', `${formNum+1}`)
-}
+addImageFormBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    const newImageForm = imageForm[0].cloneNode(true);
+    const formRegex = RegExp(`gallery_formset-(\\d){1}-`, 'g');
+    formCount++;
+    newImageForm.innerHTML = newImageForm.innerHTML.replace(formRegex, `gallery_formset-${formCount}-`);
+    totalForms.setAttribute('value', `${formCount + 1}`);
+    mainForm.insertBefore(newImageForm, submitFormBtn);
+});

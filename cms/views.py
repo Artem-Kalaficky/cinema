@@ -24,12 +24,18 @@ def add_film(request):
                                          queryset=Image.objects.none(), prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, prefix='seo_form')
 
-    if request.method == 'POST' and base_form.is_valid() and gallery_formset.is_valid() and seo_form.is_valid():
-        gallery_formset.save()
-        seo_form.save()
-        film = base_form.save(commit=False)
-        film.seo = seo_form.instance
-        film.save()
+    if request.method == 'POST':
+
+        if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
+            seo_form.save()
+            film = base_form.save(commit=False)
+            film.seo = seo_form.instance
+            film.save()
+            for form in gallery_formset:
+                image = form.save()
+                film.images.add(image)
+
+
         return redirect('film')
 
     context = {'base_form': base_form,

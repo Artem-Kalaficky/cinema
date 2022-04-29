@@ -27,12 +27,14 @@
 
             <span><b>Галерея картинок:</b></span>
             {{ gallery_formset.management_form }}
-            {% for form in gallery_formset %}
-            <div class="gallery-formset">
-                {{ form.as_p }}
+            <div id="form_set">
             </div>
-            {% endfor %}
-            <button id="add-form" type="button">Добавить</button>
+            <input type="button" value="Add More" id="add_more">
+            <div id="empty_form" style="display:none">
+                <table class='no_error'>
+                    {{ gallery_formset.empty_form }}
+                </table>
+            </div>
 
             <div style="margin-bottom: 30px">
                 {{ base_form.trailer.errors }}
