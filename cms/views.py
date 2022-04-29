@@ -31,6 +31,7 @@ def add_film(request):
             film = base_form.save(commit=False)
             film.seo = seo_form.instance
             film.save()
+
             for form in gallery_formset:
                 image = form.save()
                 film.images.add(image)
