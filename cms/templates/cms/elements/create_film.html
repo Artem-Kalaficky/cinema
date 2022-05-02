@@ -21,19 +21,32 @@
 
             <div style="margin-bottom: 30px">
                 {{ base_form.main_picture.errors }}
-                <label for="id_main_picture">Главная картинка</label>
-                <span style="margin-left: 20px">{{ base_form.main_picture }}</span>
+                <label for="id_main_picture" style="margin-right: 23px">Главная картинка</label>
+                <img src="" id="picture" height="270" width="200">
+                <a class="btn btn-outline-success btn-file" style="margin: 0 50px 0 50px; min-width: 150px">Загрузить
+                    <input type="file" onchange="preview()" name="base_form-main_picture" accept="image/*" required="" id="id_base_form-main_picture">
+                </a>
+                <a id="delete-picture" class="btn btn-outline-danger btn-file" style="margin-right: 10px; min-width: 150px">Удалить</a>
             </div>
 
-            <span><b>Галерея картинок:</b></span>
-            {{ gallery_formset.management_form }}
-            <div id="form_set">
-            </div>
-            <input type="button" value="Add More" id="add_more">
-            <div id="empty_form" style="display:none">
-                <table class='no_error'>
-                    {{ gallery_formset.empty_form }}
-                </table>
+            <span><b>Галерея картинок<br></span>
+            <div style="margin: 10px 0 35px 0">
+                <span style="margin: 0 30px 0 30px; vertical-align: center"><b>Размер: 1000x190</b></span>
+                {{ gallery_formset.management_form }}
+                <div id="form_set" style="display: inline-block"></div>
+                <div style="display: inline-block">
+                    <input class="add-more-img" type="button" value="Add More" id="add_more" style="">
+                </div><div class="delete-list">
+                </div>
+                <div id="empty_form" style="display: none">
+                    <div style="display: inline-block">
+                        <div style="text-align: right">
+                            <a onclick="delete_image(this.id)" id="{{ gallery_formset.empty_form.prefix }}">X</a>
+                        </div>
+                        <input type="hidden" name="gallery_formset-0-id" id="id_gallery_formset-0-id">
+                        {{ gallery_formset.empty_form.image }}
+                    </div>
+                </div>
             </div>
 
             <div style="margin-bottom: 30px">
@@ -88,4 +101,5 @@
 {% endblock %}
 {% block script %}
 <script src="{% static 'cms/scripts/gallery_formset.js' %}"></script>
+<script src="{% static 'cms/scripts/imgload.js' %}"></script>
 {% endblock %}

@@ -1,17 +1,10 @@
-const addImageFormBtn = document.querySelector("#add-image-form");
-const submitFormBtn = document.querySelector('[type="submit"]');
-const imageForm = document.getElementsByClassName("image-form");
-const mainForm = document.querySelector("#form-container");
-const totalForms = document.querySelector("#id_gallery_formset-TOTAL-FORMS");
-
-let formCount = imageForm.length-1;
-
-addImageFormBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-    const newImageForm = imageForm[0].cloneNode(true);
-    const formRegex = RegExp(`gallery_formset-(\\d){1}-`, 'g');
-    formCount++;
-    newImageForm.innerHTML = newImageForm.innerHTML.replace(formRegex, `gallery_formset-${formCount}-`);
-    totalForms.setAttribute('value', `${formCount + 1}`);
-    mainForm.insertBefore(newImageForm, submitFormBtn);
+$('#add_more').click(function() {
+	var form_idx = $('#id_gallery_formset-TOTAL_FORMS').val();
+	$('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+	$('#id_gallery_formset-TOTAL_FORMS').val(parseInt(form_idx) + 1);
 });
+
+function delete_image(index) {
+	$('#id_' + index + '-image')[0].value="";
+	$('.delete-list').append('<input type="hidden" value="on" name="' + index  + '-DELETE" id="id_' + index + '-DELETE">');
+}
