@@ -22,7 +22,7 @@
             <div style="margin-bottom: 30px">
                 {{ base_form.main_picture.errors }}
                 <label for="id_main_picture" style="margin-right: 23px">Главная картинка</label>
-                <img src="" id="picture" height="270" width="200">
+                <img src="{% static "cms/dist/img/preview.png" %}" id="picture" height="270" width="200">
                 <a class="btn btn-outline-success btn-file" style="margin: 0 50px 0 50px; min-width: 150px">Загрузить
                     <input type="file" onchange="preview()" name="base_form-main_picture" accept="image/*" required="" id="id_base_form-main_picture">
                 </a>
@@ -35,15 +35,18 @@
                 {{ gallery_formset.management_form }}
                 <div id="form_set" style="display: inline-block"></div>
                 <div style="display: inline-block">
-                    <input class="add-more-img" type="button" value="Add More" id="add_more" style="">
-                </div><div class="delete-list">
+                    <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="min-width: 150px; margin-left: 20px; margin-top: 25px">Добавить</button>
+                </div>
+                <div class="delete-list" style="display: none">
                 </div>
                 <div id="empty_form" style="display: none">
-                    <div style="display: inline-block">
+                    <div id="delete-form" style="display: inline-block">
                         <div style="text-align: right">
-                            <a onclick="delete_image(this.id)" id="{{ gallery_formset.empty_form.prefix }}">X</a>
+                            <a class="btn-delete-form" onclick="delete_image(this.id)" id="{{ gallery_formset.empty_form.prefix }}">
+                                <img src="{% static "cms/dist/img/deleteimg.png" %}">
+                            </a>
                         </div>
-                        <input type="hidden" name="gallery_formset-0-id" id="id_gallery_formset-0-id">
+                        {{ gallery_formset.empty_form.id }}
                         {{ gallery_formset.empty_form.image }}
                     </div>
                 </div>
@@ -92,9 +95,10 @@
                     <span style="margin-left: 10px">{{ seo_form.description }}</span>
                 </div>
             </div>
-            <div style="padding-bottom: 30px; display: flex; margin: 0 500px 0 500px">
-                <input type="submit" value="Сохранить" style="margin: 0 auto; display: block">
-                <input type="reset" value="Вернуть базовую версию" style="margin: 0 auto; display: block">
+
+            <div style="text-align: center">
+                <button class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; margin: 0 60px 30px 0; height: 40px">Сохранить</button>
+                <button class="btn btn-block btn-warning" type="reset" style="max-width: 210px; display: inline-block; height: 40px; margin: 0 60px 30px 0;"><a style="color: black" href="{% url 'add' %}">Вернуть базовую версию</a></button>
             </div>
         </form>
     </div>

@@ -4,6 +4,6 @@ function preview() {
 
 $('#delete-picture').click(function () {
     $('#id_base_form-main_picture').val("");
-    $('#picture').attr("src", "")
+    $('#picture').attr("src", "/static/cms/dist/img/preview.png")
 })
 
