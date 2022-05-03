@@ -7,3 +7,5 @@ $('#delete-picture').click(function () {
     $('#picture').attr("src", "/static/cms/dist/img/preview.png")
 })
 
+
+

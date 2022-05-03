@@ -10,9 +10,9 @@ function delete_image(index) {
 	$('.delete-list').append('<input type="hidden" value="on" name="' + index  + '-DELETE" id="id_' + index + '-DELETE">');
 };
 
-$('#btn-delete-form').click(function () {
-	$('#delete-form').remove();
-});
+function preview_gallery() {
+    gallery_picture.src=URL.createObjectURL(event.target.files[0]);
+}
 
 
 

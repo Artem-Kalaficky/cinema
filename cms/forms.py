@@ -18,7 +18,8 @@ class FilmForm(ModelForm):
                    'trailer':      URLInput(attrs={'placeholder': 'Ссылка на видео в youtube',
                                                    'size': 90}),
                    'main_picture': FileInput(attrs={'type': 'file'}),
-                   'premier_date': DateInput(attrs={'placeholder': 'xx.xx.xxxx'}),}
+                   'premier_date': DateInput(attrs={'placeholder': 'xx.xx.xxxx',
+                                                    'type': 'date'}), }
 
 
 class SeoForm(ModelForm):

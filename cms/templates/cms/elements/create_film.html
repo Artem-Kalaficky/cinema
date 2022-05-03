@@ -2,7 +2,14 @@
 {% load static %}
 
 {% block title %}Добавить фильм{% endblock %}
-
+{% block style %}
+    <style>
+        .delete-gallery-form:hover {
+            background-color: red;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
 {% block content %}
     <div style="margin: 30px 50px 0 50px">
         <form id="form-container" enctype="multipart/form-data" method="post">
@@ -23,21 +30,18 @@
                 {{ base_form.main_picture.errors }}
                 <label for="id_main_picture" style="margin-right: 23px">Главная картинка</label>
                 <img src="{% static "cms/dist/img/preview.png" %}" id="picture" height="270" width="200">
-                <a class="btn btn-outline-success btn-file" style="margin: 0 50px 0 50px; min-width: 150px">Загрузить
-                    <input type="file" onchange="preview()" name="base_form-main_picture" accept="image/*" required="" id="id_base_form-main_picture">
+                <a onchange="preview()" class="btn btn-outline-success btn-file" style="margin: 0 50px 0 50px; min-width: 150px">Загрузить
+                    {{ base_form.main_picture }}
                 </a>
                 <a id="delete-picture" class="btn btn-outline-danger btn-file" style="margin-right: 10px; min-width: 150px">Удалить</a>
             </div>
 
 
             <span><b>Галерея картинок</b><br/></span>
-            <div style="margin: 10px 0 35px 0">
+            <label for="gallery" style="margin: 0 30px 0 30px; vertical-align: center"><b>Размер: 1000x190</b></label>
+            <div id="gallery" style="margin: 10px 0 35px 0; display: inline-block">
                 {{ gallery_formset.management_form }}
-                <div id="form_set" style="display: inline-block">
-                    <div style="display: inline-block">
-                        <span style="margin: 0 30px 0 30px; vertical-align: center"><b>Размер: 1000x190</b></span>
-                    </div>
-                </div>
+                <div id="form_set" style="display: inline-block; vertical-align: center"></div>
 
                 <div style="display: inline-block">
                     <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="min-width: 150px; margin-left: 20px; margin-top: 25px">Добавить</button>
@@ -46,14 +50,25 @@
                 <div class="delete-list" style="display: none"></div>
 
                 <div id="empty_form" style="display: none">
-                    <div id="delete-form" style="display: inline-block">
-                        <div style="text-align: right">
+                    <div id="{{ gallery_formset.empty_form.prefix }}-form" style="display: inline-block">
+                        <div style="text-align: right; padding-right: 15px">
+                            <option value="off" style="color: red; text-align: center; display: none" id="{{ gallery_formset.empty_form.prefix }}-validation"><b>Размеры не корректны!</b></option>
                             <a class="btn-delete-form" onclick="delete_image(this.id)" id="{{ gallery_formset.empty_form.prefix }}">
-                                <img src="{% static "cms/dist/img/deleteimg.png" %}">
+                                <img class="delete-gallery-form" src="{% static "cms/dist/img/deleteimg.png" %}">
                             </a>
                         </div>
                         {{ gallery_formset.empty_form.id }}
-                        {{ gallery_formset.empty_form.image }}
+                        <div style="text-align: center">
+                            <img src="{% static "cms/dist/img/preview.png" %}" id="{{ gallery_formset.empty_form.prefix }}-image" height="110" width="200"><br/>
+                        </div>
+{#                        <div style="text-align: center; display: none" id="{{ gallery_formset.empty_form.prefix }}-validation">#}
+{#                            <b style="color: red">Размеры не валидны!</b>#}
+{#                        </div>#}
+                        <div style="text-align: center">
+                            <a id="{{ gallery_formset.empty_form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 15px 50px 15px 50px; min-width: 150px">Загрузить
+                                {{ gallery_formset.empty_form.image }}
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -105,7 +120,7 @@
             </div>
 
             <div style="text-align: center">
-                <button class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; margin: 0 60px 30px 0; height: 40px">Сохранить</button>
+                <button id="submit-btn" class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; margin: 0 60px 30px 0; height: 40px">Сохранить</button>
                 <button class="btn btn-block btn-warning" type="reset" style="max-width: 210px; display: inline-block; height: 40px; margin: 0 60px 30px 0;"><a style="color: black" href="{% url 'add' %}">Вернуть базовую версию</a></button>
             </div>
         </form>
