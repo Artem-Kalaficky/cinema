@@ -29,16 +29,22 @@
                 <a id="delete-picture" class="btn btn-outline-danger btn-file" style="margin-right: 10px; min-width: 150px">Удалить</a>
             </div>
 
-            <span><b>Галерея картинок<br></span>
+
+            <span><b>Галерея картинок</b><br/></span>
             <div style="margin: 10px 0 35px 0">
-                <span style="margin: 0 30px 0 30px; vertical-align: center"><b>Размер: 1000x190</b></span>
                 {{ gallery_formset.management_form }}
-                <div id="form_set" style="display: inline-block"></div>
+                <div id="form_set" style="display: inline-block">
+                    <div style="display: inline-block">
+                        <span style="margin: 0 30px 0 30px; vertical-align: center"><b>Размер: 1000x190</b></span>
+                    </div>
+                </div>
+
                 <div style="display: inline-block">
                     <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="min-width: 150px; margin-left: 20px; margin-top: 25px">Добавить</button>
                 </div>
-                <div class="delete-list" style="display: none">
-                </div>
+
+                <div class="delete-list" style="display: none"></div>
+
                 <div id="empty_form" style="display: none">
                     <div id="delete-form" style="display: inline-block">
                         <div style="text-align: right">
@@ -50,7 +56,9 @@
                         {{ gallery_formset.empty_form.image }}
                     </div>
                 </div>
+
             </div>
+
 
             <div style="margin-bottom: 30px">
                 {{ base_form.trailer.errors }}
