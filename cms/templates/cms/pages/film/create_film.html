@@ -2,11 +2,17 @@
 {% load static %}
 
 {% block title %}Добавить фильм{% endblock %}
+
 {% block style %}
     <link rel="stylesheet" href="{% static 'cms/style/create_film.css' %}">
 {% endblock %}
+
+{% block film-active %}
+active
+{% endblock %}
+
 {% block content %}
-    <div style="margin: 30px 50px 0 50px">
+    <div style="margin: 0 50px 0 50px; padding-top: 30px">
         <form id="form-container" enctype="multipart/form-data" method="post">
             {% csrf_token %}
             <div style="margin-bottom: 30px">
@@ -63,7 +69,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
 

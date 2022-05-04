@@ -26,8 +26,9 @@ class SeoForm(ModelForm):
                                                   'cols': 68,
                                                   'placeholder': 'Description'})}
 
-# FILM FORMS------------------------------------------------------------------------------------------------------------
+# region FILM FORMS
 class FilmForm(ModelForm):
+
     class Meta:
         model = Film
         fields = ('name', 'description', 'main_picture', 'trailer', 'type_2d', 'type_3d', 'type_imax', 'premier_date')
@@ -39,10 +40,11 @@ class FilmForm(ModelForm):
                    'trailer':      URLInput(attrs={'placeholder': 'Ссылка на видео в youtube',
                                                    'size': 90}),
                    'main_picture': FileInput(attrs={'type': 'file'}),
-                   'premier_date': DateInput(attrs={'type': 'date'})}
+                   'premier_date': DateInput(attrs={'placeholder': 'xx.xx.XXXX',
+                                                    'type': 'date'})}
 
 
 FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
-# FILM FORMS END--------------------------------------------------------------------------------------------------------
+# endregion FILM FORMS END
 
 

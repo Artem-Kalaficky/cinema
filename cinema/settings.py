@@ -127,9 +127,10 @@ LOCALE_PATHS = (
     'locale',
 )
 
+
+DATE_FORMAT = 'y-m-d'
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
 
 USE_TZ = True
 

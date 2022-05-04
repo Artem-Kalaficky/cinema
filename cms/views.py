@@ -46,20 +46,29 @@ def add_film(request):
 def edit_film(request, film_id):
     film = Film.objects.get(pk=film_id)
     seo = Seo.objects.get(pk=film_id)
-    base_form = FilmForm(request.POST or None, instance=film, prefix='base_form')
+
+    base_form = FilmForm(request.POST or None, request.FILES or None, instance=film, prefix='base_form')
+    gallery_formset = FilmGalleryFormSet(request.POST or None, request.FILES or None,
+                                         queryset=film.images.all(), prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
     if request.method == 'POST':
 
-        if base_form.is_valid() and seo_form.is_valid():
+        if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
             seo_form.save()
             film = base_form.save(commit=False)
             film.seo = seo_form.instance
             film.save()
+            for form in gallery_formset:
+                if form.is_valid():
+                    image = form.save()
+                    film.images.add(image)
 
         return redirect('film')
 
-    context = {'base_form': base_form,
-               'seo_form': seo_form}
+    context = {'film': film,
+               'base_form': base_form,
+               'seo_form': seo_form,
+               'gallery_formset': gallery_formset}
     return render(request, 'cms/pages/film/edit_film.html', context)
 
 
