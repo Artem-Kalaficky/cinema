@@ -12,6 +12,7 @@ from .forms import FilmForm, SeoForm, FilmGalleryFormSet
 def cms(request):
     return render(request, 'cms/layout/base.html')
 
+# FILM PAGE-------------------------------------------------------------------------------------------------------------
 def film_list(request):
     current_films = Film.objects.filter(premier_date__lte=datetime.date.today())
     soon_films = Film.objects.filter(premier_date__gt=datetime.date.today())
@@ -23,7 +24,6 @@ def add_film(request):
     gallery_formset = FilmGalleryFormSet(request.POST or None, request.FILES or None,
                                          queryset=Image.objects.none(), prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, prefix='seo_form')
-
     if request.method == 'POST':
 
         if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
@@ -35,14 +35,15 @@ def add_film(request):
                 if form.is_valid():
                     image = form.save()
                     film.images.add(image)
-
-
         return redirect('film')
 
     context = {'base_form': base_form,
                'gallery_formset': gallery_formset,
                'seo_form': seo_form}
     return render(request, 'cms/elements/create_film.html', context)
+
+
+#def edit_film(request, film_id):
 
 
 

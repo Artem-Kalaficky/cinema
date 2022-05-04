@@ -5,7 +5,28 @@ from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, DateI
 from main.models import Film, Seo, Image
 
 
+class ImageForm(ModelForm):
+    class Meta:
+        model = Image
+        fields = ('image',)
+        widgets = {'image': FileInput(attrs={'type': 'file'})}
 
+
+class SeoForm(ModelForm):
+    class Meta:
+        model = Seo
+        fields = ('url', 'title', 'keyword', 'description')
+        widgets = {'url': URLInput(attrs={'placeholder': 'URL',
+                                          'size': 66}),
+                   'title': TextInput(attrs={'placeholder': 'Title',
+                                             'size': 66}),
+                   'keyword': TextInput(attrs={'placeholder': 'Words',
+                                               'size': 66}),
+                   'description': Textarea(attrs={'rows': 3,
+                                                  'cols': 68,
+                                                  'placeholder': 'Description'})}
+
+# FILM FORMS------------------------------------------------------------------------------------------------------------
 class FilmForm(ModelForm):
     class Meta:
         model = Film
@@ -19,33 +40,10 @@ class FilmForm(ModelForm):
                                                    'size': 90}),
                    'main_picture': FileInput(attrs={'type': 'file'}),
                    'premier_date': DateInput(attrs={'placeholder': 'xx.xx.xxxx',
-                                                    'type': 'date'}), }
-
-
-class SeoForm(ModelForm):
-    class Meta:
-        model = Seo
-        fields = ('url', 'title', 'keyword', 'description')
-        widgets = {'url': URLInput(attrs={'placeholder': 'URL',
-                                          'size': 66}),
-                   'title': TextInput(attrs={'placeholder': 'Title',
-                                             'size': 66}),
-                   'keyword': TextInput(attrs={'placeholder': 'Words',
-                                       'size': 66}),
-                   'description': Textarea(attrs={'rows': 3,
-                                                  'cols': 68,
-                                                  'placeholder': 'Description'}),}
-
-
-
-class ImageForm(ModelForm):
-    class Meta:
-        model = Image
-        fields = ('image',)
-        widgets = {'image': FileInput(attrs={'type': 'file'})}
+                                                    'type': 'date'})}
 
 
 FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
-
+# FILM FORMS END--------------------------------------------------------------------------------------------------------
 
 

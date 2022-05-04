@@ -52,7 +52,7 @@
                 <div id="empty_form" style="display: none">
                     <div id="{{ gallery_formset.empty_form.prefix }}-form" style="display: inline-block">
                         <div style="text-align: right; padding-right: 15px">
-                            <option value="off" style="color: red; text-align: center; display: none" id="{{ gallery_formset.empty_form.prefix }}-validation"><b>Размеры не корректны!</b></option>
+                            <option value="" style="color: red; text-align: center; display: none" id="{{ gallery_formset.empty_form.prefix }}-validation"><b>Размеры не корректны!</b></option>
                             <a class="btn-delete-form" onclick="delete_image(this.id)" id="{{ gallery_formset.empty_form.prefix }}">
                                 <img class="delete-gallery-form" src="{% static "cms/dist/img/deleteimg.png" %}">
                             </a>
@@ -61,9 +61,6 @@
                         <div style="text-align: center">
                             <img src="{% static "cms/dist/img/preview.png" %}" id="{{ gallery_formset.empty_form.prefix }}-image" height="110" width="200"><br/>
                         </div>
-{#                        <div style="text-align: center; display: none" id="{{ gallery_formset.empty_form.prefix }}-validation">#}
-{#                            <b style="color: red">Размеры не валидны!</b>#}
-{#                        </div>#}
                         <div style="text-align: center">
                             <a id="{{ gallery_formset.empty_form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 15px 50px 15px 50px; min-width: 150px">Загрузить
                                 {{ gallery_formset.empty_form.image }}
