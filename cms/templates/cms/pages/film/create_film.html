@@ -1,0 +1,124 @@
+{% extends 'cms/layout/base.html' %}
+{% load static %}
+
+{% block title %}Добавить фильм{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'cms/style/create_film.css' %}">
+{% endblock %}
+{% block content %}
+    <div style="margin: 30px 50px 0 50px">
+        <form id="form-container" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div style="margin-bottom: 30px">
+                {{ base_form.name.errors }}
+                <label for="id_name">Название фильма</label>
+                <span style="margin-left: 20px">{{ base_form.name }}</span>
+            </div>
+            <div style="margin-bottom: 30px">
+                {{ base_form.description.errors }}
+                <label for="id_description" style="vertical-align: top">Описание</label>
+                <span style="margin-left: 20px">{{ base_form.description }}</span>
+            </div>
+
+
+            <div style="margin-bottom: 30px">
+                {{ base_form.main_picture.errors }}
+                <label for="id_main_picture" style="margin-right: 23px">Главная картинка</label>
+                <img src="{% static "cms/dist/img/preview.png" %}" id="picture" height="270" width="200">
+                <a onchange="preview()" class="btn btn-outline-success btn-file" style="margin: 0 50px 0 50px; min-width: 150px">Загрузить
+                    {{ base_form.main_picture }}
+                </a>
+                <a id="delete-picture" class="btn btn-outline-danger btn-file" style="margin-right: 10px; min-width: 150px">Удалить</a>
+            </div>
+
+
+            <span><b>Галерея картинок</b><br/></span>
+            <label for="gallery" style="margin: 0 30px 0 30px; vertical-align: center"><b>Размер: 1000x190</b></label>
+            <div id="gallery" style="margin: 10px 0 35px 0; display: inline-block">
+                {{ gallery_formset.management_form }}
+                <div id="form_set" style="display: inline-block; vertical-align: center"></div>
+
+                <div style="display: inline-block">
+                    <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="min-width: 150px; margin-left: 20px; margin-top: 25px">Добавить</button>
+                </div>
+
+                <div class="delete-list" style="display: none"></div>
+
+                <div id="empty_form" style="display: none">
+                    <div id="{{ gallery_formset.empty_form.prefix }}-form" style="display: inline-block">
+                        <div style="text-align: right; padding-right: 15px">
+                            <option value="" style="color: red; text-align: center; display: none" id="{{ gallery_formset.empty_form.prefix }}-validation"><b>Размеры не корректны!</b></option>
+                            <a class="btn-delete-form" onclick="delete_image(this.id)" id="{{ gallery_formset.empty_form.prefix }}">
+                                <img class="delete-gallery-form" src="{% static "cms/dist/img/deleteimg.png" %}">
+                            </a>
+                        </div>
+                        {{ gallery_formset.empty_form.id }}
+                        <div style="text-align: center">
+                            <img src="{% static "cms/dist/img/preview.png" %}" id="{{ gallery_formset.empty_form.prefix }}-image" height="110" width="200"><br/>
+                        </div>
+                        <div style="text-align: center">
+                            <a id="{{ gallery_formset.empty_form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 15px 50px 15px 50px; min-width: 150px">Загрузить
+                                {{ gallery_formset.empty_form.image }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div style="margin-bottom: 30px">
+                {{ base_form.trailer.errors }}
+                <label for="id_trailer" style="vertical-align: top">Ссылка на трейлер</label>
+                <span style="margin-left: 20px">{{ base_form.trailer }}</span>
+            </div>
+            <div style="margin-bottom: 30px">
+                <span style="margin-right: 50px; "><b>Тип кино</b></span>
+                <span>{{ base_form.type_2d }}</span>
+                <label for="id_type_2d" style="vertical-align: top; margin-right: 20px">2D</label>
+                <span>{{ base_form.type_3d }}</span>
+                <label for="id_type_3d" style="vertical-align: top; margin-right: 20px">3D</label>
+                <span>{{ base_form.type_imax }}</span>
+                <label for="id_type_imax" style="vertical-align: top; margin-right: 20px">IMAX</label>
+            </div>
+            <div style="margin-bottom: 30px">
+                {{ base_form.premier_date.errors }}
+                <label for="id_premier_date" style="vertical-align: top">Дата премьеры</label>
+                <span style="margin-left: 20px">{{ base_form.premier_date }}</span>
+            </div>
+
+            <span><b>SEO блок:</b></span>
+            <div style="text-align: right; margin: 0 465px 60px 0">
+                <div style="margin-bottom: 15px">
+                    {{ seo_form.url.errors }}
+                    <label for="id_url" style="vertical-align: top">URL:</label>
+                    <span style="margin-left: 10px">{{ seo_form.url }}</span>
+                </div>
+                <div style="margin-bottom: 15px">
+                    {{ seo_form.title.errors }}
+                    <label for="id_title" style="vertical-align: top">Title:</label>
+                    <span style="margin-left: 10px">{{ seo_form.title }}</span>
+                </div>
+                <div style="margin-bottom: 15px">
+                    {{ seo_form.keyword.errors }}
+                    <label for="id_keyword" style="vertical-align: top">Keywords:</label>
+                    <span style="margin-left: 10px">{{ seo_form.keyword }}</span>
+                </div>
+                <div style="margin-bottom: 30px">
+                    {{ seo_form.description.errors }}
+                    <label for="id_description" style="vertical-align: top">Description:</label>
+                    <span style="margin-left: 10px">{{ seo_form.description }}</span>
+                </div>
+            </div>
+
+            <div style="text-align: center">
+                <button id="submit-btn" class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; margin: 0 60px 30px 0; height: 40px">Сохранить</button>
+                <button class="btn btn-block btn-warning" type="reset" style="max-width: 210px; display: inline-block; height: 40px; margin: 0 60px 30px 0;"><a style="color: black" href="{% url 'add' %}">Вернуть базовую версию</a></button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'cms/scripts/gallery_formset.js' %}"></script>
+<script src="{% static 'cms/scripts/imgload.js' %}"></script>
+{% endblock %}

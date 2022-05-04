@@ -39,8 +39,7 @@ class FilmForm(ModelForm):
                    'trailer':      URLInput(attrs={'placeholder': 'Ссылка на видео в youtube',
                                                    'size': 90}),
                    'main_picture': FileInput(attrs={'type': 'file'}),
-                   'premier_date': DateInput(attrs={'placeholder': 'xx.xx.xxxx',
-                                                    'type': 'date'})}
+                   'premier_date': DateInput(attrs={'type': 'date'})}
 
 
 FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
