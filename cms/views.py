@@ -1,7 +1,7 @@
 import datetime
 
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 
@@ -32,9 +32,10 @@ def add_film(request):
             film.seo = seo_form.instance
             film.save()
             for form in gallery_formset:
-                if form.is_valid():
+                if form.is_valid() and form.cleaned_data:
                     image = form.save()
                     film.images.add(image)
+
         return redirect('film')
 
     context = {'base_form': base_form,
@@ -46,7 +47,6 @@ def add_film(request):
 def edit_film(request, film_id):
     film = Film.objects.get(pk=film_id)
     seo = Seo.objects.get(pk=film_id)
-
     base_form = FilmForm(request.POST or None, request.FILES or None, instance=film, prefix='base_form')
     gallery_formset = FilmGalleryFormSet(request.POST or None, request.FILES or None,
                                          queryset=film.images.all(), prefix='gallery_formset')
@@ -58,11 +58,14 @@ def edit_film(request, film_id):
             film = base_form.save(commit=False)
             film.seo = seo_form.instance
             film.save()
+            gallery_formset.save(commit=False)
             for form in gallery_formset:
-                if form.is_valid():
+                if form.is_valid() and form.cleaned_data:
                     image = form.save()
                     film.images.add(image)
-
+            for form in gallery_formset.deleted_objects:
+                form.delete()
+            gallery_formset.save_m2m()
         return redirect('film')
 
     context = {'film': film,
@@ -70,6 +73,16 @@ def edit_film(request, film_id):
                'seo_form': seo_form,
                'gallery_formset': gallery_formset}
     return render(request, 'cms/pages/film/edit_film.html', context)
+
+
+def delete_film(request, film_id):
+    film = Film.objects.get(pk=film_id)
+    if request.method == 'POST':
+        film.delete()
+        return redirect('film')
+    else:
+        context = {'film': film}
+        return render(request, 'cms/pages/film/film_confirm_delete.html', context)
 
 
 

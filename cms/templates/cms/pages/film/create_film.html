@@ -12,7 +12,13 @@ active
 {% endblock %}
 
 {% block content %}
-    <div style="margin: 0 50px 0 50px; padding-top: 30px">
+    <nav>
+      <div style="float: right; margin-right: 70px; padding-top: 40px" class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Русский</button>
+        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Украинский</button>
+      </div>
+    </nav>
+    <div style="margin: 0 70px 0 70px; padding-top: 70px">
         <form id="form-container" enctype="multipart/form-data" method="post">
             {% csrf_token %}
             <div style="margin-bottom: 30px">

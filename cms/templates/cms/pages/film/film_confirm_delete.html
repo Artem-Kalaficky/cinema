@@ -1,0 +1,32 @@
+{% extends 'cms/layout/base.html' %}
+{% load static %}
+
+{% block title %}Удалить фильм{% endblock %}
+
+{% block film-active %}
+active
+{% endblock %}
+
+{% block content %}
+    <div style="padding: 50px 100px 50px 100px; border: 6px dashed red; margin: 0 50px 0 50px">
+        <div style="text-align: center">
+            <a href="{% url 'edit' film.id %}"><h2 style="color: red">Вы действительно хотите удалить фильм "{{ film.name }}"?</h2></a>
+        </div>
+        <div style="margin: 50px 100px 50px 100px">
+            <div style="display: inline-block; max-width: 200px">
+                <img src="{{ film.main_picture.url }}" width="200" height="270">
+            </div>
+            <div style="display: inline-block; max-width: 600px; margin-left: 60px">
+                <p style="font-size: 26px"><span><b>Название:</b></span> {{ film.name }}</p>
+                <p style="font-size: 18px"><span><b>Описание:</b></span> {{ film.description }}</p>
+                <p style="font-size: 18px"><span><b>Дата премьеры:</b></span> {{ film.premier_date }}</p>
+            </div>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div style="text-align: center">
+                <button class="btn btn-block btn-danger" style="max-width: 200px; display: inline-block" type="submit">Удалить фильм</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
