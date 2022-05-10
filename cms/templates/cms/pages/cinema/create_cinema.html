@@ -1,0 +1,103 @@
+{% extends 'cms/layout/base.html' %}
+{% load static %}
+
+{% block title %}Добавить кинотеатр{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'cms/style/create_film.css' %}">
+{% endblock %}
+
+{% block cinema-active %}
+active
+{% endblock %}
+
+{% block content %}
+    <!-- Расскладка -->
+    <div style="float: right; padding-top: 20px; padding-right: 30px">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="ru-tab" data-bs-toggle="tab" data-bs-target="#ru" type="button" role="tab" aria-controls="ru" aria-selected="true">Русский</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="uk-tab" data-bs-toggle="tab" data-bs-target="#uk" type="button" role="tab" aria-controls="uk" aria-selected="false">Украинский</button>
+          </li>
+        </ul>
+    </div>
+    <!-- Расскладка конец -->
+
+    <div style="margin: 0 70px 0 70px; padding-top: 70px">
+        <form id="form-container" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <!-- Название, описание и условия -->
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="ru" role="tabpanel" aria-labelledby="ru-tab">
+                    <div class="row" style="margin-bottom: 40px; padding-top: 20px">
+                        {{ base_form.name.errors }}
+                        <div class="col-2">
+                            <label for="id_name">Название кинотеатра</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.name }}</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 40px">
+                        {{ base_form.description.errors }}
+                        <div class="col-2">
+                            <label for="id_description">Описание</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.description }}</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 40px">
+                        {{ base_form.condition.errors }}
+                        <div class="col-2">
+                            <label for="id_description">Условия</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.condition }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="uk-tab">
+                    <div class="row" style="margin-bottom: 40px; padding-top: 20px">
+                        <div class="col-2">
+                            <label for="id_name">Назва кінотеатру</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.name_uk }}</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 40px">
+                        <div class="col-2">
+                            <label for="id_description">Опис</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.description_uk }}</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 40px">
+                        <div class="col-2">
+                            <label for="id_description">Умови</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.condition_uk }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Название, описание и условия конец-->
+
+
+
+            <div style="text-align: center; padding-bottom: 20px">
+                <button id="submit-btn" class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; margin: 0 60px 30px 0; height: 40px">Сохранить</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'cms/scripts/gallery_formset.js' %}"></script>
+<script src="{% static 'cms/scripts/imgload.js' %}"></script>
+{% endblock %}

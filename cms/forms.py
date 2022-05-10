@@ -3,7 +3,7 @@ from django import forms
 from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, DateInput
 from django.core.exceptions import ValidationError
 
-from main.models import Film, Seo, Image
+from main.models import Film, Seo, Image, Cinema
 
 
 class ImageForm(ModelForm):
@@ -59,8 +59,34 @@ class FilmForm(ModelForm):
                    'premier_date': DateInputWidget(attrs={'type': 'date'})}
 
 
-
 FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
 # endregion FILM FORMS END
+
+# region FILM FORMS
+class CinemaForm(ModelForm):
+    class Meta:
+        model = Cinema
+        fields = ('name', 'description', 'condition', 'logo', 'top_banner', 'name_uk', 'description_uk', 'condition_uk')
+        widgets = {'name': TextInput(attrs={'placeholder': 'Название кинотеатра',
+                                            'class': 'form-control'}),
+                   'description': Textarea(attrs={'rows': 4,
+                                                  'class': 'form-control',
+                                                  'placeholder': 'Текст описания'}),
+                   'condition': Textarea(attrs={'rows': 4,
+                                                'class': 'form-control',
+                                                'placeholder': 'Текст условий'}),
+                   'name_uk': TextInput(attrs={'placeholder': 'Назва кінотеатру',
+                                               'class': 'form-control',
+                                               'required': 'true'}),
+                   'description_uk': Textarea(attrs={'rows': 4,
+                                                     'class': 'form-control',
+                                                     'placeholder': 'Текст опису',
+                                                     'required': 'true'}),
+                   'condition_uk': Textarea(attrs={'rows': 4,
+                                                   'class': 'form-control',
+                                                   'placeholder': 'Текст умов',
+                                                   'required': 'true'}),
+                   'logo': FileInput(attrs={'type': 'file'}),
+                   'top_banner': FileInput(attrs={'type': 'file'})}
 
 

@@ -48,12 +48,13 @@ class Contact(models.Model):
 
 
 class Hall(models.Model):
-    cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE, verbose_name="Кинотеатр")
+    cinema = models.ForeignKey('Cinema', on_delete=models.CASCADE, verbose_name="Кинотеатр")
     hall_number = models.IntegerField(verbose_name="Номер зала")
     description = models.TextField(verbose_name="Описание зала")
     scheme = models.ImageField(upload_to='gallery/', verbose_name="Схема зала")
     top_banner = models.ImageField(upload_to='gallery/', verbose_name="Верхний баннер")
     images = models.ManyToManyField(Image, verbose_name="Галерея картинок")
+    create_date = models.DateField(auto_now_add=True, db_index=True, verbose_name="Дата создания")
     seo = models.OneToOneField(Seo, on_delete=models.PROTECT, verbose_name="SEO блок")
 
     class Meta:

@@ -1,7 +1,11 @@
 from modeltranslation.translator import register, TranslationOptions
-from main.models import Film
+from main.models import Film, Cinema
 
 
 @register(Film)
 class FilmTranslationOptions(TranslationOptions):
     fields = ('name', 'description')
+
+@register(Cinema)
+class CinemaTranslationOptions(TranslationOptions):
+    fields = ('name', 'description', 'condition')

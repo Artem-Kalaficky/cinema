@@ -5,14 +5,14 @@ from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 
-from main.models import Film, Image, Seo
-from .forms import FilmForm, SeoForm, FilmGalleryFormSet
+from main.models import Film, Image, Seo, Cinema
+from .forms import FilmForm, SeoForm, FilmGalleryFormSet, CinemaForm
 
 
 def cms(request):
     return render(request, 'cms/layout/base.html')
 
-# FILM PAGE-------------------------------------------------------------------------------------------------------------
+# region FILM PAGE
 def film_list(request):
     current_films = Film.objects.filter(premier_date__lte=datetime.date.today())
     soon_films = Film.objects.filter(premier_date__gt=datetime.date.today())
@@ -85,7 +85,26 @@ def delete_film(request, film_id):
     else:
         context = {'film': film}
         return render(request, 'cms/pages/film/film_confirm_delete.html', context)
+# endregion FILM PAGE
 
+# region CINEMA PAGE
+def cinema_list(request):
+    cinemas = Cinema.objects.all()
+    return render(request, 'cms/pages/cinema/cinema_list.html', {'cinemas': cinemas})
+
+def add_cinema(request):
+    base_form = CinemaForm(request.POST or None, request.FILES or None, prefix='base_form')
+    if request.method == 'POST':
+
+        if base_form.is_valid():
+            base_form.save()
+
+        return redirect('cinema')
+
+    context = {'base_form': base_form}
+    return render(request, 'cms/pages/cinema/create_cinema.html', context)
+
+# endregion CINEMA PAGE
 
 
 
