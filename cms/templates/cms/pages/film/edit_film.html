@@ -12,6 +12,7 @@ active
 {% endblock %}
 
 {% block content %}
+    <!-- Расскладка -->
     <div style="float: right; padding-top: 20px; padding-right: 30px">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
@@ -22,35 +23,56 @@ active
           </li>
         </ul>
     </div>
+    <!-- Расскладка конец -->
+
     <div style="margin: 0 70px 0 70px; padding-top: 70px">
         <form id="form-container" enctype="multipart/form-data" method="post">
             {% csrf_token %}
+
+            <!-- Название и описание -->
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="ru" role="tabpanel" aria-labelledby="ru-tab">
-                    <div style="margin-bottom: 30px">
-                        {{ base_form.name_ru.errors }}
-                        <label for="id_name">Название фильма</label>
-                        <span style="margin-left: 20px">{{ base_form.name_ru }}</span>
+                    <div class="row" style="margin-bottom: 40px; padding-top: 20px">
+                        {{ base_form.name.errors }}
+                        <div class="col-2">
+                            <label for="id_name">Название фильма</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.name }}</span>
+                        </div>
                     </div>
-                    <div style="margin-bottom: 30px">
-                        <label for="id_description" style="vertical-align: top">Описание</label>
-                        <span style="margin-left: 20px">{{ base_form.description_ru }}</span>
+                    <div class="row" style="margin-bottom: 40px">
+                        {{ base_form.description.errors }}
+                        <div class="col-2">
+                            <label for="id_description">Описание</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.description }}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="uk-tab">
-                    <div style="margin-bottom: 30px">
-                        <label for="id_name">Назва фільму</label>
-                        <span style="margin-left: 20px">{{ base_form.name_uk }}</span>
+                    <div class="row" style="margin-bottom: 40px; padding-top: 20px">
+                        <div class="col-2">
+                            <label for="id_name">Назва фільму</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.name_uk }}</span>
+                        </div>
                     </div>
-                    <div style="margin-bottom: 30px">
-                        <label for="id_description" style="vertical-align: top">Опис</label>
-                        <span style="margin-left: 20px">{{ base_form.description_uk }}</span>
+                    <div class="row" style="margin-bottom: 40px">
+                        <div class="col-2">
+                            <label for="id_description">Опис</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.description_uk }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Название и описание конец-->
 
-            <div style="margin-bottom: 30px">
-                {{ base_form.main_picture.errors }}
+            <div style="margin-bottom: 40px">
                 <label for="id_main_picture" style="margin-right: 23px">Главная картинка</label>
                 <img src="{{ film.main_picture.url }}" id="picture" height="270" width="200">
                 <a onchange="preview()" class="btn btn-outline-success btn-file" style="margin: 0 50px 0 50px; min-width: 150px">Загрузить
@@ -59,12 +81,16 @@ active
                 <a id="delete-picture" class="btn btn-outline-danger btn-file" style="margin-right: 10px; min-width: 150px">Удалить</a>
             </div>
 
-
+            <!--Галерея картинок-->
             <span><b>Галерея картинок</b><br/></span>
-            <label for="gallery" style="margin: 0 30px 0 30px; vertical-align: center"><b>Размер: 1000x190</b></label>
-            <div id="gallery" style="margin: 10px 0 35px 0; display: inline-block">
+            <div id="gallery" style="margin: 10px 0 40px 0; display: inline-block">
                 {{ gallery_formset.management_form }}
-                <div id="form_set" style="display: inline-block; vertical-align: center">
+
+                <div style="margin-bottom: 10px">
+                    <label for="gallery" style="margin: 0 0 0 30px; display: inline-block; max-width: 150px"><b>Размер: 1000x190</b></label>
+                    <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="display: inline-block; min-width: 150px; max-width: 150px; margin-left: 20px; margin-top: 20px">Добавить</button>
+                </div>
+                <div id="form_set" style="display: block; vertical-align: center">
                     {% for form in gallery_formset %}
                     <div id="{{ form.prefix }}-form" style="display: inline-block">
                         <div style="text-align: right; padding-right: 15px">
@@ -84,10 +110,6 @@ active
                         </div>
                     </div>
                     {% endfor %}
-                </div>
-
-                <div style="display: inline-block">
-                    <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="min-width: 150px; margin-left: 20px; margin-top: 25px">Добавить</button>
                 </div>
 
                 <div class="delete-list" style="display: none"></div>
@@ -112,14 +134,19 @@ active
                     </div>
                 </div>
             </div>
+            <!--Галерея картинок конец-->
 
-
-            <div style="margin-bottom: 30px">
+            <div class="row" style="margin-bottom: 40px">
                 {{ base_form.trailer.errors }}
-                <label for="id_trailer" style="vertical-align: top">Ссылка на трейлер</label>
-                <span style="margin-left: 20px">{{ base_form.trailer }}</span>
+                <div class="col-sm-2">
+                    <label for="id_base_form-trailer">Ссылка на трейлер</label>
+                </div>
+                <div class="col-sm-6">
+                    <span>{{ base_form.trailer }}</span>
+                </div>
             </div>
-            <div style="margin-bottom: 30px">
+
+            <div style="margin-bottom: 40px">
                 <span style="margin-right: 50px; "><b>Тип кино</b></span>
                 <span>{{ base_form.type_2d }}</span>
                 <label for="id_type_2d" style="vertical-align: top; margin-right: 20px">2D</label>
@@ -128,37 +155,54 @@ active
                 <span>{{ base_form.type_imax }}</span>
                 <label for="id_type_imax" style="vertical-align: top; margin-right: 20px">IMAX</label>
             </div>
-            <div style="margin-bottom: 30px">
+
+            <div style="margin-bottom: 40px">
                 {{ base_form.premier_date.errors }}
                 <label for="id_premier_date" style="vertical-align: top">Дата премьеры</label>
                 <span style="margin-left: 20px">{{ base_form.premier_date }}</span>
             </div>
 
-            <span><b>SEO блок:</b></span>
-            <div style="text-align: right; margin: 0 465px 60px 0">
-                <div style="margin-bottom: 15px">
+            <p style="margin-bottom: 20px"><b>SEO блок:</b></p>
+            <div style="text-align: right; margin-bottom: 50px">
+                <div class="row" style="margin-bottom: 15px">
                     {{ seo_form.url.errors }}
-                    <label for="id_url" style="vertical-align: top">URL:</label>
-                    <span style="margin-left: 10px">{{ seo_form.url }}</span>
+                    <div class="col-sm-2">
+                        <label for="id_url">URL:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.url }}</span>
+                    </div>
                 </div>
-                <div style="margin-bottom: 15px">
+                <div class="row" style="margin-bottom: 15px">
                     {{ seo_form.title.errors }}
-                    <label for="id_title" style="vertical-align: top">Title:</label>
-                    <span style="margin-left: 10px">{{ seo_form.title }}</span>
+                    <div class="col-sm-2">
+                        <label for="id_url">Title:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.title }}</span>
+                    </div>
                 </div>
-                <div style="margin-bottom: 15px">
+                <div class="row" style="margin-bottom: 15px">
                     {{ seo_form.keyword.errors }}
-                    <label for="id_keyword" style="vertical-align: top">Keywords:</label>
-                    <span style="margin-left: 10px">{{ seo_form.keyword }}</span>
+                    <div class="col-sm-2">
+                        <label for="id_url">Keywords:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.keyword }}</span>
+                    </div>
                 </div>
-                <div style="margin-bottom: 30px">
+                <div class="row" style="margin-bottom: 15px">
                     {{ seo_form.description.errors }}
-                    <label for="id_seo_description" style="vertical-align: top">Description:</label>
-                    <span style="margin-left: 10px">{{ seo_form.description }}</span>
+                    <div class="col-sm-2">
+                        <label for="id_url">Description:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.description }}</span>
+                    </div>
                 </div>
             </div>
 
-            <div style="text-align: center">
+            <div style="text-align: center; padding-bottom: 20px">
                 <button id="submit-btn" class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; margin: 0 60px 30px 0; height: 40px">Сохранить</button>
                 <button class="btn btn-block btn-warning" type="reset" style="max-width: 210px; display: inline-block; height: 40px; margin: 0 60px 30px 0;"><a style="color: black" href="{% url 'edit' film.id %}">Вернуть базовую версию</a></button>
             </div>
