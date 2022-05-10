@@ -16,7 +16,9 @@ def cms(request):
 def film_list(request):
     current_films = Film.objects.filter(premier_date__lte=datetime.date.today())
     soon_films = Film.objects.filter(premier_date__gt=datetime.date.today())
-    return render(request, 'cms/pages/film/film_list.html', {'current_films': current_films, 'soon_films': soon_films})
+    context = {'current_films': current_films,
+               'soon_films': soon_films}
+    return render(request, 'cms/pages/film/film_list.html', context)
 
 
 def add_film(request):

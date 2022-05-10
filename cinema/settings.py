@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -116,11 +117,12 @@ MEDIA_URL = '/media/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
-#MULTILANGUAGES
+
+gettext = lambda s: s
 LANGUAGE_CODE = 'ru'
 LANGUAGES = (
     ('ru', 'Russian'),
-    ('uk', 'Ukraine'),
+    ('uk', 'Ukrainian'),
 )
 USE_I18N = True
 LOCALE_PATHS = (

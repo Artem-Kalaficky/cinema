@@ -9,4 +9,3 @@ $('#delete-picture').click(function () {
 
 
 
-

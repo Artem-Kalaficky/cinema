@@ -10,35 +10,82 @@ active
 {% endblock %}
 
 {% block content %}
+
     <div style="padding-top: 30px">
         <a href="{% url 'add' %}">
-            <div style="position: absolute; right: 30px">
-                <button type="button" class="btn btn-block btn-success" style="width: 250px">
-                    <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Добавить фильм <span style="font-size: 22px">+</span></font></font>
+            <div style="text-align: right; margin-right: 35px">
+                <button type="button" class="btn btn-block btn-success" style="width: 200px; display: inline-block">
+                    <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Добавить фильм <span style="font-size: 22px"><b>+</b></span></font></font>
                 </button>
             </div>
         </a>
         <h2 style="text-align: center">Список текущих фильмов</h2>
-        <div style="margin: 50px 200px 50px 200px">
+        <div class="row" style="margin: 50px 100px 50px 100px">
             {% for film in current_films %}
-                <div style="display: inline-block; margin: 30px 30px 30px 30px; max-width: 200px; max-height: 320px; width: 100%; height: 100%; overflow: hidden; vertical-align: top" >
-                    <div style="position: relative; max-height: 0; text-align: right"><a href="{% url 'delete' film.id %}"><button style="padding: 4px 4px" class="btn btn-outline-danger"><b>Delete</b></button></a></div>
-                    <p><a href="{% url 'edit' film.id %}"><img src="{{ film.main_picture.url }}" width="200" height="270"></a></p>
-                    <p><a href="{% url 'edit' film.id %}" style="color: black"><h5 style="text-align: center">{{ film.name }}</h5></a></p>
+                <div class="col" style="display: inline-block; margin: 30px 30px 30px 30px; width: 200px; max-width: 200px; min-width: 200px; max-height: 323px; overflow: hidden; vertical-align: top" >
+                    <div style="position: relative; max-height: 0; text-align: right"><button style="padding: 4px 4px" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal1-{{ forloop.counter }}"><b>Delete</b></button></div>
+                    <a href="{% url 'edit' film.id %}"><img src="{{ film.main_picture.url }}" width="200" height="270"></a>
+                    <a href="{% url 'edit' film.id %}" style="color: black"><p style="text-align: center; font-size: 20px">{{ film.name }}</p></a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteModal1-{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header bg-danger">
+                            <h5 class="modal-title" id="deleteModal1Label-{{ forloop.counter }}">Подтверждение удаления</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form method="post" action="{% url 'delete' film.id %}">
+                              {% csrf_token %}
+                              <div class="modal-body">
+                                  Вы действительно хотите удалить фильм <b>{{ film.name }}</b>?
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                              </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                 </div>
             {% endfor %}
         </div>
         <h2 style="text-align: center">Список фильмов, которые покажут скоро</h2>
-        <div style="margin: 50px 200px 0 200px">
+        <div class="row" style="margin: 50px 100px 0 100px">
             {% for film in soon_films %}
-                <div style="display: inline-block; margin: 30px 30px 30px 30px; max-width: 200px; max-height: 320px; width: 100%; height: 100%; overflow: hidden; vertical-align: top" >
-                    <div style="position: relative; max-height: 0; text-align: right"><a style="color: red" href="{% url 'delete' film.id %}"><button style="padding: 4px 4px" class="btn btn-outline-danger"><b>Delete</b></button></a></div>
+                <div class="col" style="display: inline-block; margin: 30px 30px 30px 30px; width: 200px; max-width: 200px; min-width: 200px; max-height: 323px; overflow: hidden; vertical-align: top" >
+                    <div style="position: relative; max-height: 0; text-align: right"><button style="padding: 4px 4px" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal1-{{ forloop.counter }}"><b>Delete</b></button></div>
                     <a href="{% url 'edit' film.id %}"><img src="{{ film.main_picture.url }}" width="200" height="270"></a>
-                    <a href="{% url 'edit' film.id %}" style="color: black"><h5 style="text-align: center">{{ film.name }}</h5></a>
+                    <a href="{% url 'edit' film.id %}" style="color: black"><p style="text-align: center; font-size: 20px">{{ film.name }}</p></a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteModal1-{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header bg-danger">
+                            <h5 class="modal-title" id="deleteModal1Label-{{ forloop.counter }}">Подтверждение удаления</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form method="post" action="{% url 'delete' film.id %}">
+                              {% csrf_token %}
+                              <div class="modal-body">
+                                  Вы действительно хотите удалить фильм <b>{{ film.name }}</b>?
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                              </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-{% endblock %}
 
+{% endblock %}
 

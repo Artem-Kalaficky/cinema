@@ -12,29 +12,44 @@ active
 {% endblock %}
 
 {% block content %}
-    <nav>
-      <div style="float: right; margin-right: 70px; padding-top: 40px" class="nav nav-tabs" id="nav-tab" role="tablist">
-        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Русский</button>
-        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Украинский</button>
-      </div>
-    </nav>
+    <div style="float: right; padding-top: 20px; padding-right: 30px">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="ru-tab" data-bs-toggle="tab" data-bs-target="#ru" type="button" role="tab" aria-controls="ru" aria-selected="true">Русский</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="uk-tab" data-bs-toggle="tab" data-bs-target="#uk" type="button" role="tab" aria-controls="uk" aria-selected="false">Украинский</button>
+          </li>
+        </ul>
+    </div>
     <div style="margin: 0 70px 0 70px; padding-top: 70px">
         <form id="form-container" enctype="multipart/form-data" method="post">
             {% csrf_token %}
-            <div style="margin-bottom: 30px">
-                {{ base_form.name.errors }}
-                <label for="id_name">Название фильма</label>
-                <span style="margin-left: 20px">{{ base_form.name }}</span>
-            </div>
-            <div style="margin-bottom: 30px">
-                {{ base_form.description.errors }}
-                <label for="id_description" style="vertical-align: top">Описание</label>
-                <span style="margin-left: 20px">{{ base_form.description }}</span>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="ru" role="tabpanel" aria-labelledby="ru-tab">
+                    <div style="margin-bottom: 30px">
+                        {{ base_form.name_ru.errors }}
+                        <label for="id_name">Название фильма</label>
+                        <span style="margin-left: 20px">{{ base_form.name_ru }}</span>
+                    </div>
+                    <div style="margin-bottom: 30px">
+                        <label for="id_description" style="vertical-align: top">Описание</label>
+                        <span style="margin-left: 20px">{{ base_form.description_ru }}</span>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="uk-tab">
+                    <div style="margin-bottom: 30px">
+                        <label for="id_name">Назва фільму</label>
+                        <span style="margin-left: 20px">{{ base_form.name_uk }}</span>
+                    </div>
+                    <div style="margin-bottom: 30px">
+                        <label for="id_description" style="vertical-align: top">Опис</label>
+                        <span style="margin-left: 20px">{{ base_form.description_uk }}</span>
+                    </div>
+                </div>
             </div>
 
-
             <div style="margin-bottom: 30px">
-                {{ base_form.main_picture.errors }}
                 <label for="id_main_picture" style="margin-right: 23px">Главная картинка</label>
                 <img src="{% static "cms/dist/img/preview.png" %}" id="picture" height="270" width="200">
                 <a onchange="preview()" class="btn btn-outline-success btn-file" style="margin: 0 50px 0 50px; min-width: 150px">Загрузить
