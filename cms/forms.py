@@ -1,9 +1,9 @@
 from django.forms import ModelForm, modelformset_factory
 from django import forms
-from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, DateInput
+from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, NumberInput
 from django.core.exceptions import ValidationError
 
-from main.models import Film, Seo, Image, Cinema
+from main.models import Film, Seo, Image, Cinema, Hall
 
 
 class ImageForm(ModelForm):
@@ -60,9 +60,9 @@ class FilmForm(ModelForm):
 
 
 FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
-# endregion FILM FORMS END
+# endregion FILM FORMS
 
-# region FILM FORMS
+# region CINEMA FORMS
 class CinemaForm(ModelForm):
     class Meta:
         model = Cinema
@@ -90,3 +90,24 @@ class CinemaForm(ModelForm):
                    'top_banner': FileInput(attrs={'type': 'file'})}
 
 CinemaGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
+# endregion CINEMA FORMS
+
+# region HALL FORMS
+class HallForm(ModelForm):
+    class Meta:
+        model = Hall
+        fields = ('hall_number', 'description', 'scheme', 'top_banner', 'description_uk', 'is_base')
+        widgets = {'hall_number': NumberInput(attrs={'placeholder': '№',
+                                                     'class': 'form-control'}),
+                   'description': Textarea(attrs={'rows': 4,
+                                                  'class': 'form-control',
+                                                  'placeholder': 'Текст описания'}),
+                   'description_uk': Textarea(attrs={'rows': 4,
+                                                     'class': 'form-control',
+                                                     'placeholder': 'Текст опису',
+                                                     'required': 'true'}),
+                   'scheme': FileInput(attrs={'type': 'file'}),
+                   'top_banner': FileInput(attrs={'type': 'file'})}
+
+HallGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
+# endregion HALL FORMS

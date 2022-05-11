@@ -1,7 +1,7 @@
 {% extends 'cms/layout/base.html' %}
 {% load static %}
 
-{% block title %}Редактировать кинотеатр{% endblock %}
+{% block title %}Добавить зал{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'cms/style/create_film.css' %}">
@@ -28,18 +28,27 @@ active
     <div style="margin: 0 70px 0 70px; padding-top: 70px">
         <form id="form-container" enctype="multipart/form-data" method="post">
             {% csrf_token %}
-            <!-- Название, описание и условия -->
+
+            <div style="margin-bottom: 40px">
+                <span style="margin-right: 50px; "><b>Запретить удаление зала</b></span>
+                <span>{{ base_form.is_base }}</span>
+            </div>
+
+            <!-- Номер зала -->
+            <div class="row" style="margin-bottom: 40px; padding-top: 20px">
+                {{ base_form.hall_number.errors }}
+                <div class="col-2">
+                    <label for="id_name">Номер зала</label>
+                </div>
+                <div class="col-sm-6">
+                    <span>{{ base_form.hall_number }}</span>
+                </div>
+            </div>
+            <!-- Номер зала конец-->
+
+            <!-- Описание-->
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="ru" role="tabpanel" aria-labelledby="ru-tab">
-                    <div class="row" style="margin-bottom: 40px; padding-top: 20px">
-                        {{ base_form.name.errors }}
-                        <div class="col-2">
-                            <label for="id_name">Название кинотеатра</label>
-                        </div>
-                        <div class="col-sm-6">
-                            <span>{{ base_form.name }}</span>
-                        </div>
-                    </div>
                     <div class="row" style="margin-bottom: 40px">
                         {{ base_form.description.errors }}
                         <div class="col-2">
@@ -49,25 +58,8 @@ active
                             <span>{{ base_form.description }}</span>
                         </div>
                     </div>
-                    <div class="row" style="margin-bottom: 40px">
-                        {{ base_form.condition.errors }}
-                        <div class="col-2">
-                            <label for="id_description">Условия</label>
-                        </div>
-                        <div class="col-sm-6">
-                            <span>{{ base_form.condition }}</span>
-                        </div>
-                    </div>
                 </div>
                 <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="uk-tab">
-                    <div class="row" style="margin-bottom: 40px; padding-top: 20px">
-                        <div class="col-2">
-                            <label for="id_name">Назва кінотеатру</label>
-                        </div>
-                        <div class="col-sm-6">
-                            <span>{{ base_form.name_uk }}</span>
-                        </div>
-                    </div>
                     <div class="row" style="margin-bottom: 40px">
                         <div class="col-2">
                             <label for="id_description">Опис</label>
@@ -76,36 +68,28 @@ active
                             <span>{{ base_form.description_uk }}</span>
                         </div>
                     </div>
-                    <div class="row" style="margin-bottom: 40px">
-                        <div class="col-2">
-                            <label for="id_description">Умови</label>
-                        </div>
-                        <div class="col-sm-6">
-                            <span>{{ base_form.condition_uk }}</span>
-                        </div>
-                    </div>
                 </div>
             </div>
-            <!-- Название, описание и условия конец-->
+            <!-- Описание конец-->
 
-            <!--Логотип-->
+            <!--Схема-->
             <div class="row" style="margin-bottom: 40px">
                 <div class="col-sm-2" style="display: flex; align-items: center">
-                    <b>Логотип</b>
+                    <b>Схема зала</b>
                 </div>
                 <div class="col-sm-3">
-                    <img src="{{ cinema.logo.url }}" id="logo" height="200" width="300">
+                    <img src="{% static "cms/dist/img/preview.png" %}" id="scheme" height="200" width="300">
                 </div>
                 <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
-                    <button type="button" onchange="preview_logo()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
-                        Загрузить {{ base_form.logo }}
+                    <button type="button" onchange="preview_scheme()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
+                        Загрузить {{ base_form.scheme }}
                     </button>
                 </div>
                 <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
-                    <button type="button" id="delete-logo" class="btn btn-outline-danger btn-file" style="display: block; min-width: 150px">Удалить</button>
+                    <button type="button" id="delete-scheme" class="btn btn-outline-danger btn-file" style="display: block; min-width: 150px">Удалить</button>
                 </div>
             </div>
-            <!--Логотип конец-->
+            <!--Схема конец-->
 
             <!--Верхний баннер-->
             <div class="row" style="margin-bottom: 40px">
@@ -113,7 +97,7 @@ active
                     <b>Фото верхнего баннера</b>
                 </div>
                 <div class="col-sm-3">
-                    <img src="{{ cinema.top_banner.url }}" id="banner" height="200" width="300">
+                    <img src="{% static "cms/dist/img/preview.png" %}" id="banner" height="200" width="300">
                 </div>
                 <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
                     <button type="button" onchange="preview_banner()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
@@ -135,27 +119,7 @@ active
                     <label for="gallery" style="margin: 0 0 0 30px; display: inline-block; max-width: 150px"><b>Размер: 1000x190</b></label>
                     <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="display: inline-block; min-width: 150px; max-width: 150px; margin-left: 20px; margin-top: 20px">Добавить</button>
                 </div>
-                <div id="form_set" style="display: block; vertical-align: center">
-                    {% for form in gallery_formset %}
-                    <div id="{{ form.prefix }}-form" style="display: inline-block">
-                        <div style="text-align: right; padding-right: 15px">
-                            <option value="" style="color: red; text-align: center; display: none" id="{{ form.prefix }}-validation"><b>Размеры не корректны!</b></option>
-                            <a class="btn-delete-form" onclick="delete_image(this.id)" id="{{ form.prefix }}">
-                                <img class="delete-gallery-form" src="{% static "cms/dist/img/deleteimg.png" %}">
-                            </a>
-                        </div>
-                        {{ form.id }}
-                        <div style="text-align: center">
-                            <img src="{{ form.instance.image.url }}" id="{{ form.prefix }}-image" height="110" width="200"><br/>
-                        </div>
-                        <div style="text-align: center">
-                            <a id="{{ form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 15px 50px 15px 50px; min-width: 150px">Загрузить
-                                {{ form.image }}
-                            </a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
+                <div id="form_set" style="display: block; vertical-align: center"></div>
 
                 <div class="delete-list" style="display: none"></div>
 
@@ -180,44 +144,6 @@ active
                 </div>
             </div>
             <!--Галерея картинок конец-->
-
-            <!--Список залов-->
-            <div style="margin-bottom: 40px">
-                <h3 style="text-align: center"><b>Список залов</b></h3>
-                <div class="card-body" style="max-width: 1200px; margin: 0 auto">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="width: 40%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Название</font></font></th>
-                                <th style="width: 50%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Дата создания</font></font></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for hall in halls %}
-                                {% if hall.is_base %}
-                                <tr>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.hall_number }} Зал</font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.create_date|date:"d.m.Y" }}</font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
-                                </tr>
-                                {% else %}
-                                    <tr>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.hall_number }} Зал</font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.create_date|date:"d.m.Y" }}</font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#"><img src="{% static 'cms/dist/img/deletebucket.png' %}" width="25" height="25"></a></font></font></td>
-                                </tr>
-                                {% endif %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div style="text-align: center; padding-bottom: 20px">
-                    <a href="{% url 'add_hall' cinema.id %}"><button class="btn btn-block btn-success" type="button" style="max-width: 150px; display: inline-block; height: 40px"><span style="font-size: 20px"><b> + </b></span>Создать зал</button></a>
-                </div>
-            </div>
-            <!--Список залов конец-->
 
             <!--SEO-блок-->
             <p style="margin-bottom: 20px"><b>SEO блок:</b></p>
@@ -269,6 +195,6 @@ active
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'cms/scripts/cinema/gallery_formset.js' %}"></script>
-<script src="{% static 'cms/scripts/cinema/imgload.js' %}"></script>
+<script src="{% static 'cms/scripts/hall/gallery_formset.js' %}"></script>
+<script src="{% static 'cms/scripts/hall/imgload.js' %}"></script>
 {% endblock %}

@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 
 from main.models import Film, Image, Seo, Cinema, Hall
-from .forms import FilmForm, SeoForm, FilmGalleryFormSet, CinemaForm, CinemaGalleryFormSet
+from .forms import FilmForm, SeoForm, FilmGalleryFormSet, CinemaForm, CinemaGalleryFormSet, HallForm, HallGalleryFormSet
 
 
 def cms(request):
@@ -87,6 +87,7 @@ def cinema_list(request):
     cinemas = Cinema.objects.all()
     return render(request, 'cms/pages/cinema/cinema_list.html', {'cinemas': cinemas})
 
+
 def add_cinema(request):
     base_form = CinemaForm(request.POST or None, request.FILES or None, prefix='base_form')
     gallery_formset = CinemaGalleryFormSet(request.POST or None, request.FILES or None,
@@ -107,6 +108,7 @@ def add_cinema(request):
                'gallery_formset': gallery_formset,
                'seo_form': seo_form}
     return render(request, 'cms/pages/cinema/create_cinema.html', context)
+
 
 def edit_cinema(request, cinema_id):
     cinema = get_object_or_404(Cinema, pk=cinema_id)
@@ -138,7 +140,42 @@ def edit_cinema(request, cinema_id):
                'gallery_formset': gallery_formset}
     return render(request, 'cms/pages/cinema/edit_cinema.html', context)
 
+
+def delete_cinema(request, cinema_id):
+    cinema = get_object_or_404(Cinema, pk=cinema_id)
+    if request.method == 'POST':
+        cinema.delete()
+        return redirect('cinema')
+    else:
+        context = {'cinema': cinema}
+        return render(request, 'cms/pages/cinema/cinema_confirm_delete.html', context)
 # endregion CINEMA PAGE
+
+# HALL PAGE
+def add_hall(request, cinema_id):
+    cinema = get_object_or_404(Cinema, pk=cinema_id)
+    base_form = HallForm(request.POST or None, request.FILES or None, prefix='base_form')
+    gallery_formset = HallGalleryFormSet(request.POST or None, request.FILES or None,
+                                           queryset=Image.objects.none(), prefix='gallery_formset')
+    seo_form = SeoForm(request.POST or None, prefix='seo_form')
+    if request.method == 'POST':
+        if base_form.is_valid() and gallery_formset.is_valid() and seo_form.is_valid():
+            seo_form.save()
+            hall = base_form.save(commit=False)
+            hall.seo = seo_form.instance
+            hall.cinema = cinema
+            hall.save()
+            for form in gallery_formset:
+                if form.is_valid() and form.cleaned_data:
+                    image = form.save()
+                    hall.images.add(image)
+        return redirect('cinema')
+    context = {'cinema': cinema,
+               'base_form': base_form,
+               'gallery_formset': gallery_formset,
+               'seo_form': seo_form}
+    return render(request, 'cms/pages/hall/create_hall.html', context)
+# endregion HALL PAGE
 
 
 
