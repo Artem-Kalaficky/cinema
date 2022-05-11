@@ -89,4 +89,4 @@ class CinemaForm(ModelForm):
                    'logo': FileInput(attrs={'type': 'file'}),
                    'top_banner': FileInput(attrs={'type': 'file'})}
 
-
+CinemaGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)

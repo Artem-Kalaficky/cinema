@@ -56,6 +56,7 @@ class Hall(models.Model):
     images = models.ManyToManyField(Image, verbose_name="Галерея картинок")
     create_date = models.DateField(auto_now_add=True, db_index=True, verbose_name="Дата создания")
     seo = models.OneToOneField(Seo, on_delete=models.PROTECT, verbose_name="SEO блок")
+    is_base = models.BooleanField(default=False, verbose_name="Основной")
 
     class Meta:
         verbose_name_plural = 'Залы'

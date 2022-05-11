@@ -1,7 +1,7 @@
 {% extends 'cms/layout/base.html' %}
 {% load static %}
 
-{% block title %}Добавить кинотеатр{% endblock %}
+{% block title %}Редактировать кинотеатр{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'cms/style/create_film.css' %}">
@@ -94,7 +94,7 @@ active
                     <b>Логотип</b>
                 </div>
                 <div class="col-sm-3">
-                    <img src="{% static "cms/dist/img/preview.png" %}" id="logo" height="200" width="300">
+                    <img src="{{ cinema.logo.url }}" id="logo" height="200" width="300">
                 </div>
                 <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
                     <button type="button" onchange="preview_logo()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
@@ -113,7 +113,7 @@ active
                     <b>Фото верхнего баннера</b>
                 </div>
                 <div class="col-sm-3">
-                    <img src="{% static "cms/dist/img/preview.png" %}" id="banner" height="200" width="300">
+                    <img src="{{ cinema.top_banner.url }}" id="banner" height="200" width="300">
                 </div>
                 <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
                     <button type="button" onchange="preview_banner()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
@@ -135,7 +135,27 @@ active
                     <label for="gallery" style="margin: 0 0 0 30px; display: inline-block; max-width: 150px"><b>Размер: 1000x190</b></label>
                     <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="display: inline-block; min-width: 150px; max-width: 150px; margin-left: 20px; margin-top: 20px">Добавить</button>
                 </div>
-                <div id="form_set" style="display: block; vertical-align: center"></div>
+                <div id="form_set" style="display: block; vertical-align: center">
+                    {% for form in gallery_formset %}
+                    <div id="{{ form.prefix }}-form" style="display: inline-block">
+                        <div style="text-align: right; padding-right: 15px">
+                            <option value="" style="color: red; text-align: center; display: none" id="{{ form.prefix }}-validation"><b>Размеры не корректны!</b></option>
+                            <a class="btn-delete-form" onclick="delete_image(this.id)" id="{{ form.prefix }}">
+                                <img class="delete-gallery-form" src="{% static "cms/dist/img/deleteimg.png" %}">
+                            </a>
+                        </div>
+                        {{ form.id }}
+                        <div style="text-align: center">
+                            <img src="{{ form.instance.image.url }}" id="{{ form.prefix }}-image" height="110" width="200"><br/>
+                        </div>
+                        <div style="text-align: center">
+                            <a id="{{ form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 15px 50px 15px 50px; min-width: 150px">Загрузить
+                                {{ form.image }}
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
 
                 <div class="delete-list" style="display: none"></div>
 
@@ -173,12 +193,28 @@ active
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><b>№</b></font></font></td>
-                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><b>Добавление залов будет доступно после сохранения кинотеатра!</b></font></font></td>
-                            </tr>
+                            {% for hall in halls %}
+                                {% if hall.is_base %}
+                                <tr>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.hall_number }} Зал</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.create_date|date:"d.m.Y" }}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                                </tr>
+                                {% else %}
+                                    <tr>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.hall_number }} Зал</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.create_date|date:"d.m.Y" }}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#"><img src="{% static 'cms/dist/img/deletebucket.png' %}" width="25" height="25"></a></font></font></td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
                         </tbody>
                     </table>
+                </div>
+                <div style="text-align: center; padding-bottom: 20px">
+                    <a href="#"><button class="btn btn-block btn-success" type="button" style="max-width: 150px; display: inline-block; height: 40px"><span style="font-size: 20px"><b> + </b></span>Создать зал</button></a>
                 </div>
             </div>
             <!--Список залов конец-->
