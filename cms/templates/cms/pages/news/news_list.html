@@ -1,0 +1,73 @@
+{% extends 'cms/layout/base.html' %}
+{% load static %}
+
+{% block title %}
+Новости
+{% endblock %}
+
+{% block news-active %}
+active
+{% endblock %}
+
+{% block content %}
+    <div style="padding-top: 30px">
+        <a href="{% url 'add_news' %}">
+            <div style="text-align: right; margin-right: 35px">
+                <button type="button" class="btn btn-block btn-success" style="width: 200px; display: inline-block">
+                    <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Добавить новость <span style="font-size: 22px"><b>+</b></span></font></font>
+                </button>
+            </div>
+        </a>
+        <h2 style="text-align: center">Список Новостей</h2>
+        <div class="card-body" style="max-width: 1200px; margin: 0 auto">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 35%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Название</font></font></th>
+                        <th style="width: 30%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Дата создания</font></font></th>
+                        <th style="width: 25%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Статус</font></font></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for news in newss %}
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ news.name }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ news.pub_date|date:"d.m.Y" }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                                {% if news.status %}
+                                ВКЛ
+                                {% else %}
+                                ВЫКЛ
+                                {% endif %}
+                            </font></font>
+                            </td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="{% url 'edit_news' news.id %}"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal100-{{ forloop.counter }}"><img src="{% static 'cms/dist/img/deletebucket.png' %}" width="25" height="25"></a></font></font></td>
+                        </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="deleteModal100-{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header bg-danger">
+                                <h5 class="modal-title" id="deleteModal1Label-{{ forloop.counter }}">Подтверждение удаления</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <form method="post" action="{% url 'delete_news' news.id %}">
+                                  {% csrf_token %}
+                                  <div class="modal-body">
+                                      Вы действительно хотите удалить новость <b>{{ news.name }}</b>?
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                  </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

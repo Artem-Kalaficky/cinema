@@ -88,7 +88,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{% url 'news' %}" class="nav-link {% block news-active %}{% endblock %}">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 Новости
@@ -148,6 +148,8 @@
 
 <!-- jQuery -->
 <script src="{% static 'cms/plugins/jquery/jquery.min.js' %}"></script>
+{#<script src="{% static 'cms/plugins/jquery/jquery.validate.min.js' %}"></script>#}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="{% static 'cms/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->

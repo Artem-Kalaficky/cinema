@@ -5,8 +5,8 @@ from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 
-from main.models import Film, Image, Seo, Cinema, Hall
-from .forms import FilmForm, SeoForm, FilmGalleryFormSet, CinemaForm, CinemaGalleryFormSet, HallForm, HallGalleryFormSet
+from main.models import Film, Image, Cinema, Hall, NewsOrProm
+from .forms import *
 
 
 def cms(request):
@@ -151,7 +151,7 @@ def delete_cinema(request, cinema_id):
         return render(request, 'cms/pages/cinema/cinema_confirm_delete.html', context)
 # endregion CINEMA PAGE
 
-# HALL PAGE
+# region HALL PAGE
 def add_hall(request, cinema_id):
     cinema = get_object_or_404(Cinema, pk=cinema_id)
     base_form = HallForm(request.POST or None, request.FILES or None, prefix='base_form')
@@ -169,14 +169,124 @@ def add_hall(request, cinema_id):
                 if form.is_valid() and form.cleaned_data:
                     image = form.save()
                     hall.images.add(image)
-        return redirect('cinema')
+        return redirect('edit_cinema', cinema_id)
     context = {'cinema': cinema,
                'base_form': base_form,
                'gallery_formset': gallery_formset,
                'seo_form': seo_form}
     return render(request, 'cms/pages/hall/create_hall.html', context)
+
+
+def edit_hall(request, cinema_id, hall_id):
+    cinema = get_object_or_404(Cinema, pk=cinema_id)
+    hall = get_object_or_404(Hall, pk=hall_id)
+    seo = hall.seo
+    base_form = HallForm(request.POST or None, request.FILES or None, instance=hall, prefix='base_form')
+    gallery_formset = HallGalleryFormSet(request.POST or None, request.FILES or None,
+                                           queryset=hall.images.all(), prefix='gallery_formset')
+    seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
+    if request.method == 'POST':
+        if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
+            seo_form.save()
+            hall = base_form.save(commit=False)
+            hall.seo = seo_form.instance
+            hall.save()
+            gallery_formset.save(commit=False)
+            for form in gallery_formset:
+                if form.is_valid() and form.cleaned_data:
+                    image = form.save()
+                    hall.images.add(image)
+            for form in gallery_formset.deleted_objects:
+                form.delete()
+            gallery_formset.save_m2m()
+        return redirect('edit_cinema', cinema_id)
+    context = {'cinema': cinema,
+               'hall': hall,
+               'base_form': base_form,
+               'gallery_formset': gallery_formset,
+               'seo_form': seo_form}
+    return render(request, 'cms/pages/hall/edit_hall.html', context)
+
+
+def delete_hall(request, cinema_id, hall_id):
+    cinema = get_object_or_404(Cinema, pk=cinema_id)
+    hall = get_object_or_404(Hall, pk=hall_id)
+
+    if request.method == 'POST':
+        hall.delete()
+        return redirect('edit_cinema', cinema_id)
+    else:
+        context = {'cinema': cinema,
+                   'hall': hall}
+        return render(request, 'cms/pages/hall/hall_confirm_delete.html', context)
 # endregion HALL PAGE
 
+# region NEWS PAGE
+def news_list(request):
+    newss = NewsOrProm.objects.filter(type=False)
+    return render(request, 'cms/pages/news/news_list.html', {'newss': newss})
+
+
+def add_news(request):
+    base_form = NPForm(request.POST or None, request.FILES or None, prefix='base_form')
+    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None,
+                                         queryset=Image.objects.none(), prefix='gallery_formset')
+    seo_form = SeoForm(request.POST or None, prefix='seo_form')
+    if request.method == 'POST':
+        if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
+            seo_form.save()
+            news = base_form.save(commit=False)
+            news.seo = seo_form.instance
+            news.save()
+            for form in gallery_formset:
+                if form.is_valid() and form.cleaned_data:
+                    image = form.save()
+                    news.images.add(image)
+        return redirect('news')
+    context = {'base_form': base_form,
+               'gallery_formset': gallery_formset,
+               'seo_form': seo_form}
+    return render(request, 'cms/pages/news/create_news.html', context)
+
+
+def edit_news(request, news_id):
+    news = get_object_or_404(NewsOrProm, pk=news_id)
+    seo = news.seo
+    base_form = NPForm(request.POST or None, request.FILES or None, instance=news, prefix='base_form')
+    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None,
+                                         queryset=news.images.all(), prefix='gallery_formset')
+    seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
+    if request.method == 'POST':
+        if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
+            seo_form.save()
+            news = base_form.save(commit=False)
+            news.seo = seo_form.instance
+            news.save()
+            gallery_formset.save(commit=False)
+            for form in gallery_formset:
+                if form.is_valid() and form.cleaned_data:
+                    image = form.save()
+                    news.images.add(image)
+            for form in gallery_formset.deleted_objects:
+                form.delete()
+            gallery_formset.save_m2m()
+        return redirect('news')
+    context = {'news': news,
+               'base_form': base_form,
+               'seo_form': seo_form,
+               'gallery_formset': gallery_formset}
+    return render(request, 'cms/pages/news/edit_news.html', context)
+
+
+def delete_news(request, news_id):
+    news = get_object_or_404(NewsOrProm, pk=news_id)
+    if request.method == 'POST':
+        news.delete()
+        return redirect('news')
+    else:
+        context = {'news': news}
+        return render(request, 'cms/pages/news/news_confirm_delete.html', context)
+# endregion NEWS PAGE
 
 
 

@@ -3,7 +3,7 @@ from django import forms
 from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, NumberInput
 from django.core.exceptions import ValidationError
 
-from main.models import Film, Seo, Image, Cinema, Hall
+from main.models import Film, Seo, Image, Cinema, Hall, NewsOrProm
 
 
 class ImageForm(ModelForm):
@@ -111,3 +111,29 @@ class HallForm(ModelForm):
 
 HallGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
 # endregion HALL FORMS
+
+# region NEWS FORMS
+class NPForm(ModelForm):
+    class Meta:
+        model = NewsOrProm
+        fields = ('name', 'description', 'main_picture', 'link_to_video', 'status', 'pub_date', 'name_uk',
+                  'description_uk', 'type')
+        widgets = {'name': TextInput(attrs={'placeholder': 'Название новости',
+                                            'class': 'form-control'}),
+                   'description': Textarea(attrs={'rows': 4,
+                                                  'class': 'form-control',
+                                                  'placeholder': 'Текст описания'}),
+                   'name_uk': TextInput(attrs={'placeholder': 'Назва новини',
+                                               'class': 'form-control',
+                                               'required': 'true'}),
+                   'description_uk': Textarea(attrs={'rows': 4,
+                                                     'class': 'form-control',
+                                                     'placeholder': 'Текст опису',
+                                                     'required': 'true'}),
+                   'main_picture': FileInput(attrs={'type': 'file'}),
+                   'link_to_video': URLInput(attrs={'placeholder': 'Ссылка на видео в youtube',
+                                                    'class': 'form-control'}),
+                   'pub_date': DateInputWidget(attrs={'type': 'date'})}
+
+NPGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
+# endregion NEWS FORMS

@@ -1,41 +1,60 @@
 {% extends 'cms/layout/base.html' %}
 {% load static %}
 
-{% block title %}Добавить фильм{% endblock %}
+{% block title %}Редактировать новость{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'cms/style/create_film.css' %}">
+    <link rel="stylesheet" href="{% static 'cms/style/news_prom_status.css' %}">
 {% endblock %}
 
-{% block film-active %}
+{% block news-active %}
 active
 {% endblock %}
 
 {% block content %}
-    <!-- Расскладка -->
-    <div style="float: right; padding-top: 20px; padding-right: 30px">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="ru-tab" data-bs-toggle="tab" data-bs-target="#ru" type="button" role="tab" aria-controls="ru" aria-selected="true">Русский</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="uk-tab" data-bs-toggle="tab" data-bs-target="#uk" type="button" role="tab" aria-controls="uk" aria-selected="false">Украинский</button>
-          </li>
-        </ul>
-    </div>
-    <!-- Расскладка конец -->
-
-    <div style="margin: 0 70px 0 70px; padding-top: 70px">
+    <div style="margin: 0 70px 0 70px; padding-top: 30px">
         <form id="form-container" enctype="multipart/form-data" method="post">
             {% csrf_token %}
+            <div class="row" style="max-width: 1600px; margin-bottom: 20px">
+                <!-- Статус -->
+                <div class="col-sm-9" style="text-align: right; padding-top: 25px; padding-right: 20px">
+                    <label class="checkbox-ios">
+                        {{ base_form.status }}
+                        <span class="checkbox-ios-switch"></span>
+                    </label>
+                </div>
+                <!-- Статус конец -->
+                <!-- Расскладка -->
+                <div class="col-sm-3" style="display: flex; padding-top: 20px;">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="ru-tab" data-bs-toggle="tab" data-bs-target="#ru" type="button" role="tab" aria-controls="ru" aria-selected="true">Русский</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="uk-tab" data-bs-toggle="tab" data-bs-target="#uk" type="button" role="tab" aria-controls="uk" aria-selected="false">Украинский</button>
+                      </li>
+                    </ul>
+                </div>
+                <!-- Расскладка конец -->
+            </div>
+            <!--Дата публицакии-->
+            <div class="row">
+                <div class="col-sm-11" style="margin-bottom: 30px; text-align: right; padding-right: 34px">
+                    {{ base_form.premier_date.errors }}
+                    <label for="id_premier_date" style="vertical-align: top">Дата публикации</label>
+                    <span style="margin-left: 20px">{{ base_form.pub_date }}</span>
+                </div>
+            </div>
+            <!-- Дата публицакии конец -->
 
             <!-- Название и описание -->
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="ru" role="tabpanel" aria-labelledby="ru-tab">
-                    <div class="row" style="margin-bottom: 40px; padding-top: 20px">
+                    <div class="row" style="margin-bottom: 40px">
                         {{ base_form.name.errors }}
                         <div class="col-2">
-                            <label for="id_name">Название фильма</label>
+                            <label for="id_name">Название новости</label>
                         </div>
                         <div class="col-sm-6">
                             <span>{{ base_form.name }}</span>
@@ -54,7 +73,7 @@ active
                 <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="uk-tab">
                     <div class="row" style="margin-bottom: 40px; padding-top: 20px">
                         <div class="col-2">
-                            <label for="id_name">Назва фільму</label>
+                            <label for="id_name">Назва новини</label>
                         </div>
                         <div class="col-sm-6">
                             <span>{{ base_form.name_uk }}</span>
@@ -72,17 +91,26 @@ active
             </div>
             <!-- Название и описание конец-->
 
-
-            <div style="margin-bottom: 40px">
-                <span style="margin-right: 23px"><b>Главная картинка</b></span>
-                <img src="{% static "cms/dist/img/preview.png" %}" id="picture" height="270" width="200">
-                <a onchange="preview()" class="btn btn-outline-success btn-file" style="margin: 0 50px 0 50px; min-width: 150px">Загрузить
-                    {{ base_form.main_picture }}
-                </a>
-                <a id="delete-picture" class="btn btn-outline-danger btn-file" style="margin-right: 10px; min-width: 150px">Удалить</a>
+            <!--Главная картинка-->
+            <div class="row" style="margin-bottom: 40px">
+                <div class="col-sm-2" style="display: flex; align-items: center">
+                    <b>Главная картинка</b>
+                </div>
+                <div class="col-sm-3">
+                    <img src="{{ news.main_picture.url }}" id="logo" height="200" width="300">
+                </div>
+                <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
+                    <button type="button" onchange="preview_logo()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
+                        Загрузить {{ base_form.main_picture }}
+                    </button>
+                </div>
+                <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
+                    <button type="button" id="delete-logo" class="btn btn-outline-danger btn-file" style="display: block; min-width: 150px">Удалить</button>
+                </div>
             </div>
+            <!--Главная картинка конец-->
 
-
+            <!--Галерея картинок-->
             <span><b>Галерея картинок</b><br/></span>
             <div id="gallery" style="margin: 10px 0 40px 0; display: inline-block">
                 {{ gallery_formset.management_form }}
@@ -91,7 +119,27 @@ active
                     <label for="gallery" style="margin: 0 0 0 30px; display: inline-block; max-width: 150px"><b>Размер: 1000x190</b></label>
                     <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="display: inline-block; min-width: 150px; max-width: 150px; margin-left: 20px; margin-top: 20px">Добавить</button>
                 </div>
-                <div id="form_set" style="display: block; vertical-align: center"></div>
+                <div id="form_set" style="display: block; vertical-align: center">
+                    {% for form in gallery_formset %}
+                    <div id="{{ form.prefix }}-form" style="display: inline-block">
+                        <div style="text-align: right; padding-right: 15px">
+                            <option value="" style="color: red; text-align: center; display: none" id="{{ form.prefix }}-validation"><b>Размеры не корректны!</b></option>
+                            <a class="btn-delete-form" onclick="delete_image(this.id)" id="{{ form.prefix }}">
+                                <img class="delete-gallery-form" src="{% static "cms/dist/img/deleteimg.png" %}">
+                            </a>
+                        </div>
+                        {{ form.id }}
+                        <div style="text-align: center">
+                            <img src="{{ form.instance.image.url }}" id="{{ form.prefix }}-image" height="110" width="200"><br/>
+                        </div>
+                        <div style="text-align: center">
+                            <a id="{{ form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 15px 50px 15px 50px; min-width: 150px">Загрузить
+                                {{ form.image }}
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
 
                 <div class="delete-list" style="display: none"></div>
 
@@ -115,34 +163,21 @@ active
                     </div>
                 </div>
             </div>
+            <!--Галерея картинок конец-->
 
-
+            <!-- Ссылка -->
             <div class="row" style="margin-bottom: 40px">
-                {{ base_form.trailer.errors }}
+                {{ base_form.link_to_video.errors }}
                 <div class="col-sm-2">
-                    <label for="id_base_form-trailer">Ссылка на трейлер</label>
+                    <label for="id_base_form-trailer">Ссылка на видео</label>
                 </div>
                 <div class="col-sm-6">
-                    <span>{{ base_form.trailer }}</span>
+                    <span>{{ base_form.link_to_video }}</span>
                 </div>
             </div>
+            <!-- Ссылка конец -->
 
-            <div style="margin-bottom: 40px">
-                <span style="margin-right: 50px; "><b>Тип кино</b></span>
-                <span>{{ base_form.type_2d }}</span>
-                <label for="id_type_2d" style="vertical-align: top; margin-right: 20px">2D</label>
-                <span>{{ base_form.type_3d }}</span>
-                <label for="id_type_3d" style="vertical-align: top; margin-right: 20px">3D</label>
-                <span>{{ base_form.type_imax }}</span>
-                <label for="id_type_imax" style="vertical-align: top; margin-right: 20px">IMAX</label>
-            </div>
-
-            <div style="margin-bottom: 40px">
-                {{ base_form.premier_date.errors }}
-                <label for="id_premier_date" style="vertical-align: top">Дата премьеры</label>
-                <span style="margin-left: 20px">{{ base_form.premier_date }}</span>
-            </div>
-
+            <!-- SEO-блок -->
             <p style="margin-bottom: 20px"><b>SEO блок:</b></p>
             <div style="text-align: right; margin-bottom: 50px">
                 <div class="row" style="margin-bottom: 15px">
@@ -182,16 +217,17 @@ active
                     </div>
                 </div>
             </div>
+            <!-- SEO-блок конец -->
 
             <div style="text-align: center; padding-bottom: 20px">
                 <button id="submit-btn" class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; margin: 0 60px 30px 0; height: 40px">Сохранить</button>
-                <button class="btn btn-block btn-warning" type="reset" style="max-width: 210px; display: inline-block; height: 40px; margin: 0 60px 30px 0;"><a style="color: black" href="{% url 'add_film' %}">Вернуть базовую версию</a></button>
             </div>
         </form>
     </div>
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'cms/scripts/film/gallery_formset.js' %}"></script>
-<script src="{% static 'cms/scripts/film/imgload.js' %}"></script>
+<script src="{% static 'cms/scripts/news/gallery_formset.js' %}"></script>
+<script src="{% static 'cms/scripts/news/imgload.js' %}"></script>
+<script src="{% static 'cms/scripts/news/status.js' %}"></script>
 {% endblock %}

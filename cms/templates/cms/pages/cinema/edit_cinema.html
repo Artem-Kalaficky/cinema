@@ -194,21 +194,38 @@ active
                         </thead>
                         <tbody>
                             {% for hall in halls %}
-                                {% if hall.is_base %}
                                 <tr>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.hall_number }} Зал</font></font></td>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.create_date|date:"d.m.Y" }}</font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="{% url 'edit_hall' cinema.id hall.id %}"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                                        {% if not hall.is_base %}
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal100-{{ forloop.counter }}"><img src="{% static 'cms/dist/img/deletebucket.png' %}" width="25" height="25"></a>
+                                        {% endif %}
+                                    </font></font>
+                                    </td>
                                 </tr>
-                                {% else %}
-                                    <tr>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.hall_number }} Зал</font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ hall.create_date|date:"d.m.Y" }}</font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#"><img src="{% static 'cms/dist/img/deletebucket.png' %}" width="25" height="25"></a></font></font></td>
-                                </tr>
-                                {% endif %}
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteModal100-{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header bg-danger">
+                                        <h5 class="modal-title" id="deleteModal1Label-{{ forloop.counter }}">Подтверждение удаления</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <form method="post" action="{% url 'delete_hall' cinema.id hall.id %}">
+                                          {% csrf_token %}
+                                          <div class="modal-body">
+                                              Вы действительно хотите удалить <b>Зал  №{{ hall.hall_number }} </b>для кинотеатра <b>{{ cinema.name }}</b>?
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                            <button type="submit" class="btn btn-danger">Удалить</button>
+                                          </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
                             {% endfor %}
                         </tbody>
                     </table>
