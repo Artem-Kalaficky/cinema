@@ -118,12 +118,12 @@ class NPForm(ModelForm):
         model = NewsOrProm
         fields = ('name', 'description', 'main_picture', 'link_to_video', 'status', 'pub_date', 'name_uk',
                   'description_uk', 'type')
-        widgets = {'name': TextInput(attrs={'placeholder': 'Название новости',
+        widgets = {'name': TextInput(attrs={'placeholder': 'Название',
                                             'class': 'form-control'}),
                    'description': Textarea(attrs={'rows': 4,
                                                   'class': 'form-control',
                                                   'placeholder': 'Текст описания'}),
-                   'name_uk': TextInput(attrs={'placeholder': 'Назва новини',
+                   'name_uk': TextInput(attrs={'placeholder': 'Назва',
                                                'class': 'form-control',
                                                'required': 'true'}),
                    'description_uk': Textarea(attrs={'rows': 4,

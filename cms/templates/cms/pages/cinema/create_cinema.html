@@ -93,10 +93,10 @@ active
                 <div class="col-sm-2" style="display: flex; align-items: center">
                     <b>Логотип</b>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3" style="padding-right: 300px">
                     <img src="{% static "cms/dist/img/preview.png" %}" id="logo" height="200" width="300">
                 </div>
-                <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
+                <div class="col-sm-2" style="display: flex; align-items: center; width: 150px; padding-right: 150px">
                     <button type="button" onchange="preview_logo()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
                         Загрузить {{ base_form.logo }}
                     </button>
@@ -112,10 +112,10 @@ active
                 <div class="col-sm-2" style="display: flex; align-items: center">
                     <b>Фото верхнего баннера</b>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3" style="padding-right: 300px;">
                     <img src="{% static "cms/dist/img/preview.png" %}" id="banner" height="200" width="300">
                 </div>
-                <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
+                <div class="col-sm-2" style="display: flex; align-items: center; width: 150px; padding-right: 150px">
                     <button type="button" onchange="preview_banner()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
                         Загрузить {{ base_form.top_banner }}
                     </button>

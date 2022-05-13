@@ -18,7 +18,7 @@ active
             {% csrf_token %}
             <div class="row" style="max-width: 1600px; margin-bottom: 20px">
                 <!-- Статус -->
-                <div class="col-sm-9" style="text-align: right; padding-top: 25px; padding-right: 20px">
+                <div class="col-sm-10" style="text-align: right; padding-top: 25px; padding-right: 20px">
                     <label class="checkbox-ios">
                         {{ base_form.status }}
                         <span class="checkbox-ios-switch"></span>
@@ -26,7 +26,7 @@ active
                 </div>
                 <!-- Статус конец -->
                 <!-- Расскладка -->
-                <div class="col-sm-3" style="display: flex; padding-top: 20px;">
+                <div class="col-sm-2" style="display: flex; padding-top: 20px;">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                       <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="ru-tab" data-bs-toggle="tab" data-bs-target="#ru" type="button" role="tab" aria-controls="ru" aria-selected="true">Русский</button>
@@ -40,7 +40,7 @@ active
             </div>
             <!--Дата публицакии-->
             <div class="row">
-                <div class="col-sm-11" style="margin-bottom: 30px; text-align: right; padding-right: 34px">
+                <div class="col-sm-12" style="margin-bottom: 30px; text-align: right; padding-right: 34px">
                     {{ base_form.premier_date.errors }}
                     <label for="id_premier_date" style="vertical-align: top">Дата публикации</label>
                     <span style="margin-left: 20px">{{ base_form.pub_date }}</span>
@@ -71,7 +71,7 @@ active
                     </div>
                 </div>
                 <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="uk-tab">
-                    <div class="row" style="margin-bottom: 40px; padding-top: 20px">
+                    <div class="row" style="margin-bottom: 40px">
                         <div class="col-2">
                             <label for="id_name">Назва новини</label>
                         </div>
@@ -96,10 +96,10 @@ active
                 <div class="col-sm-2" style="display: flex; align-items: center">
                     <b>Главная картинка</b>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3" style="padding-right: 300px">
                     <img src="{{ news.main_picture.url }}" id="logo" height="200" width="300">
                 </div>
-                <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
+                <div class="col-sm-2" style="display: flex; align-items: center; width: 150px; padding-right: 150px">
                     <button type="button" onchange="preview_logo()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
                         Загрузить {{ base_form.main_picture }}
                     </button>

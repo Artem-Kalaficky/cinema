@@ -2,23 +2,23 @@
 {% load static %}
 
 {% block title %}
-Новости
+Акции
 {% endblock %}
 
-{% block news-active %}
+{% block promotion-active %}
 active
 {% endblock %}
 
 {% block content %}
     <div style="padding-top: 30px">
-        <a href="{% url 'add_news' %}">
+        <a href="{% url 'add_promotion' %}">
             <div style="text-align: right; margin-right: 35px">
                 <button type="button" class="btn btn-block btn-success" style="width: 200px; display: inline-block">
-                    <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Добавить новость <span style="font-size: 22px"><b>+</b></span></font></font>
+                    <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Добавить акцию <span style="font-size: 22px"><b>+</b></span></font></font>
                 </button>
             </div>
         </a>
-        <h2 style="text-align: center">Список Новостей</h2>
+        <h2 style="text-align: center">Список Акций</h2>
         <div class="card-body" style="max-width: 1200px; margin: 0 auto">
             <table class="table table-bordered">
                 <thead>
@@ -29,19 +29,19 @@ active
                     </tr>
                 </thead>
                 <tbody>
-                    {% for news in newss %}
+                    {% for promotion in promotions %}
                         <tr>
-                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ news.name }}</font></font></td>
-                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ news.pub_date|date:"d.m.Y" }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ promotion.name }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ promotion.pub_date|date:"d.m.Y" }}</font></font></td>
                             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                                {% if news.status %}
+                                {% if promotion.status %}
                                 ВКЛ
                                 {% else %}
                                 ВЫКЛ
                                 {% endif %}
                             </font></font>
                             </td>
-                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="{% url 'edit_news' news.id %}"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="{% url 'edit_promotion' promotion.id %}"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
                             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal100-{{ forloop.counter }}"><img src="{% static 'cms/dist/img/deletebucket.png' %}" width="25" height="25"></a></font></font></td>
                         </tr>
                         <!-- Modal -->
@@ -52,10 +52,10 @@ active
                                 <h5 class="modal-title" id="deleteModal1Label-{{ forloop.counter }}">Подтверждение удаления</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
-                              <form method="post" action="{% url 'delete_news' news.id %}">
+                              <form method="post" action="{% url 'delete_promotion' promotion.id %}">
                                   {% csrf_token %}
                                   <div class="modal-body">
-                                      Вы действительно хотите удалить новость <b>"{{ news.name }}"</b>?
+                                      Вы действительно хотите удалить акцию <b>"{{ promotion.name }}"</b>?
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>

@@ -1,14 +1,14 @@
 {% extends 'cms/layout/base.html' %}
 {% load static %}
 
-{% block title %}Добавить новость{% endblock %}
+{% block title %}Добавить aкцию{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'cms/style/create_film.css' %}">
     <link rel="stylesheet" href="{% static 'cms/style/news_prom_status.css' %}">
 {% endblock %}
 
-{% block news-active %}
+{% block promotion-active %}
 active
 {% endblock %}
 
@@ -49,6 +49,13 @@ active
             </div>
             <!-- Дата публицакии конец -->
 
+            <!--Статус акции-->
+            <div style="margin-bottom: 40px">
+                <span style="margin-right: 50px; "><b>Создать в виде акции?</b></span>
+                <span>{{ base_form.type }}</span>
+            </div>
+            <!-- Статус акции конец -->
+
             <!-- Название и описание -->
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="ru" role="tabpanel" aria-labelledby="ru-tab">
@@ -74,7 +81,7 @@ active
                 <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="uk-tab">
                     <div class="row" style="margin-bottom: 40px">
                         <div class="col-2">
-                            <label for="id_name">Назва новини</label>
+                            <label for="id_name">Назва акції</label>
                         </div>
                         <div class="col-sm-6">
                             <span>{{ base_form.name_uk }}</span>

@@ -24,5 +24,10 @@ urlpatterns = [
     path('news/<int:news_id>/edit/', edit_news, name='edit_news'),
     path('news/add/', add_news, name='add_news'),
     path('news/', news_list, name='news'),
+    #promotion
+    path('promotion/<int:promotion_id>/delete/', delete_promotion, name='delete_promotion'),
+    path('promotion/<int:promotion_id>/edit/', edit_promotion, name='edit_promotion'),
+    path('promotion/add/', add_promotion, name='add_promotion'),
+    path('promotion/', promotion_list, name='promotion'),
 
 ]

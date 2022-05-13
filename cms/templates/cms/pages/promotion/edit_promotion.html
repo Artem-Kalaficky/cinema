@@ -1,14 +1,14 @@
 {% extends 'cms/layout/base.html' %}
 {% load static %}
 
-{% block title %}Добавить новость{% endblock %}
+{% block title %}Редактировать акцию{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'cms/style/create_film.css' %}">
     <link rel="stylesheet" href="{% static 'cms/style/news_prom_status.css' %}">
 {% endblock %}
 
-{% block news-active %}
+{% block promotion-active %}
 active
 {% endblock %}
 
@@ -38,7 +38,6 @@ active
                 </div>
                 <!-- Расскладка конец -->
             </div>
-
             <!--Дата публицакии-->
             <div class="row">
                 <div class="col-sm-12" style="margin-bottom: 30px; text-align: right; padding-right: 34px">
@@ -48,6 +47,13 @@ active
                 </div>
             </div>
             <!-- Дата публицакии конец -->
+
+            <!--Статус акции-->
+            <div style="margin-bottom: 40px; display: none">
+                <span style="margin-right: 50px; "><b>Создать в виде акции?</b></span>
+                <span>{{ base_form.type }}</span>
+            </div>
+            <!-- Статус акции конец -->
 
             <!-- Название и описание -->
             <div class="tab-content" id="myTabContent">
@@ -74,7 +80,7 @@ active
                 <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="uk-tab">
                     <div class="row" style="margin-bottom: 40px">
                         <div class="col-2">
-                            <label for="id_name">Назва новини</label>
+                            <label for="id_name">Назва акції</label>
                         </div>
                         <div class="col-sm-6">
                             <span>{{ base_form.name_uk }}</span>
@@ -98,7 +104,7 @@ active
                     <b>Главная картинка</b>
                 </div>
                 <div class="col-sm-3" style="padding-right: 300px">
-                    <img src="{% static "cms/dist/img/preview.png" %}" id="logo" height="200" width="300">
+                    <img src="{{ promotion.main_picture.url }}" id="logo" height="200" width="300">
                 </div>
                 <div class="col-sm-2" style="display: flex; align-items: center; width: 150px; padding-right: 150px">
                     <button type="button" onchange="preview_logo()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
@@ -120,7 +126,27 @@ active
                     <label for="gallery" style="margin: 0 0 0 30px; display: inline-block; max-width: 150px"><b>Размер: 1000x190</b></label>
                     <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="display: inline-block; min-width: 150px; max-width: 150px; margin-left: 20px; margin-top: 20px">Добавить</button>
                 </div>
-                <div id="form_set" style="display: block; vertical-align: center"></div>
+                <div id="form_set" style="display: block; vertical-align: center">
+                    {% for form in gallery_formset %}
+                    <div id="{{ form.prefix }}-form" style="display: inline-block">
+                        <div style="text-align: right; padding-right: 15px">
+                            <option value="" style="color: red; text-align: center; display: none" id="{{ form.prefix }}-validation"><b>Размеры не корректны!</b></option>
+                            <a class="btn-delete-form" onclick="delete_image(this.id)" id="{{ form.prefix }}">
+                                <img class="delete-gallery-form" src="{% static "cms/dist/img/deleteimg.png" %}">
+                            </a>
+                        </div>
+                        {{ form.id }}
+                        <div style="text-align: center">
+                            <img src="{{ form.instance.image.url }}" id="{{ form.prefix }}-image" height="110" width="200"><br/>
+                        </div>
+                        <div style="text-align: center">
+                            <a id="{{ form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 15px 50px 15px 50px; min-width: 150px">Загрузить
+                                {{ form.image }}
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
 
                 <div class="delete-list" style="display: none"></div>
 

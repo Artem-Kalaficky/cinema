@@ -288,5 +288,72 @@ def delete_news(request, news_id):
         return render(request, 'cms/pages/news/news_confirm_delete.html', context)
 # endregion NEWS PAGE
 
+# region PROMOTION PAGE
+def promotion_list(request):
+    promotions = NewsOrProm.objects.filter(type=True)
+    return render(request, 'cms/pages/promotion/promotion_list.html', {'promotions': promotions})
+
+
+def add_promotion(request):
+    base_form = NPForm(request.POST or None, request.FILES or None, prefix='base_form')
+    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None,
+                                         queryset=Image.objects.none(), prefix='gallery_formset')
+    seo_form = SeoForm(request.POST or None, prefix='seo_form')
+    if request.method == 'POST':
+        if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
+            seo_form.save()
+            promotion = base_form.save(commit=False)
+            promotion.seo = seo_form.instance
+            promotion.save()
+            for form in gallery_formset:
+                if form.is_valid() and form.cleaned_data:
+                    image = form.save()
+                    promotion.images.add(image)
+        return redirect('promotion')
+    context = {'base_form': base_form,
+               'gallery_formset': gallery_formset,
+               'seo_form': seo_form}
+    return render(request, 'cms/pages/promotion/create_promotion.html', context)
+
+
+def edit_promotion(request, promotion_id):
+    promotion = get_object_or_404(NewsOrProm, pk=promotion_id)
+    seo = promotion.seo
+    base_form = NPForm(request.POST or None, request.FILES or None, instance=promotion, prefix='base_form')
+    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None,
+                                         queryset=promotion.images.all(), prefix='gallery_formset')
+    seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
+    if request.method == 'POST':
+        if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
+            seo_form.save()
+            promotion = base_form.save(commit=False)
+            promotion.seo = seo_form.instance
+            promotion.save()
+            gallery_formset.save(commit=False)
+            for form in gallery_formset:
+                if form.is_valid() and form.cleaned_data:
+                    image = form.save()
+                    promotion.images.add(image)
+            for form in gallery_formset.deleted_objects:
+                form.delete()
+            gallery_formset.save_m2m()
+        return redirect('promotion')
+    context = {'promotion': promotion,
+               'base_form': base_form,
+               'seo_form': seo_form,
+               'gallery_formset': gallery_formset}
+    return render(request, 'cms/pages/promotion/edit_promotion.html', context)
+
+
+def delete_promotion(request, promotion_id):
+    promotion = get_object_or_404(NewsOrProm, pk=promotion_id)
+    if request.method == 'POST':
+        promotion.delete()
+        return redirect('promotion')
+    else:
+        context = {'promotion': promotion}
+        return render(request, 'cms/pages/promotion/promotion_confirm_delete.html', context)
+# endregion PROMOTION PAGE
+
 
 
