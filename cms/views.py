@@ -5,14 +5,14 @@ from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 
-from main.models import Film, Image, Cinema, Hall, NewsOrProm
+from main.models import Film, Image, Cinema, Hall, NewsOrProm, Page, Contact
 from .forms import *
 
 
 def cms(request):
     return render(request, 'cms/layout/base.html')
 
-# region FILM PAGE
+# region FILM page
 def film_list(request):
     current_films = Film.objects.filter(premier_date__lte=datetime.date.today())
     soon_films = Film.objects.filter(premier_date__gt=datetime.date.today())
@@ -80,9 +80,9 @@ def delete_film(request, film_id):
     else:
         context = {'film': film}
         return render(request, 'cms/pages/film/film_confirm_delete.html', context)
-# endregion FILM PAGE
+# endregion FILM page
 
-# region CINEMA PAGE
+# region CINEMA page
 def cinema_list(request):
     cinemas = Cinema.objects.all()
     return render(request, 'cms/pages/cinema/cinema_list.html', {'cinemas': cinemas})
@@ -149,9 +149,9 @@ def delete_cinema(request, cinema_id):
     else:
         context = {'cinema': cinema}
         return render(request, 'cms/pages/cinema/cinema_confirm_delete.html', context)
-# endregion CINEMA PAGE
+# endregion CINEMA page
 
-# region HALL PAGE
+# region HALL page
 def add_hall(request, cinema_id):
     cinema = get_object_or_404(Cinema, pk=cinema_id)
     base_form = HallForm(request.POST or None, request.FILES or None, prefix='base_form')
@@ -219,9 +219,9 @@ def delete_hall(request, cinema_id, hall_id):
         context = {'cinema': cinema,
                    'hall': hall}
         return render(request, 'cms/pages/hall/hall_confirm_delete.html', context)
-# endregion HALL PAGE
+# endregion HALL page
 
-# region NEWS PAGE
+# region NEWS page
 def news_list(request):
     newss = NewsOrProm.objects.filter(type=False)
     return render(request, 'cms/pages/news/news_list.html', {'newss': newss})
@@ -286,9 +286,9 @@ def delete_news(request, news_id):
     else:
         context = {'news': news}
         return render(request, 'cms/pages/news/news_confirm_delete.html', context)
-# endregion NEWS PAGE
+# endregion NEWS page
 
-# region PROMOTION PAGE
+# region PROMOTION page
 def promotion_list(request):
     promotions = NewsOrProm.objects.filter(type=True)
     return render(request, 'cms/pages/promotion/promotion_list.html', {'promotions': promotions})
@@ -353,7 +353,121 @@ def delete_promotion(request, promotion_id):
     else:
         context = {'promotion': promotion}
         return render(request, 'cms/pages/promotion/promotion_confirm_delete.html', context)
-# endregion PROMOTION PAGE
+# endregion PROMOTION page
+
+# region PAGES page
+def pages_list(request):
+    pages = Page.objects.filter(is_main=False, is_contact=False)
+    main_page = Page.objects.filter(is_main=True)
+    contact_page = Page.objects.filter(is_contact=True)
+    context = {'pages': pages,
+               'main_page': main_page,
+               'contact_page': contact_page}
+    return render(request, 'cms/pages/pages/pages_list.html', context)
+
+
+def add_page(request):
+    base_form = PageForm(request.POST or None, request.FILES or None, prefix='base_form')
+    gallery_formset = PageGalleryFormSet(request.POST or None, request.FILES or None,
+                                         queryset=Image.objects.none(), prefix='gallery_formset')
+    seo_form = SeoForm(request.POST or None, prefix='seo_form')
+    if request.method == 'POST':
+        if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
+            seo_form.save()
+            page = base_form.save(commit=False)
+            page.seo = seo_form.instance
+            page.save()
+            for form in gallery_formset:
+                if form.is_valid() and form.cleaned_data:
+                    image = form.save()
+                    page.images.add(image)
+        return redirect('pages')
+    context = {'base_form': base_form,
+               'gallery_formset': gallery_formset,
+               'seo_form': seo_form}
+    return render(request, 'cms/pages/pages/create_page.html', context)
+
+
+def edit_page(request, page_id):
+    page = get_object_or_404(Page, pk=page_id)
+    seo = page.seo
+    base_form = PageForm(request.POST or None, request.FILES or None, instance=page, prefix='base_form')
+    gallery_formset = PageGalleryFormSet(request.POST or None, request.FILES or None,
+                                         queryset=page.images.all(), prefix='gallery_formset')
+    seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
+    if request.method == 'POST':
+        if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
+            seo_form.save()
+            page = base_form.save(commit=False)
+            page.seo = seo_form.instance
+            page.save()
+            gallery_formset.save(commit=False)
+            for form in gallery_formset:
+                if form.is_valid() and form.cleaned_data:
+                    image = form.save()
+                    page.images.add(image)
+            for form in gallery_formset.deleted_objects:
+                form.delete()
+            gallery_formset.save_m2m()
+        return redirect('pages')
+    context = {'page': page,
+               'base_form': base_form,
+               'seo_form': seo_form,
+               'gallery_formset': gallery_formset}
+    return render(request, 'cms/pages/pages/edit_page.html', context)
+
+
+def edit_main_page(request, page_id):
+    page = get_object_or_404(Page, pk=page_id)
+    seo = page.seo
+    base_form = PageForm(request.POST or None, request.FILES or None, instance=page, prefix='base_form')
+    seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
+    if request.method == 'POST':
+        if base_form.is_valid() and seo_form.is_valid():
+            seo_form.save()
+            page = base_form.save(commit=False)
+            page.seo = seo_form.instance
+            page.save()
+        return redirect('pages')
+    context = {'page': page,
+               'base_form': base_form,
+               'seo_form': seo_form}
+    return render(request, 'cms/pages/pages/edit_main_page.html', context)
+
+
+def edit_contact_page(request, page_id):
+    page = get_object_or_404(Page, pk=page_id)
+    seo = page.seo
+    contact = page.contact
+    base_form = PageForm(request.POST or None, request.FILES or None, instance=page, prefix='base_form')
+    contact_form = ContactForm(request.POST or None, request.FILES or None, instance=contact, prefix='contact_form')
+    seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
+    if request.method == 'POST':
+        if base_form.is_valid() and seo_form.is_valid() and contact_form.is_valid():
+            seo_form.save()
+            contact_form.save()
+            page = base_form.save(commit=False)
+            page.seo = seo_form.instance
+            page.contact = contact_form.instance
+            page.save()
+        return redirect('pages')
+    context = {'page': page,
+               'base_form': base_form,
+               'seo_form': seo_form,
+               'contact_form': contact_form}
+    return render(request, 'cms/pages/pages/edit_contact_page.html', context)
+
+
+def delete_page(request, page_id):
+    page = get_object_or_404(Page, pk=page_id)
+    if request.method == 'POST':
+        page.delete()
+        return redirect('pages')
+    else:
+        context = {'page': page}
+        return render(request, 'cms/pages/pages/page_confirm_delete.html', context)
+# endregion PAGES page
+
 
 
 

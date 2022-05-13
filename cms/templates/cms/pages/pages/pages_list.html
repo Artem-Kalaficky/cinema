@@ -1,0 +1,129 @@
+{% extends 'cms/layout/base.html' %}
+{% load static %}
+
+{% block title %}
+Страницы
+{% endblock %}
+
+{% block pages-active %}
+active
+{% endblock %}
+
+{% block content %}
+    <div style="padding-top: 30px">
+        <a href="{% url 'add_page' %}">
+            <div style="text-align: right; margin-right: 35px">
+                <button type="button" class="btn btn-block btn-success" style="width: 200px; display: inline-block">
+                    <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Создать новую <span style="font-size: 22px"><b>+</b></span></font></font>
+                </button>
+            </div>
+        </a>
+        <h2 style="text-align: center">Список Страниц</h2>
+        <div class="card-body" style="max-width: 1200px; margin: 0 auto">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 35%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Название</font></font></th>
+                        <th style="width: 30%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Дата создания</font></font></th>
+                        <th style="width: 25%"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Статус</font></font></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for main in main_page %}
+                    <tr>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Главная</font></font></td>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ main.date_created|date:"d.m.Y" }}</font></font></td>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                            {% if main.status %}
+                            ВКЛ
+                            {% else %}
+                            ВЫКЛ
+                            {% endif %}
+                        </font></font>
+                        </td>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="{% url 'edit_main_page' main.id %}"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                    </tr>
+                    {% endfor %}
+                    {% for page in pages %}
+                        {% if page.is_base %}
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ page.name }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ page.date_created|date:"d.m.Y" }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                                {% if page.status %}
+                                ВКЛ
+                                {% else %}
+                                ВЫКЛ
+                                {% endif %}
+                            </font></font>
+                            </td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="{% url 'edit_page' page.id %}"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    {% for contact in contact_page %}
+                    <tr>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Контакты</font></font></td>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ contact.date_created|date:"d.m.Y" }}</font></font></td>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                            {% if contact.status %}
+                            ВКЛ
+                            {% else %}
+                            ВЫКЛ
+                            {% endif %}
+                        </font></font>
+                        </td>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="{% url 'edit_contact_page' contact.id %}"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
+                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></td>
+                    </tr>
+                    {% endfor %}
+                    {% for page in pages %}
+                        {% if not page.is_base %}
+                        <tr>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ page.name }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ page.date_created|date:"d.m.Y" }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                                {% if page.status %}
+                                ВКЛ
+                                {% else %}
+                                ВЫКЛ
+                                {% endif %}
+                            </font></font>
+                            </td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><a href="{% url 'edit_page' page.id %}"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal100-{{ forloop.counter }}"><img src="{% static 'cms/dist/img/deletebucket.png' %}" width="25" height="25"></a>
+                            </font></font>
+                            </td>
+                        </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="deleteModal100-{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header bg-danger">
+                                <h5 class="modal-title" id="deleteModal1Label-{{ forloop.counter }}">Подтверждение удаления</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <form method="post" action="{% url 'delete_page' page.id %}">
+                                  {% csrf_token %}
+                                  <div class="modal-body">
+                                      Вы действительно хотите удалить страницу <b>"{{ page.name }}"</b>?
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                  </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

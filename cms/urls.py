@@ -29,5 +29,12 @@ urlpatterns = [
     path('promotion/<int:promotion_id>/edit/', edit_promotion, name='edit_promotion'),
     path('promotion/add/', add_promotion, name='add_promotion'),
     path('promotion/', promotion_list, name='promotion'),
+    #pages
+    path('pages/<int:page_id>/delete/', delete_page, name='delete_page'),
+    path('pages/<int:page_id>/edit-main/', edit_main_page, name='edit_main_page'),
+    path('pages/<int:page_id>/edit-contacts/', edit_contact_page, name='edit_contact_page'),
+    path('pages/<int:page_id>/edit/', edit_page, name='edit_page'),
+    path('pages/add/', add_page, name='add_page'),
+    path('pages/', pages_list, name='pages'),
 
 ]

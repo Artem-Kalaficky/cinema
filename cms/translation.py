@@ -1,5 +1,5 @@
 from modeltranslation.translator import register, TranslationOptions
-from main.models import Film, Cinema, Hall, NewsOrProm
+from main.models import Film, Cinema, Hall, NewsOrProm, Page, Contact
 
 
 @register(Film)
@@ -20,3 +20,11 @@ class CinemaTranslationOptions(TranslationOptions):
 @register(NewsOrProm)
 class NewsOrPromTranslationOptions(TranslationOptions):
     fields = ('name', 'description')
+
+
+@register(Page)
+class PageTranslationOptions(TranslationOptions):
+    fields = ('seo_text', 'name', 'description')
+
+
+

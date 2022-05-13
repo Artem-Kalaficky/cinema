@@ -1,0 +1,199 @@
+{% extends 'cms/layout/base.html' %}
+{% load static %}
+
+{% block title %}Добавить страницу{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'cms/style/create_film.css' %}">
+    <link rel="stylesheet" href="{% static 'cms/style/news_prom_status.css' %}">
+{% endblock %}
+
+{% block pages-active %}
+active
+{% endblock %}
+
+{% block content %}
+    <div style="margin: 0 70px 0 70px; padding-top: 30px">
+        <form id="form-container" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <!--Навигация-->
+            <div class="row" style="max-width: 1600px; margin-bottom: 20px">
+                <!--Статус-->
+                <div class="col-sm-10" style="text-align: right; padding-top: 25px; padding-right: 20px">
+                    <label class="checkbox-ios">
+                        {{ base_form.status }}
+                        <span class="checkbox-ios-switch"></span>
+                    </label>
+                </div>
+                <!--Статус конец-->
+                <!--Расскладка-->
+                <div class="col-sm-2" style="display: flex; padding-top: 20px;">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="ru-tab" data-bs-toggle="tab" data-bs-target="#ru" type="button" role="tab" aria-controls="ru" aria-selected="true">Русский</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="uk-tab" data-bs-toggle="tab" data-bs-target="#uk" type="button" role="tab" aria-controls="uk" aria-selected="false">Украинский</button>
+                      </li>
+                    </ul>
+                </div>
+                <!--Расскладка конец-->
+            </div>
+            <!--Навигация конец-->
+
+            <div style="margin-bottom: 40px; display: none">
+                <span style="margin-right: 50px; "><b>Основная страница</b></span>
+                <span>{{ base_form.is_base }}</span>
+            </div>
+
+            <!-- Название и описание -->
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="ru" role="tabpanel" aria-labelledby="ru-tab">
+                    <div class="row" style="margin-bottom: 40px">
+                        {{ base_form.name.errors }}
+                        <div class="col-2">
+                            <label for="id_name">Название страницы</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.name }}</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 40px">
+                        {{ base_form.description.errors }}
+                        <div class="col-2">
+                            <label for="id_description">Описание</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.description }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="uk" role="tabpanel" aria-labelledby="uk-tab">
+                    <div class="row" style="margin-bottom: 40px">
+                        <div class="col-2">
+                            <label for="id_name">Назва сторінки</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.name_uk }}</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 40px">
+                        <div class="col-2">
+                            <label for="id_description">Опис</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>{{ base_form.description_uk }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Название и описание конец-->
+
+            <!--Главная картинка-->
+            <div class="row" style="margin-bottom: 40px">
+                <div class="col-sm-2" style="display: flex; align-items: center">
+                    <b>Главная картинка</b>
+                </div>
+                <div class="col-sm-3" style="padding-right: 300px">
+                    <img src="{% static "cms/dist/img/preview.png" %}" id="logo" height="200" width="300">
+                </div>
+                <div class="col-sm-2" style="display: flex; align-items: center; width: 150px; padding-right: 150px">
+                    <button type="button" onchange="preview_logo()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
+                        Загрузить {{ base_form.main_picture }}
+                    </button>
+                </div>
+                <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
+                    <button type="button" id="delete-logo" class="btn btn-outline-danger btn-file" style="display: block; min-width: 150px">Удалить</button>
+                </div>
+            </div>
+            <!--Главная картинка конец-->
+
+            <!--Галерея картинок-->
+            <span><b>Галерея картинок</b><br/></span>
+            <div id="gallery" style="margin: 10px 0 40px 0; display: inline-block">
+                {{ gallery_formset.management_form }}
+
+                <div style="margin-bottom: 10px">
+                    <label for="gallery" style="margin: 0 0 0 30px; display: inline-block; max-width: 150px"><b>Размер: 1000x190</b></label>
+                    <button class="add-more-img btn btn-block btn-success" type="button" id="add_more" style="display: inline-block; min-width: 150px; max-width: 150px; margin-left: 20px; margin-top: 20px">Добавить</button>
+                </div>
+                <div id="form_set" style="display: block; vertical-align: center"></div>
+
+                <div class="delete-list" style="display: none"></div>
+
+                <div id="empty_form" style="display: none">
+                    <div id="{{ gallery_formset.empty_form.prefix }}-form" style="display: inline-block">
+                        <div style="text-align: right; padding-right: 15px">
+                            <option value="" style="color: red; text-align: center; display: none" id="{{ gallery_formset.empty_form.prefix }}-validation"><b>Размеры не корректны!</b></option>
+                            <a class="btn-delete-form" onclick="delete_image(this.id)" id="{{ gallery_formset.empty_form.prefix }}">
+                                <img class="delete-gallery-form" src="{% static "cms/dist/img/deleteimg.png" %}">
+                            </a>
+                        </div>
+                        {{ gallery_formset.empty_form.id }}
+                        <div style="text-align: center">
+                            <img src="{% static "cms/dist/img/preview.png" %}" id="{{ gallery_formset.empty_form.prefix }}-image" height="110" width="200"><br/>
+                        </div>
+                        <div style="text-align: center">
+                            <a id="{{ gallery_formset.empty_form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 15px 50px 15px 50px; min-width: 150px">Загрузить
+                                {{ gallery_formset.empty_form.image }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Галерея картинок конец-->
+
+            <!-- SEO-блок -->
+            <p style="margin-bottom: 20px"><b>SEO блок:</b></p>
+            <div style="text-align: right; margin-bottom: 50px">
+                <div class="row" style="margin-bottom: 15px">
+                    {{ seo_form.url.errors }}
+                    <div class="col-sm-2">
+                        <label for="id_url">URL:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.url }}</span>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 15px">
+                    {{ seo_form.title.errors }}
+                    <div class="col-sm-2">
+                        <label for="id_url">Title:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.title }}</span>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 15px">
+                    {{ seo_form.keyword.errors }}
+                    <div class="col-sm-2">
+                        <label for="id_url">Keywords:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.keyword }}</span>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 15px">
+                    {{ seo_form.description.errors }}
+                    <div class="col-sm-2">
+                        <label for="id_url">Description:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.description }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- SEO-блок конец -->
+
+            <div style="text-align: center; padding-bottom: 20px">
+                <button id="submit-btn" class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; margin: 0 60px 30px 0; height: 40px">Сохранить</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'cms/scripts/pages/gallery_formset.js' %}"></script>
+<script src="{% static 'cms/scripts/pages/imgload.js' %}"></script>
+<script src="{% static 'cms/scripts/pages/status.js' %}"></script>
+{% endblock %}

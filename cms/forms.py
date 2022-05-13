@@ -3,7 +3,7 @@ from django import forms
 from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, NumberInput
 from django.core.exceptions import ValidationError
 
-from main.models import Film, Seo, Image, Cinema, Hall, NewsOrProm
+from main.models import Film, Seo, Image, Cinema, Hall, NewsOrProm, Page, Contact
 
 
 class ImageForm(ModelForm):
@@ -35,7 +35,7 @@ class DateInputWidget(forms.DateInput):
         return value
 
 
-# region FILM FORMS
+# region FILM forms
 class FilmForm(ModelForm):
     class Meta:
         model = Film
@@ -60,9 +60,9 @@ class FilmForm(ModelForm):
 
 
 FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
-# endregion FILM FORMS
+# endregion FILM forms
 
-# region CINEMA FORMS
+# region CINEMA forms
 class CinemaForm(ModelForm):
     class Meta:
         model = Cinema
@@ -89,10 +89,11 @@ class CinemaForm(ModelForm):
                    'logo': FileInput(attrs={'type': 'file'}),
                    'top_banner': FileInput(attrs={'type': 'file'})}
 
-CinemaGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
-# endregion CINEMA FORMS
 
-# region HALL FORMS
+CinemaGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
+# endregion CINEMA forms
+
+# region HALL forms
 class HallForm(ModelForm):
     class Meta:
         model = Hall
@@ -109,10 +110,11 @@ class HallForm(ModelForm):
                    'scheme': FileInput(attrs={'type': 'file'}),
                    'top_banner': FileInput(attrs={'type': 'file'})}
 
-HallGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
-# endregion HALL FORMS
 
-# region NEWS FORMS
+HallGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
+# endregion HALL forms
+
+# region NEWS forms
 class NPForm(ModelForm):
     class Meta:
         model = NewsOrProm
@@ -135,5 +137,58 @@ class NPForm(ModelForm):
                                                     'class': 'form-control'}),
                    'pub_date': DateInputWidget(attrs={'type': 'date'})}
 
+
 NPGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
-# endregion NEWS FORMS
+# endregion NEWS forms
+
+# region PAGE forms
+class PageForm(ModelForm):
+    class Meta:
+        model = Page
+        fields = ('status', 'telephone1', 'telephone2', 'seo_text', 'seo_text_uk', 'name', 'name_uk', 'description',
+                  'description_uk', 'main_picture', 'is_base', 'is_main', 'is_contact')
+        widgets = {'telephone1': TextInput(attrs={'placeholder': '777-77-77',
+                                                  'class': 'form-control'}),
+                   'telephone2': TextInput(attrs={'placeholder': '777-77-77',
+                                                  'class': 'form-control'}),
+                   'seo_text': Textarea(attrs={'rows': 4,
+                                               'class': 'form-control',
+                                               'placeholder': 'SEO-текст'}),
+                   'seo_text_uk': Textarea(attrs={'rows': 4,
+                                                  'class': 'form-control',
+                                                  'placeholder': 'SEO-текст',
+                                                  'required': 'true'}),
+                   'name': TextInput(attrs={'placeholder': 'Название страницы',
+                                            'class': 'form-control'}),
+                   'description': Textarea(attrs={'rows': 4,
+                                                  'class': 'form-control',
+                                                  'placeholder': 'Текст описания'}),
+                   'name_uk': TextInput(attrs={'placeholder': 'Назва сторінки',
+                                               'class': 'form-control',
+                                               'required': 'true'}),
+                   'description_uk': Textarea(attrs={'rows': 4,
+                                                     'class': 'form-control',
+                                                     'placeholder': 'Текст опису',
+                                                     'required': 'true'}),
+                   'main_picture': FileInput(attrs={'type': 'file'})}
+
+
+PageGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_delete=True)
+
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields = ('name', 'address', 'coordinate', 'logo', 'status')
+        widgets = {'name': TextInput(attrs={'class': 'form-control',
+                                            'placeholder': 'Название кинотеатра'}),
+                   'address': Textarea(attrs={'rows': 4,
+                                              'class': 'form-control',
+                                              'placeholder': 'Введите адрес кинотеатра'}),
+                   'coordinate': TextInput(attrs={'placeholder': 'Координаты для карты',
+                                                  'class': 'form-control'}),
+                   'logo': FileInput(attrs={'type': 'file'})}
+# endregion PAGE forms
+
+
+
+

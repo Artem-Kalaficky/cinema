@@ -1,0 +1,148 @@
+{% extends 'cms/layout/base.html' %}
+{% load static %}
+
+{% block title %}Добавить страницу{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'cms/style/create_film.css' %}">
+    <link rel="stylesheet" href="{% static 'cms/style/news_prom_status.css' %}">
+{% endblock %}
+
+{% block pages-active %}
+active
+{% endblock %}
+
+{% block content %}
+    <div style="margin: 0 70px 0 70px; padding-top: 30px">
+        <form id="form-container" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <!--Навигация-->
+            <div class="row" style="max-width: 1600px; margin-bottom: 20px">
+                <!--Статус-->
+                <div class="col-sm-12" style="text-align: right; padding-top: 25px; padding-right: 20px">
+                    <label class="checkbox-ios">
+                        {{ base_form.status }}
+                        <span class="checkbox-ios-switch"></span>
+                    </label>
+                </div>
+                <!--Статус конец-->
+            </div>
+            <!--Навигация конец-->
+
+            <div style="margin-bottom: 40px; display: none">
+                <span style="margin-right: 50px; "><b>Основная страница</b></span>
+                <span>{{ base_form.is_base }}</span>
+            </div>
+
+            <div style="margin-bottom: 40px; display: none">
+                <span style="margin-right: 50px; "><b>Контактная страница</b></span>
+                <span>{{ base_form.is_contact }}</span>
+            </div>
+
+            <div style="border: 3px solid black; border-radius: 20px; padding: 30px; margin-bottom: 40px">
+                <!--Статус-->
+                <div class="col-sm-12" style="text-align: right; padding-right: 20px">
+                    <label class="checkbox-ios">
+                        {{ contact_form.status }}
+                        <span class="checkbox-ios-switch"></span>
+                    </label>
+                </div>
+                <div class="row" style="margin-bottom: 40px">
+                    {{ contact_form.name.errors }}
+                    <div class="col-2">
+                        <label for="id_name">Название кинотеатра</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ contact_form.name }}</span>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 40px">
+                    {{ contact_form.address.errors }}
+                    <div class="col-2">
+                        <label for="id_description">Адрес</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ contact_form.address }}</span>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 40px">
+                    {{ contact_form.coordinate.errors }}
+                    <div class="col-sm-2">
+                        <label for="id_base_form-trailer">Координаты для карты</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ contact_form.coordinate }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2" style="display: flex; align-items: center">
+                        <b>Лого</b>
+                    </div>
+                    <div class="col-sm-3" style="padding-right: 300px">
+                        <img src="{{ contact_form.instance.logo.url }}" id="logo" height="200" width="300">
+                    </div>
+                    <div class="col-sm-2" style="display: flex; align-items: center; width: 150px; padding-right: 150px">
+                        <button type="button" onchange="preview_logo()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
+                            Загрузить {{ contact_form.logo }}
+                        </button>
+                    </div>
+                    <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
+                        <button type="button" id="delete-logo" class="btn btn-outline-danger btn-file" style="display: block; min-width: 150px">Удалить</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO-блок -->
+            <p style="margin-bottom: 20px"><b>SEO блок:</b></p>
+            <div style="text-align: right; margin-bottom: 50px">
+                <div class="row" style="margin-bottom: 15px">
+                    {{ seo_form.url.errors }}
+                    <div class="col-sm-2">
+                        <label for="id_url">URL:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.url }}</span>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 15px">
+                    {{ seo_form.title.errors }}
+                    <div class="col-sm-2">
+                        <label for="id_url">Title:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.title }}</span>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 15px">
+                    {{ seo_form.keyword.errors }}
+                    <div class="col-sm-2">
+                        <label for="id_url">Keywords:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.keyword }}</span>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 15px">
+                    {{ seo_form.description.errors }}
+                    <div class="col-sm-2">
+                        <label for="id_url">Description:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>{{ seo_form.description }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- SEO-блок конец -->
+
+            <div style="text-align: center; padding-bottom: 20px">
+                <button id="submit-btn" class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; margin: 0 60px 30px 0; height: 40px">Сохранить</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'cms/scripts/pages/gallery_formset.js' %}"></script>
+<script src="{% static 'cms/scripts/pages/imgload.js' %}"></script>
+<script src="{% static 'cms/scripts/pages/status.js' %}"></script>
+{% endblock %}

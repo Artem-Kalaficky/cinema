@@ -38,9 +38,10 @@ class Cinema(models.Model):
 
 
 class Contact(models.Model):
-    name = models.OneToOneField(Cinema, on_delete=models.PROTECT, verbose_name="Название кинотеатра")
-    address = models.TextField(verbose_name="Адресс")
-    coordinate = models.URLField(verbose_name="Координаты для карты")
+    status = models.BooleanField(default=True, verbose_name='Статус')
+    name = models.CharField(max_length=30, verbose_name="Название кинотеатра")
+    address = models.TextField(verbose_name="Адрес")
+    coordinate = models.CharField(max_length=128, verbose_name="Координаты для карты")
     logo = models.ImageField(upload_to='gallery/', verbose_name="Лого")
 
     class Meta:
@@ -122,18 +123,20 @@ class NewsOrProm(models.Model):
 
 
 class Page(models.Model):
+    status = models.BooleanField(default=True, verbose_name="Статус")
     telephone1 = models.CharField(max_length=20, null=True, blank=True, verbose_name="Телефон 1")
     telephone2 = models.CharField(max_length=20, null=True, blank=True, verbose_name="Телефон 2")
-    contact = models.ForeignKey(Contact, on_delete=models.PROTECT, null=True, blank=True, verbose_name="Контанкты")
+    seo_text = models.TextField(null=True, blank=True, verbose_name="SEO текст")
     name = models.CharField(max_length=20, null=True, blank=True, verbose_name="Название")
     description = models.TextField(null=True, blank=True, verbose_name="Описание")
     main_picture = models.ImageField(upload_to='gallery/', null=True, blank=True, verbose_name="Главная картинка")
     images = models.ManyToManyField(Image, blank=True, verbose_name="Галерея картинок")
-    date_created = models.DateField(verbose_name="Дата создания")
-    status = models.BooleanField(default=True, verbose_name="Статус")
-    is_main_page = models.BooleanField(default=False, verbose_name="Является главной")
-    seo_text = models.TextField(null=True, blank=True, verbose_name="SEO текст")
+    date_created = models.DateField(auto_now_add=True, db_index=True, verbose_name="Дата создания")
+    contact = models.ForeignKey(Contact, on_delete=models.PROTECT, null=True, blank=True, verbose_name="Контанкты")
     seo = models.OneToOneField(Seo, on_delete=models.PROTECT, verbose_name="SEO блок")
+    is_base = models.BooleanField(default=False, verbose_name="Основная страница")
+    is_main = models.BooleanField(default=False, verbose_name="Главная")
+    is_contact = models.BooleanField(default=False, verbose_name="Контакты")
 
     class Meta:
         verbose_name_plural = 'Страницы'
