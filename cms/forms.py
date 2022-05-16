@@ -187,6 +187,8 @@ class ContactForm(ModelForm):
                    'coordinate': TextInput(attrs={'placeholder': 'Координаты для карты',
                                                   'class': 'form-control'}),
                    'logo': FileInput(attrs={'type': 'file'})}
+
+ContactFormSet = modelformset_factory(Contact, form=ContactForm, extra=0, can_delete=True)
 # endregion PAGE forms
 
 

@@ -39,58 +39,127 @@ active
                 <span>{{ base_form.is_contact }}</span>
             </div>
 
-            <div style="border: 3px solid black; border-radius: 20px; padding: 30px; margin-bottom: 40px">
-                <!--Статус-->
-                <div class="col-sm-12" style="text-align: right; padding-right: 20px">
-                    <label class="checkbox-ios">
-                        {{ contact_form.status }}
-                        <span class="checkbox-ios-switch"></span>
-                    </label>
+            <!-- Контакты -->
+            <div id="contact" style="margin-bottom: 40px">
+                {{ contact_formset.management_form }}
+
+                <div id="form_set">
+                    {% for form in contact_formset %}
+                    <div id="{{ form.prefix }}-form" style="border: 3px solid black; border-radius: 20px; padding: 30px; margin-bottom: 40px">
+                        {{ form.id }}
+                        <div class="col-sm-12" style="text-align: right; padding-right: 20px">
+                            <label class="checkbox-ios">
+                                {{ form.status }}
+                                <span class="checkbox-ios-switch"></span>
+                            </label>
+                        </div>
+                        <div class="row" style="margin-bottom: 40px">
+                            {{ form.name.errors }}
+                            <div class="col-2">
+                                <label for="id_name">Название кинотеатра</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <span>{{ form.name }}</span>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 40px">
+                            {{ form.address.errors }}
+                            <div class="col-2">
+                                <label for="id_description">Адрес</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <span>{{ form.address }}</span>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 40px">
+                            {{ form.coordinate.errors }}
+                            <div class="col-sm-2">
+                                <label for="id_base_form-trailer">Координаты для карты</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <span>{{ form.coordinate }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2" style="display: flex; align-items: center">
+                                <b>Лого</b>
+                            </div>
+                            <div class="col-sm-3" style="padding-right: 300px">
+                                <img src="{{ form.instance.logo.url }}" id="{{ form.prefix }}-image" height="200" width="300">
+                            </div>
+                            <div class="col-sm-2" style="display: flex; align-items: center; width: 150px; padding-right: 150px">
+                                <button id="{{ form.prefix }}" type="button" onchange="preview_logo(this.id)" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
+                                    Загрузить {{ form.logo }}
+                                </button>
+                            </div>
+                            <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
+                                <button id="{{ form.prefix }}" onclick="delete_logo(this.id)" type="button"  class="btn btn-outline-danger btn-file" style="display: block; min-width: 150px">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-                <div class="row" style="margin-bottom: 40px">
-                    {{ contact_form.name.errors }}
-                    <div class="col-2">
-                        <label for="id_name">Название кинотеатра</label>
-                    </div>
-                    <div class="col-sm-6">
-                        <span>{{ contact_form.name }}</span>
-                    </div>
+
+                <div style="text-align: center">
+                    <button class="add-more-img btn btn-block btn-outline-success" type="button" id="add_more" style="display: inline-block; min-width: 200px; max-width: 200px; margin-top: 20px">Добавить Кинотеатр</button>
                 </div>
-                <div class="row" style="margin-bottom: 40px">
-                    {{ contact_form.address.errors }}
-                    <div class="col-2">
-                        <label for="id_description">Адрес</label>
-                    </div>
-                    <div class="col-sm-6">
-                        <span>{{ contact_form.address }}</span>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 40px">
-                    {{ contact_form.coordinate.errors }}
-                    <div class="col-sm-2">
-                        <label for="id_base_form-trailer">Координаты для карты</label>
-                    </div>
-                    <div class="col-sm-6">
-                        <span>{{ contact_form.coordinate }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-2" style="display: flex; align-items: center">
-                        <b>Лого</b>
-                    </div>
-                    <div class="col-sm-3" style="padding-right: 300px">
-                        <img src="{{ contact_form.instance.logo.url }}" id="logo" height="200" width="300">
-                    </div>
-                    <div class="col-sm-2" style="display: flex; align-items: center; width: 150px; padding-right: 150px">
-                        <button type="button" onchange="preview_logo()" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
-                            Загрузить {{ contact_form.logo }}
-                        </button>
-                    </div>
-                    <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
-                        <button type="button" id="delete-logo" class="btn btn-outline-danger btn-file" style="display: block; min-width: 150px">Удалить</button>
+                <div id="empty_form" style="display: none">
+                    <div id="{{ contact_formset.empty_form.prefix }}-form" style="border: 3px solid black; border-radius: 20px; padding: 30px; margin-bottom: 40px">
+
+                        {{ contact_formset.empty_form.id }}
+                        <div class="col-sm-12" style="text-align: right; padding-right: 20px">
+                            <label class="checkbox-ios">
+                                {{ contact_formset.empty_form.status }}
+                                <span class="checkbox-ios-switch"></span>
+                            </label>
+                        </div>
+                        <div class="row" style="margin-bottom: 40px">
+                            {{ contact_formset.empty_form.name.errors }}
+                            <div class="col-2">
+                                <label for="id_name">Название кинотеатра</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <span>{{ contact_formset.empty_form.name }}</span>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 40px">
+                            {{ contact_formset.empty_form.address.errors }}
+                            <div class="col-2">
+                                <label for="id_description">Адрес</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <span>{{ contact_formset.empty_form.address }}</span>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 40px">
+                            {{ contact_formset.empty_form.coordinate.errors }}
+                            <div class="col-sm-2">
+                                <label for="id_base_form-trailer">Координаты для карты</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <span>{{ contact_formset.empty_form.coordinate }}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2" style="display: flex; align-items: center">
+                                <b>Лого</b>
+                            </div>
+                            <div class="col-sm-3" style="padding-right: 300px">
+                                <img src="{% static "cms/dist/img/preview.png" %}" id="{{ contact_formset.empty_form.prefix }}-image" height="200" width="300">
+                            </div>
+                            <div class="col-sm-2" style="display: flex; align-items: center; width: 150px; padding-right: 150px">
+                                <button id="{{ contact_formset.empty_form.prefix }}" type="button" onchange="preview_logo(this.id)" class="btn btn-outline-success btn-file" style="display: block; min-width: 150px">
+                                    Загрузить {{ contact_formset.empty_form.logo }}
+                                </button>
+                            </div>
+                            <div class="col-sm-2" style="display: flex; align-items: center; width: 150px;">
+                                <button type="button" id="{{ contact_formset.empty_form.prefix }}" onclick="delete_logo(this.id)" class="btn btn-outline-danger btn-file" style="display: block; min-width: 150px">Удалить</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Контакты конец -->
 
             <!-- SEO-блок -->
             <p style="margin-bottom: 20px"><b>SEO блок:</b></p>
@@ -142,7 +211,6 @@ active
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'cms/scripts/pages/gallery_formset.js' %}"></script>
-<script src="{% static 'cms/scripts/pages/imgload.js' %}"></script>
+<script src="{% static 'cms/scripts/pages/contact_formset.js' %}"></script>
 <script src="{% static 'cms/scripts/pages/status.js' %}"></script>
 {% endblock %}

@@ -438,23 +438,24 @@ def edit_main_page(request, page_id):
 def edit_contact_page(request, page_id):
     page = get_object_or_404(Page, pk=page_id)
     seo = page.seo
-    contact = page.contact
     base_form = PageForm(request.POST or None, request.FILES or None, instance=page, prefix='base_form')
-    contact_form = ContactForm(request.POST or None, request.FILES or None, instance=contact, prefix='contact_form')
+    contact_formset = ContactFormSet(request.POST or None, request.FILES or None,
+                                     queryset=Contact.objects.all(), prefix='contact_formset')
     seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
     if request.method == 'POST':
-        if base_form.is_valid() and seo_form.is_valid() and contact_form.is_valid():
+        if base_form.is_valid() and seo_form.is_valid() and contact_formset.is_valid():
             seo_form.save()
-            contact_form.save()
             page = base_form.save(commit=False)
             page.seo = seo_form.instance
-            page.contact = contact_form.instance
+            for form in contact_formset:
+                if form.is_valid() and form.cleaned_data:
+                    form.save()
             page.save()
         return redirect('pages')
     context = {'page': page,
                'base_form': base_form,
                'seo_form': seo_form,
-               'contact_form': contact_form}
+               'contact_formset': contact_formset}
     return render(request, 'cms/pages/pages/edit_contact_page.html', context)
 
 
