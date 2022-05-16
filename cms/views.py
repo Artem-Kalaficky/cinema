@@ -469,6 +469,31 @@ def delete_page(request, page_id):
         return render(request, 'cms/pages/pages/page_confirm_delete.html', context)
 # endregion PAGES page
 
+# region BANNERS page
+def banner_list(request):
+    top_carousel = get_object_or_404(Carousel, is_main=True)
+    queryset = Slide.objects.filter(is_main=True)
+    base_form = CarouselForm(request.POST or None, request.FILES or None, instance=top_carousel, prefix='base_form')
+    top_carousel_formset = SlideFormSet(request.POST or None, request.FILES or None,
+                                          queryset=queryset, prefix='top_carousel_formset')
+    if request.method == 'POST':
+        if base_form.is_valid() and top_carousel_formset.is_valid():
+            base_form.save()
+            top_carousel_formset.save(commit=False)
+            for form in top_carousel_formset:
+                if form.is_valid() and form.cleaned_data:
+                    form.save()
+            for form in top_carousel_formset.deleted_objects:
+                form.delete()
+
+        return redirect('banners')
+
+    context = {'top_carousel': top_carousel,
+               'base_form': base_form,
+               'top_carousel_formset': top_carousel_formset}
+    return render(request, 'cms/pages/banners/banners_list.html', context)
+# endregion BANNERS page
+
 
 
 

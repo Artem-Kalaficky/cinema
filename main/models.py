@@ -87,23 +87,6 @@ class Film(models.Model):
         ordering = ['-premier_date']
 
 
-class Session(models.Model):
-    hall = models.ForeignKey(Hall, on_delete=models.CASCADE, verbose_name="Зал")
-    film = models.ForeignKey(Film, on_delete=models.CASCADE, verbose_name="Фильм")
-    time = models.DateTimeField(verbose_name="Время")
-    cost = models.FloatField(verbose_name="Цена")
-
-    class Meta:
-        verbose_name_plural = 'Сеансы'
-        verbose_name = 'Сеанс'
-        ordering = ['time']
-        unique_together = ['hall', 'film', 'time']
-
-
-class Ticket(models.Model):
-    pass
-
-
 class NewsOrProm(models.Model):
     name = models.CharField(max_length=128, verbose_name="Название")
     description = models.TextField(verbose_name="Описание")
@@ -143,24 +126,51 @@ class Page(models.Model):
         verbose_name = 'Страница'
 
 
-class Slider(models.Model):
-    images = models.ManyToManyField(Image, verbose_name="Галерея картинок")
-    url = models.URLField(verbose_name="URL")
-    text = models.TextField(null=True, blank=True, verbose_name="Текст")
-    SPEEDS = (
-        (None, 'Выберете скорость'),
-        ('1', '5c'),
-        ('2', '10c'),
-        ('3', '15'),
-    )
-    speed = models.CharField(max_length=1, choices=SPEEDS, default='1', verbose_name="Скорость вращения")
-    status = models.BooleanField(default=True, verbose_name="Статус")
+class Carousel(models.Model):
+    status = models.BooleanField(default=True, verbose_name='Статус')
+    slide = models.ForeignKey('Slide', on_delete=models.PROTECT, verbose_name='Слайд')
+    CHOICES = ((5000, '5с'),
+               (10000, '10с'),
+               (15000, '15с'))
+    speed = models.IntegerField(choices=CHOICES, default=5000, verbose_name='Скорость')
+    is_main = models.BooleanField(default=True, verbose_name='Главная верх')
 
     class Meta:
-        verbose_name = 'Главный слайдер'
+        verbose_name_plural = 'Карусели'
+        verbose_name = 'Карусель'
 
 
-class Background(models.Model):
+class Slide(models.Model):
+    image = models.ImageField(upload_to='gallery/', verbose_name="Картинка")
+    url = models.URLField(verbose_name="URL")
+    text = models.CharField(max_length=20, null=True, blank=True, verbose_name="Текст")
+    is_main = models.BooleanField(default=True, verbose_name='Главный слайд')
+
+    class Meta:
+        verbose_name_plural = 'Слайды'
+        verbose_name = 'Слайд'
+
+
+class Banner(models.Model):
+    is_bg = models.BooleanField(default=False, verbose_name='Просто фон')
+    is_photo_bg = models.BooleanField(default=True, verbose_name='Фото на фоне')
+    photo = models.ImageField(upload_to='gallery/', verbose_name="Фото")
+
+
+class Session(models.Model):
+    hall = models.ForeignKey(Hall, on_delete=models.CASCADE, verbose_name="Зал")
+    film = models.ForeignKey(Film, on_delete=models.CASCADE, verbose_name="Фильм")
+    time = models.DateTimeField(verbose_name="Время")
+    cost = models.FloatField(verbose_name="Цена")
+
+    class Meta:
+        verbose_name_plural = 'Сеансы'
+        verbose_name = 'Сеанс'
+        ordering = ['time']
+        unique_together = ['hall', 'film', 'time']
+
+
+class Ticket(models.Model):
     pass
 
 

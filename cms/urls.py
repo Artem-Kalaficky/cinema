@@ -36,5 +36,7 @@ urlpatterns = [
     path('pages/<int:page_id>/edit/', edit_page, name='edit_page'),
     path('pages/add/', add_page, name='add_page'),
     path('pages/', pages_list, name='pages'),
+    #banners
+    path('banners-sliders/', banner_list, name='banners'),
 
 ]

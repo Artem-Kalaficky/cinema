@@ -3,7 +3,7 @@ from django import forms
 from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, NumberInput
 from django.core.exceptions import ValidationError
 
-from main.models import Film, Seo, Image, Cinema, Hall, NewsOrProm, Page, Contact
+from main.models import Film, Seo, Image, Cinema, Hall, NewsOrProm, Page, Contact, Carousel, Slide, Banner
 
 
 class ImageForm(ModelForm):
@@ -188,8 +188,30 @@ class ContactForm(ModelForm):
                                                   'class': 'form-control'}),
                    'logo': FileInput(attrs={'type': 'file'})}
 
+
 ContactFormSet = modelformset_factory(Contact, form=ContactForm, extra=0, can_delete=True)
 # endregion PAGE forms
+
+# region BANNERS forms
+class CarouselForm(ModelForm):
+    class Meta:
+        model = Carousel
+        fields = ('status', 'speed', 'is_main')
+
+
+class SlideForm(ModelForm):
+    class Meta:
+        model = Slide
+        fields = ('image', 'url', 'text', 'is_main')
+        widgets = {'image': FileInput(attrs={'type': 'file'}),
+                   'url': URLInput(attrs={'placeholder': 'URL',
+                                          'class': 'form-control'}),
+                   'text': TextInput(attrs={'placeholder': 'Текст',
+                                            'class': 'form-control'})}
+
+
+SlideFormSet = modelformset_factory(Slide, form=SlideForm, extra=0, can_delete=True)
+# endregion BANNERS forms
 
 
 
