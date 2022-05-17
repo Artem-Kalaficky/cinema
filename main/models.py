@@ -128,7 +128,6 @@ class Page(models.Model):
 
 class Carousel(models.Model):
     status = models.BooleanField(default=True, verbose_name='Статус')
-    slide = models.ForeignKey('Slide', on_delete=models.PROTECT, verbose_name='Слайд')
     CHOICES = ((5000, '5с'),
                (10000, '10с'),
                (15000, '15с'))
@@ -152,7 +151,6 @@ class Slide(models.Model):
 
 
 class Banner(models.Model):
-    is_bg = models.BooleanField(default=False, verbose_name='Просто фон')
     is_photo_bg = models.BooleanField(default=True, verbose_name='Фото на фоне')
     photo = models.ImageField(upload_to='gallery/', verbose_name="Фото")
 

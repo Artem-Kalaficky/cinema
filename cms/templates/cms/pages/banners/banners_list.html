@@ -15,7 +15,7 @@ active
 {% endblock %}
 
 {% block content %}
-    <div style="margin: 0 50px 0 50px; padding-top: 30px">
+    <div style="margin: 0 50px 0 50px; padding-top: 30px; padding-bottom: 30px">
 
         <!--ФОРМА На главной верх-->
         <p style="text-align: center; font-size: 25px"><b>На главной верх</b></p>
@@ -51,7 +51,7 @@ active
                     </div>
                     <div id="form_set" class="row" style="padding-left: 20px">
                         {% for form in top_carousel_formset %}
-                        <div id="{{ form.prefix }}-form" style="margin-bottom: 20px" class="col-sm-2">
+                        <div id="{{ form.prefix }}-form" style="margin-bottom: 20px" class="col-xl-2 col-md-4 col-sm-6">
 
                             {{ form.id }}
                             <div style="display: none">
@@ -163,13 +163,163 @@ active
         </div>
         <!--ФОРМА На главной верх конец-->
 
-        <!--ФОРМА Новости, акции-->
+        <!--ФОРМА Сквозной баннер-->
+        <p style="text-align: center; font-size: 25px"><b>Сквозной баннер на заднем фоне</b></p>
+        <div style="border: 3px solid black; border-radius: 20px; padding: 10px; margin-bottom: 40px">
+            <form id="form-container2" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
 
+                <div style="padding-top: 4px; margin-bottom: 30px">Размер:  2000х3000</div>
+                <div class="row">
+                    <div class="col-xl-2 col-md-2">
+                        {{ banner_form.is_photo_bg }}
+                    </div>
+                    <div class="col-xl-10 col-md-10">
+                        <div style="margin-bottom: 40px">
+                            <option value="" style="color: red; display: none" id="valid_img"><b>Размеры не корректны!</b></option>
+                            <img src="{{ banner.photo.url }}" id="picture" height="270" width="200">
+                            <a onchange="preview()" class="btn btn-outline-success btn-file" style="margin: 0 50px 0 50px; min-width: 150px">Загрузить
+                                {{ banner_form.photo }}
+                            </a>
+                            <a id="delete-picture" class="btn btn-outline-danger btn-file" style="margin-right: 10px; min-width: 150px">Удалить</a>
+                        </div>
+                    </div>
+                    <div style="text-align: center">
+                        <button id="submit-btn2" class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; height: 40px">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--ФОРМА Сквозной баннер конец-->
+
+        <!--ФОРМА Новости, акции-->
+        <p style="text-align: center; font-size: 25px"><b>На главной Новости Акции</b></p>
+        <div style="border: 3px solid black; border-radius: 20px; padding: 10px">
+            <form id="form-container1" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <!--Навигация-->
+                <div class="row" style="max-width: 1600px">
+                    <!--Статус-->
+                    <div class="col-sm-12" style="text-align: right; padding-top: 15px; padding-right: 20px">
+                        <label class="checkbox-ios">
+                            {{ base_form1.status }}
+                            <span class="checkbox-ios-switch"></span>
+                        </label>
+                    </div>
+                    <!--Статус конец-->
+                </div>
+                <!--Навигация конец-->
+
+                <div style="display: none">
+                    <span style="margin-right: 50px; display: none"><b>Основная страница</b></span>
+                    <span>{{ base_form1.is_main }}</span>
+                </div>
+
+                <!--Слайды верх-->
+                <div style="margin-bottom: 40px">
+                {{ bottom_carousel_formset.management_form }}
+                    <div class="row" style="margin-bottom: 20px">
+                        <div class="col-sm-2" style="padding-top: 4px">Размер 1000х190</div>
+                        <div class="col-sm-2">
+                            <button class="add-more-img1 btn btn-block btn-outline-success" type="button" id="add_more1" style="min-width: 200px; max-width: 200px">Добавить слайд</button>
+                        </div>
+                    </div>
+                    <div id="form_set1" class="row" style="padding-left: 20px">
+                        {% for form in bottom_carousel_formset %}
+                        <div id="{{ form.prefix }}-form1" style="margin-bottom: 20px" class="col-xl-2 col-md-4 col-sm-6">
+
+                            {{ form.id }}
+                            <div style="display: none">
+                                {{ form.is_main }}
+                            </div>
+
+                            <div id="{{ form.prefix }}-form1">
+                                <div class="col-sm-12" style="text-align: right">
+                                    <option value="" style="color: red; text-align: center; display: none" id="{{ form.prefix }}-validation1"><b>Размеры не корректны!</b></option>
+                                    <a onclick="delete_image1(this.id)" id="{{ form.prefix }}">
+                                        <img class="delete-gallery-form" src="{% static "cms/dist/img/deleteimg.png" %}">
+                                    </a>
+                                </div>
+                                <div class="col-sm-12">
+                                    <img src="{{ form.instance.image.url }}" id="{{ form.prefix }}-image1" height="100%" width="100%" style="min-height: 150px"><br/>
+                                </div>
+                                <div class="col-sm-12">
+                                    <a id="{{ form.prefix }}" onchange="preview_gallery1(this.id)" class="btn btn-outline-success btn-file" style="margin: 10px 0 10px 0; display: flex">Добавить
+                                        {{ form.image }}
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-bottom: 20px">
+                                {{ form.url.errors }}
+                                <div class="col-sm-3">
+                                    <label for="id_name1" style="padding-top: 4px">URL</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <span>{{ form.url }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="delete-list1" style="display: none"></div>
+
+                    <div id="empty_form1" style="display: none">
+                        <div id="{{ bottom_carousel_formset.empty_form.prefix }}-form1" style="margin-bottom: 20px" class="col-sm-2">
+
+                            {{ bottom_carousel_formset.empty_form.id }}
+
+                            <div id="{{ bottom_carousel_formset.empty_form.prefix }}-form1">
+                                <div class="col-sm-12" style="text-align: right">
+                                    <option value="" style="color: red; text-align: center; display: none" id="{{ bottom_carousel_formset.empty_form.prefix }}-validation1"><b>Размеры не корректны!</b></option>
+                                    <a onclick="delete_image1(this.id)" id="{{ bottom_carousel_formset.empty_form.prefix }}">
+                                        <img class="delete-gallery-form" src="{% static "cms/dist/img/deleteimg.png" %}">
+                                    </a>
+                                </div>
+                                <div class="col-sm-12">
+                                    <img src="{% static "cms/dist/img/preview.png" %}" id="{{ bottom_carousel_formset.empty_form.prefix }}-image1" height="100%" width="100%" style="min-height: 150px"><br/>
+                                </div>
+                                <div class="col-sm-12">
+                                    <a id="{{ bottom_carousel_formset.empty_form.prefix }}" onchange="preview_gallery1(this.id)" class="btn btn-outline-success btn-file" style="margin: 10px 0 10px 0; display: flex">Добавить
+                                        {{ bottom_carousel_formset.empty_form.image }}
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-bottom: 20px">
+                                {{ bottom_carousel_formset.empty_form.errors }}
+                                <div class="col-sm-3">
+                                    <label for="id_name" style="padding-top: 4px">URL</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <span>{{ bottom_carousel_formset.empty_form.url }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--Слайды верх конец-->
+
+                <div class="row" style="padding-bottom: 5px">
+                    <div class="col-sm-5" style="text-align: center; vertical-align: center">
+                        <span><b>Скорость вращения </b>{{ base_form1.speed }}</span>
+                    </div>
+                    <div class="col-sm-7">
+                        <button id="submit-btn1" class="btn btn-block btn-success" type="submit" style="max-width: 150px; display: inline-block; margin: 0 40px 0 0; height: 40px">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <!--ФОРМА Новости, акции конец-->
     </div>
 {% endblock %}
 
 {% block script %}
 <script src="{% static 'cms/scripts/banners/slide_formset.js' %}"></script>
+<script src="{% static 'cms/scripts/banners/bottom_slide_formset.js' %}"></script>
 <script src="{% static 'cms/scripts/pages/status.js' %}"></script>
+<script src="{% static 'cms/scripts/banners/imgload.js' %}"></script>
 {% endblock %}

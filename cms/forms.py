@@ -1,6 +1,6 @@
 from django.forms import ModelForm, modelformset_factory
 from django import forms
-from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, NumberInput
+from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, NumberInput, RadioSelect
 from django.core.exceptions import ValidationError
 
 from main.models import Film, Seo, Image, Cinema, Hall, NewsOrProm, Page, Contact, Carousel, Slide, Banner
@@ -211,6 +211,14 @@ class SlideForm(ModelForm):
 
 
 SlideFormSet = modelformset_factory(Slide, form=SlideForm, extra=0, can_delete=True)
+
+class BannerForm(ModelForm):
+    class Meta:
+        model = Banner
+        fields = ('is_photo_bg', 'photo')
+        widgets = {'photo': FileInput(attrs={'type': 'file'}),
+                   'is_photo_bg': RadioSelect(choices=[(True, 'Фото на фоне'),
+                                                       (False, 'Просто фон')])}
 # endregion BANNERS forms
 
 
