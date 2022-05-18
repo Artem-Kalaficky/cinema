@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#AUTH_USER_MODEL = 'users.models.User'
+#AUTH_USER_MODEL = 'users.models.UserProfile'
 
 #MEDIA
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -129,9 +129,7 @@ LOCALE_PATHS = (
     'locale',
 )
 
-
 TIME_ZONE = 'UTC'
-USE_I18N = True
 
 USE_TZ = True
 

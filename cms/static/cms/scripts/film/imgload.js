@@ -3,7 +3,7 @@ function preview() {
 }
 
 $('#delete-picture').click(function () {
-    $('#id_base_form-picture').val("");
+    $('#id_base_form-main_picture').val("");
     $('#picture').attr("src", "/static/cms/dist/img/preview.png")
 })
 
