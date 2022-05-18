@@ -69,7 +69,7 @@ active
                                     <img src="{{ form.instance.image.url }}" id="{{ form.prefix }}-image" height="100%" width="100%" style="min-height: 150px"><br/>
                                 </div>
                                 <div class="col-sm-12">
-                                    <a id="{{ form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 10px 0 10px 0; display: flex">Добавить
+                                    <a id="{{ form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 10px 0 10px 0; width: 100%">Добавить
                                         {{ form.image }}
                                     </a>
                                 </div>
@@ -120,7 +120,7 @@ active
                                     <img src="{% static "cms/dist/img/preview.png" %}" id="{{ top_carousel_formset.empty_form.prefix }}-image" height="100%" width="100%" style="min-height: 150px"><br/>
                                 </div>
                                 <div class="col-sm-12">
-                                    <a id="{{ top_carousel_formset.empty_form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 10px 0 10px 0; display: flex">Добавить
+                                    <a id="{{ top_carousel_formset.empty_form.prefix }}" onchange="preview_gallery(this.id)" class="btn btn-outline-success btn-file" style="margin: 10px 0 10px 0; width: 100%">Добавить
                                         {{ top_carousel_formset.empty_form.image }}
                                     </a>
                                 </div>
@@ -244,7 +244,7 @@ active
                                     <img src="{{ form.instance.image.url }}" id="{{ form.prefix }}-image1" height="100%" width="100%" style="min-height: 150px"><br/>
                                 </div>
                                 <div class="col-sm-12">
-                                    <a id="{{ form.prefix }}" onchange="preview_gallery1(this.id)" class="btn btn-outline-success btn-file" style="margin: 10px 0 10px 0; display: flex">Добавить
+                                    <a id="{{ form.prefix }}" onchange="preview_gallery1(this.id)" class="btn btn-outline-success btn-file" style="margin: 10px 0 10px 0; width: 100%">Добавить
                                         {{ form.image }}
                                     </a>
                                 </div>
@@ -267,7 +267,7 @@ active
                     <div class="delete-list1" style="display: none"></div>
 
                     <div id="empty_form1" style="display: none">
-                        <div id="{{ bottom_carousel_formset.empty_form.prefix }}-form1" style="margin-bottom: 20px" class="col-sm-2">
+                        <div id="{{ bottom_carousel_formset.empty_form.prefix }}-form1" style="margin-bottom: 20px" class="col-xl-2 col-md-4 col-sm-6">
 
                             {{ bottom_carousel_formset.empty_form.id }}
 
@@ -282,7 +282,7 @@ active
                                     <img src="{% static "cms/dist/img/preview.png" %}" id="{{ bottom_carousel_formset.empty_form.prefix }}-image1" height="100%" width="100%" style="min-height: 150px"><br/>
                                 </div>
                                 <div class="col-sm-12">
-                                    <a id="{{ bottom_carousel_formset.empty_form.prefix }}" onchange="preview_gallery1(this.id)" class="btn btn-outline-success btn-file" style="margin: 10px 0 10px 0; display: flex">Добавить
+                                    <a id="{{ bottom_carousel_formset.empty_form.prefix }}" onchange="preview_gallery1(this.id)" class="btn btn-outline-success btn-file" style="margin: 10px 0 10px 0; width: 100%">Добавить
                                         {{ bottom_carousel_formset.empty_form.image }}
                                     </a>
                                 </div>

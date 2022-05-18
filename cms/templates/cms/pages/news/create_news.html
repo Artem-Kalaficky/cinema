@@ -17,6 +17,12 @@ active
         <form id="form-container" enctype="multipart/form-data" method="post">
             {% csrf_token %}
             <div class="row" style="max-width: 1600px; margin-bottom: 20px">
+
+                <div class="card card-outline card-danger" style="margin-bottom: 0; padding-bottom: 0; display: none">
+                    <div class="card-body" style="text-align: center">
+                        <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><b>Заполните поля в украинской версии!</b></font></font>
+                    </div>
+                </div>
                 <!-- Статус -->
                 <div class="col-sm-10" style="text-align: right; padding-top: 25px; padding-right: 20px">
                     <label class="checkbox-ios">
@@ -211,4 +217,5 @@ active
 <script src="{% static 'cms/scripts/news/gallery_formset.js' %}"></script>
 <script src="{% static 'cms/scripts/news/imgload.js' %}"></script>
 <script src="{% static 'cms/scripts/news/status.js' %}"></script>
+<script src="{% static 'cms/scripts/news/validate.js' %}"></script>
 {% endblock %}

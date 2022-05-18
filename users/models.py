@@ -32,6 +32,7 @@ from django.contrib.auth.models import AbstractUser
 #
 #
 # class UserProfile(AbstractUser):
+#     alias = models.CharField(max_length=30, verbose_name="Псевдоним")
 #     address = models.CharField(max_length=128, verbose_name="Адрес")
 #     card_number = models.IntegerField(verbose_name="Номер карты")
 #     is_ru = models.BooleanField(default=True, verbose_name="Русский язык")

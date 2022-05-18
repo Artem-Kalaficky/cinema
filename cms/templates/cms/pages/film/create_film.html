@@ -25,6 +25,12 @@ active
     </div>
     <!-- Расскладка конец -->
 
+    <div class="card card-outline card-danger" style="margin-bottom: 0; padding-bottom: 0; display: none">
+        <div class="card-body" style="text-align: center">
+            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><b>Заполните поля в украинской версии!</b></font></font>
+        </div>
+    </div>
+
     <div style="margin: 0 70px 0 70px; padding-top: 70px">
         <form id="form-container" enctype="multipart/form-data" method="post">
             {% csrf_token %}
@@ -194,4 +200,5 @@ active
 {% block script %}
 <script src="{% static 'cms/scripts/film/gallery_formset.js' %}"></script>
 <script src="{% static 'cms/scripts/film/imgload.js' %}"></script>
+<script src="{% static 'cms/scripts/film/validate.js' %}"></script>
 {% endblock %}
