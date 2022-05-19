@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#AUTH_USER_MODEL = 'users.models.UserProfile'
+AUTH_USER_MODEL = 'users.UserProfile'
 
 #MEDIA
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -1,4 +1,11 @@
 from django.shortcuts import render
 
-def index(request):
-    return render(request, 'main/index.html')
+from .models import Page, Banner
+
+
+def main(request):
+    main_page = Page.objects.get(is_main=True)
+    banner = Banner.objects.get()
+    context = {'main_page': main_page,
+               'banner': banner}
+    return render(request, 'main/layout/base.html', context)

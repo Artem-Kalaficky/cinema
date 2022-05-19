@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinemaCMS | {% block title %}Главная{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'cms/bootstrap5dist/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'cms/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'cms/dist/css/adminlte.min.css' %}">
+  {% block style %}
+  {% endblock %}
+</head>
+<body>
+<div class="container" style="max-width: 1340px">
+    <div class="row">
+        <div class="col-xl-3 col-md-3 col-sm-12" style="padding-top: 20px; text-align: center">
+            <a href="{% url 'main' %}"><img src="{% static 'main/images/Logo.png' %}" width="128" height="128"></a>
+        </div>
+        <div class="col-xl-9">
+            <div class="row">
+                <div class="col-xl-12" style="padding-top: 10px">
+                    <div class="row">
+                        <div class="col-xl-6" style="padding-top: 13px">
+                            <div class="row">
+                                <div style="padding-top: 2px" class="col-xl-6">
+                                    <input type="text" class="form-control" placeholder="Поиск" style="max-width: 450px">
+                                </div>
+                                <div class="col-xl-6" style="padding-top: 4px; text-align: right">
+                                    <div style="display: inline-block; padding-right: 10px">
+                                        <a href="#"><button type="button" class="btn btn-block btn-success btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Логин</font></font></button></a>
+                                    </div>
+                                    <div style="display: inline-block; padding-right: 10px">
+                                        <a href="#"><button type="button" class="btn btn-block btn-secondary btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Регистрация</font></font></button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3" style="padding-top: 18px; text-align: right">
+                            <a href="#"><img src="{% static 'main/images/face.png' %}" width="30" height="30" alt="Facebook"></a>
+                            <a href="#"><img src="{% static 'main/images/twit.png' %}" width="30" height="30" alt="Twitter"></a>
+                            <a href="#"><img src="{% static 'main/images/vk.png' %}" width="30" height="30" alt="VK"></a>
+                            <a href="#"><img src="{% static 'main/images/ok.png' %}" width="30" height="30" alt="OK"></a>
+                            <a href="#"><img src="{% static 'main/images/gplus.png' %}" width="30" height="30" alt="Goodle+"></a>
+                            <a href="#"><img src="{% static 'main/images/pint.png' %}" width="30" height="30" alt="Pinterest"></a>
+                        </div>
+                        <div class="col-xl-3" style="text-align: right">
+                            <h4><b>(048) {{ main_page.telephone1 }}</b></h4>
+                            <h4><b>(097) {{ main_page.telephone2 }}</b></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4"></div>
+                <div class="col-xl-8">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarScroll">
+                                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/uk/poster/"><b>Афіша</b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/uk/schedule/"><b>Розклад</b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/uk/soon/"><b>Скоро</b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/uk/cinemas/"><b>Кінотеатри</b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/uk/promotions/"><b>Акції</b></a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <b>Про кінотеатр</b>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                                            <li><a class="dropdown-item" href="/uk/about_cinema/">
+                                                Про кінотеатр
+                                            </a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="/uk/news/">
+                                                Новини
+                                            </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="/uk/about_cinema/advertising/">
+                                                    Реклама
+                                                </a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="/uk/about_cinema/cafe_bar/">
+                                                Кафе
+                                            </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="/uk/about_cinema/mobile_application/">
+                                                    Мобільний додаток
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="/uk/about_cinema/contacts/">
+                                                    Контакти
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="/uk/about_cinema/vip/">
+                                                    VIP-зал
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="/uk/about_cinema/children_room/">
+                                                    Дитяча кімната
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script src="{% static 'cms/plugins/jquery/jquery.min.js' %}"></script>
+{#<script src="{% static 'cms/plugins/jquery/jquery.validate.min.js' %}"></script>#}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'cms/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'cms/dist/js/adminlte.min.js' %}"></script>
+<!-- scripts -->
+<script src="{% static 'cms/bootstrap5dist/js/bootstrap.bundle.min.js' %}"></script>
+{% block script %}
+{% endblock %}
+</body>
+</html>
