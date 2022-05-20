@@ -35,7 +35,7 @@ CHOICES = (
 
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField('email address', unique=True)
+    email = models.EmailField('Почта', unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)

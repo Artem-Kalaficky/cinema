@@ -7,8 +7,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('cms/', include('cms.urls')),
-    path('main/', include('main.urls')),
-    path('users/', include('users.urls')),
+    path('', include('main.urls')),
+    path('', include('users.urls')),
     path('admin/', admin.site.urls),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
