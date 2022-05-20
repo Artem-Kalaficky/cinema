@@ -1,7 +1,6 @@
 from django.forms import ModelForm, modelformset_factory
 from django import forms
 from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, NumberInput, RadioSelect
-from django.core.exceptions import ValidationError
 
 from main.models import Film, Seo, Image, Cinema, Hall, NewsOrProm, Page, Contact, Carousel, Slide, Banner
 

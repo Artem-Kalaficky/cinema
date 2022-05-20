@@ -9,8 +9,8 @@ from main.models import Film, Image, Cinema, Hall, NewsOrProm, Page, Contact
 from .forms import *
 
 
-def cms(request):
-    return render(request, 'cms/layout/base.html')
+def statistics(request):
+    return render(request, 'cms/pages/statistics.html')
 
 # region FILM page
 def film_list(request):

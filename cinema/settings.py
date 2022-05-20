@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'modeltranslation',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cms.apps.CmsConfig',
     'main.apps.MainConfig',
-    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -110,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'users.UserProfile'
+
 
 #MEDIA
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

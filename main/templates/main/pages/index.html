@@ -16,7 +16,7 @@
 </head>
 <header>
     <a href="#">
-        <div class="container-fluid" style="height: 73px; background: url({% static 'main/images/top.jpg' %})"></div>
+        <div class="container-fluid" style="height: 80px; background: url({% static 'main/images/top.jpg' %})"></div>
     </a>
 </header>
 <body {% if banner.is_photo_bg %}style="background-image: url({{ banner.photo.url }})" {% endif %}>
@@ -41,7 +41,7 @@
                                         </div>
                                         {% else %}
                                         <div style="display: inline-block; padding-right: 10px">
-                                            <a href="{% url 'profile' %}"><button type="button" class="btn btn-block btn-success btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Профиль</font></font></button></a>
+                                            <a href="{% url 'account' %}"><button type="button" class="btn btn-block btn-success btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Профиль</font></font></button></a>
                                         </div>
                                         {% endif %}
                                         {% if not user.is_authenticated %}
@@ -50,7 +50,25 @@
                                         </div>
                                         {% else %}
                                         <div style="display: inline-block; padding-right: 10px">
-                                            <a href="#"><button type="button" class="btn btn-block btn-danger btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Выход</font></font></button></a>
+                                            <button type="button" class="btn btn-block btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Выход</font></font></button>
+                                        </div>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                          <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                              <div class="modal-header bg-danger">
+                                                <h5 class="modal-title" id="deleteModal1Label">Подтверждение выхода</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                              </div>
+                                                  <div class="modal-body">
+                                                      Вы действительно хотите выйти с аккаунта?
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                                    <a href="{% url 'logout' %}"><button type="submit" class="btn btn-danger">Выйти</button></a>
+                                                  </div>
+                                            </div>
+                                          </div>
                                         </div>
                                         {% endif %}
                                     </div>
@@ -65,13 +83,12 @@
                                 <a href="#"><img src="{% static 'main/images/pint.png' %}" width="30" height="30" alt="Pinterest"></a>
                             </div>
                             <div class="col-xl-3" style="text-align: right">
-                                <h4><b>(048) {{ main_page.telephone1 }}</b></h4>
-                                <h4><b>(097) {{ main_page.telephone2 }}</b></h4>
+                                <h4 style="color: white"><b>(048) {{ main_page.telephone1 }}</b></h4>
+                                <h4 style="color: white"><b>(097) {{ main_page.telephone2 }}</b></h4>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2"></div>
-                    <div class="col-xl-8">
+                    <div class="col-xl-10">
                         <nav class="navbar navbar-expand-lg navbar-light bg-light">
                             <div class="container">
                                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,31 +97,31 @@
                                 <div class="collapse navbar-collapse" id="navbarScroll">
                                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>Афіша</b></a>
+                                            <a class="nav-link" href="#"><b>Афиша</b></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>Розклад</b></a>
+                                            <a class="nav-link" href="#"><b>Расписание</b></a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#"><b>Скоро</b></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>Кінотеатри</b></a>
+                                            <a class="nav-link" href="#"><b>Кинотеатры</b></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>Акції</b></a>
+                                            <a class="nav-link" href="#"><b>Акции</b></a>
                                         </li>
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <b>Про кінотеатр</b>
+                                                <b>О кинотеатре</b>
                                             </a>
                                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                                                 <li><a class="dropdown-item" href="#">
-                                                    Про кінотеатр
+                                                    О кинотеатре
                                                 </a>
                                                 </li>
                                                 <li><a class="dropdown-item" href="#">
-                                                    Новини
+                                                    Новости
                                                 </a>
                                                 </li>
                                                 <li>
@@ -118,12 +135,12 @@
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#">
-                                                        Мобільний додаток
+                                                        Мобильное приложение
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#">
-                                                        Контакти
+                                                        Контакты
                                                     </a>
                                                 </li>
                                                 <li>
@@ -133,11 +150,16 @@
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#">
-                                                        Дитяча кімната
+                                                        Детская комната
                                                     </a>
                                                 </li>
                                             </ul>
                                         </li>
+                                        {% if request.user.is_staff %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'statistics' %}" style="color: black"><b>Админ. панель</b></a>
+                                        </li>
+                                        {% endif %}
                                     </ul>
                                 </div>
                             </div>

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.views import LoginView
+
 from .models import Page, Banner
+from users.models import UserProfile
 
 
 def main(request):
@@ -11,5 +13,3 @@ def main(request):
     return render(request, 'main/pages/index.html', context)
 
 
-class UserLoginView(LoginView):
-    template_name = 'main/pages/profile/login.html'
