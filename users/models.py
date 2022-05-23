@@ -35,16 +35,10 @@ CHOICES = (
 
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField('Почта', unique=True)
+    email = models.EmailField('E-mail', unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    objects = CustomUserManager()
-
     first_name = models.CharField(max_length=150, blank=True, verbose_name="Имя")
     last_name = models.CharField(max_length=150, blank=True, verbose_name="Фамилия")
     alias = models.CharField(max_length=30, blank=True, verbose_name="Псевдоним")
@@ -55,6 +49,14 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     telephone = models.CharField(max_length=20,  blank=True, verbose_name="Телефон")
     birth_date = models.DateField(blank=True, null=True, verbose_name="Дата рождения")
     city = models.CharField(blank=True, max_length=2, choices=CHOICES, verbose_name="Город")
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
+    class Meta:
+        verbose_name = 'Профиль'
 
     def __str__(self):
         return self.email

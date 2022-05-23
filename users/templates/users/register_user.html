@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CinemaCMS | Вход</title>
+  <title>CinemaCMS | Регистрация</title>
   <link rel="stylesheet" href="{% static 'cms/bootstrap5dist/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
@@ -12,47 +12,41 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'cms/dist/css/adminlte.min.css' %}">
   {% block style %}
+      <style>
+        td {
+            padding-bottom: 15px;
+        }
+      </style>
   {% endblock %}
 </head>
 
 <body class="login-page">
-{% if form.errors %}
-<p style="color: red; font-size: 18px">Почта или пароль некорректны!</p>
-{% endif %}
 
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Ваш аккаунт не имеет доступа к этой странице. Войдите с аккаунта у которого есть доступ.</p>
-    {% else %}
-    <p>Пожалуйста, сначала авторизуйтесь!</p>
-    {% endif %}
-{% endif %}
     <div style="margin-right: 30px; margin-left: 30px">
-        <div class="login-box" style="min-width: 340px">
+        <div class="login-box" style="min-width: 350px">
             <div class="card">
                 <div class="card-body login-card-body">
                     <div style="border-bottom: grey 1px solid; margin-bottom: 30px">
-                        <h3 class="login-box-msg" style="text-align: center"><b>Войдите в аккаунт</b></h3>
+                        <h3 class="login-box-msg" style="text-align: center"><b>Регистрация</b></h3>
                     </div>
                     <form method="post">
                         {% csrf_token %}
-                        <table style="margin: 0 auto">
-                            <tr>
-                                <td style="padding-bottom: 15px">{{ form.username.label_tag }}</td>
-                                <td style="padding-bottom: 15px">{{ form.username }}</td>
-                            </tr>
-                            <tr>
-                                <td>{{ form.password.label_tag }}</td>
-                                <td>{{ form.password }}</td>
-                            </tr>
-                        </table>
+                        {% for f in form %}
+                        <div class="row" style="padding-top: 25px">
+                            {{ f.errors }}
+                            <div class="col-xl-4">
+                                {{ f.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                {{ f }}
+                            </div>
+                        </div>
+                        {% endfor %}
                         <div style="text-align: center; padding-top: 40px">
-                            <input type="submit" value="Войти" class="btn btn-block btn-primary" style="max-width: 150px; display: inline-block">
-                            <input type="hidden" name="next" value="{{ next }}">
+                            <input type="submit" value="Зарегистрироваться" class="btn btn-block btn-primary" style="max-width: 170px; display: inline-block">
                         </div>
                     </form>
-                    <p style="text-align: center; padding-top: 15px; margin-bottom: 0">У Вас ещё нет аккаунтa? <a href="{% url 'register' %}">Регистрация</a>.</p>
+                    <p style="text-align: center; padding-top: 15px; margin-bottom: 0">Уже есть аккаунт? <a href="{% url 'login' %}">Войти в систему</a>.</p>
                 </div>
             </div>
         </div>

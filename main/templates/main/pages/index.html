@@ -46,7 +46,7 @@
                                         {% endif %}
                                         {% if not user.is_authenticated %}
                                         <div style="display: inline-block; padding-right: 10px">
-                                            <a href="#"><button type="button" class="btn btn-block btn-secondary btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Регистрация</font></font></button></a>
+                                            <a href="{% url 'register' %}"><button type="button" class="btn btn-block btn-secondary btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Регистрация</font></font></button></a>
                                         </div>
                                         {% else %}
                                         <div style="display: inline-block; padding-right: 10px">
