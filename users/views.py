@@ -44,6 +44,12 @@ class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
             queryset = self.get_queryset()
         return get_object_or_404(queryset, pk=self.user_id)
 
+    def get_context_data(self, **kwargs):
+        context = super(ChangeUserInfoView, self).get_context_data(**kwargs)
+        main_page = Page.objects.get(is_main=True)
+        context['main_page'] = main_page
+        return context
+
 
 class RegisterUserView(CreateView):
     model = UserProfile
