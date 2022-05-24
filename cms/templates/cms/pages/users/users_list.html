@@ -1,0 +1,115 @@
+{% extends 'cms/layout/base.html' %}
+{% load static %}
+
+{% block title %}
+Пользователи
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'cms/plugins/bootstrap/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cms/plugins/bootstrap/css/responsive.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block users-active %}
+active
+{% endblock %}
+
+{% block content %}
+    <h2 style="text-align: center; padding-top: 30px">Пользователи</h2>
+    <div class="card-body">
+        <div class="row">
+            <table id="example" class="table table-bordered table-responsive" style="width:100%; margin-top: 50px">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">ID</th>
+                        <th style="width: 15%">Дата регистрации</th>
+                        <th style="width: 15%">День рождения</th>
+                        <th style="width: 15%">Email</th>
+                        <th style="width: 15%">Телефон</th>
+                        <th style="width: 15%">ФИО</th>
+                        <th style="width: 10%">Псевдоним</th>
+                        <th style="width: 10%">Город</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.date_joined|date:"d.m.Y" }}</td>
+                        <td>{{ user.birth_date|date:"d.m.Y" }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.telephone }}</td>
+                        <td>{{ user.first_name }} {{ user.last_name }}</td>
+                        <td>{{ user.alias }}</td>
+                        <td>{{ user.city }}</td>
+                        <td><a href="{% url 'edit_user' user.id %}"><img src="{% static 'cms/dist/img/changepencil.png' %}" width="25" height="25"></a></td>
+                        <td><a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ forloop.counter }}"><img src="{% static 'cms/dist/img/deletebucket.png' %}" width="25" height="25"></a></td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteModal-{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel-{{ forloop.counter }}" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header bg-danger">
+                            <h5 class="modal-title" id="deleteModal1Label-{{ forloop.counter }}">Подтверждение удаления</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <form method="post" action="{% url 'delete_user' user.id %}">
+                              {% csrf_token %}
+                              <div class="modal-body">
+                                  Вы действительно хотите удалить пользователя <b>{{ user.last_name }} {{ user.first_name }}</b>?
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                              </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'cms/plugins/jquery/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'cms/plugins/bootstrap/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'cms/plugins/bootstrap/js/dataTables.responsive.min.js' %}"></script>
+<script>
+    $(function () {
+        $("#example").DataTable({
+            "responsive": false,
+            "lengthChange": false,
+            "autoWidth": true,
+            "aoColumns": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                {"bSortable": false},
+                {"bSortable": false}
+            ],
+            "language": {
+                "infoFiltered": "(Отфильтровано _MAX_ записей)",
+                "zeroRecords": "Записей не найдено",
+                "info": "Показано с _START_ по _END_ записей из _TOTAL_",
+                "infoEmpty": "Нет записей.",
+                "search": "Поиск:",
+                "paginate": {
+                    "previous": "Предыдущая",
+                    "last": "Последняя",
+                    "next": "Следующая"
+                }
+            }
+        })
+    });
+</script>
+{% endblock %}

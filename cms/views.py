@@ -1,11 +1,13 @@
 import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic.edit import DeleteView
+from django.views.generic import ListView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 
-from main.models import Film, Image, Cinema, Hall, NewsOrProm, Page, Contact
+from users.models import UserProfile
+from users.forms import ChangeUserInfoForm
 from .forms import *
 
 
@@ -519,6 +521,45 @@ def banner_list(request):
     return render(request, 'cms/pages/banners/banners_list.html', context)
 # endregion BANNERS page
 
+# region USERS page
+class UsersView(ListView):
+    template_name = 'cms/pages/users/users_list.html'
+
+    def get_queryset(self):
+        return UserProfile.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(UsersView, self).get_context_data(**kwargs)
+        context['users'] = UserProfile.objects.filter(is_staff=False)
+        return context
+
+
+class UsersEditView(UpdateView):
+    model = UserProfile
+    form_class = ChangeUserInfoForm
+    template_name = 'cms/pages/users/edit_user.html'
+    success_url = reverse_lazy('users')
+
+    def get_context_data(self, **kwargs):
+        context = super(UsersEditView, self).get_context_data(**kwargs)
+        context['users'] = UserProfile.objects.filter(is_staff=False)
+        return context
+
+
+class UsersDeleteView(DeleteView):
+    model = UserProfile
+    success_url = reverse_lazy('users')
+
+    def get_context_data(self, **kwargs):
+        context = super(UsersDeleteView, self).get_context_data(**kwargs)
+        context['users'] = UserProfile.objects.filter(is_staff=False)
+        return context
+
+
+
+
+
+# endregion USERS page
 
 
 

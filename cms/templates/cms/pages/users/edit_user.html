@@ -1,0 +1,183 @@
+{% extends 'cms/layout/base.html' %}
+{% load static %}
+
+{% block title %}
+Редактирование пользователя
+{% endblock %}
+
+{% block users-active %}
+active
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 1340px; padding-top: 50px">
+        <form method="post">
+            {% csrf_token %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3" style="padding-top: 4px">
+                                {{ form.first_name.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                {{ form.first_name }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3">
+                                {{ form.is_ru.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                <div id="id_is_ru">
+                                    {{ form.is_ru }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 10px">
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3" style="padding-top: 4px">
+                                {{ form.last_name.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3">
+                                {{ form.is_male.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                <div id="id_is_ru">
+                                    {{ form.is_male }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 10px">
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3" style="padding-top: 4px">
+                                {{ form.alias.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                {{ form.alias }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3">
+                                {{ form.telephone.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                <div id="id_is_ru">
+                                    {{ form.telephone }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 34px">
+                    <div class="col-xl-6">
+                        {{ form.email.errors }}
+                        <div class="row">
+                            <div class="col-xl-3" style="padding-top: 4px">
+                                {{ form.email.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                {{ form.email }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3">
+                                {{ form.birth_date.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                <div id="id_is_ru">
+                                    {{ form.birth_date }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 34px">
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3" style="padding-top: 4px">
+                                {{ form.address.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                {{ form.address }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3">
+                                {{ form.city.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                <div id="id_is_ru">
+                                    {{ form.city }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 34px">
+                    {{ form.password1.errors }}
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3" style="padding-top: 4px">
+                                {{ form.password1.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                {{ form.password1 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        {{ form.password2.errors }}
+                        <div class="row">
+                            <div class="col-xl-3">
+                                {{ form.password2.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                <div id="id_is_ru">
+                                    {{ form.password2 }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 34px">
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-3" style="padding-top: 4px">
+                                {{ form.card_number.label_tag }}
+                            </div>
+                            <div class="col-xl-8">
+                                {{ form.card_number }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6"></div>
+                </div>
+                <div style="text-align: center; padding-top: 60px">
+                    <input type="submit" value="Сохранить" class="btn btn-block btn-success" style="max-width: 150px; display: inline-block">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

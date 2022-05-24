@@ -39,5 +39,9 @@ urlpatterns = [
     path('pages/', pages_list, name='pages'),
     #banners
     path('banners-sliders/', banner_list, name='banners'),
+    #users
+    path('users/<int:pk>/delete/', UsersDeleteView.as_view(), name='delete_user'),
+    path('users/<int:pk>/edit/', UsersEditView.as_view(), name='edit_user'),
+    path('users/', UsersView.as_view(), name='users'),
 
 ]
