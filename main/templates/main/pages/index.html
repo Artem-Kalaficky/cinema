@@ -14,13 +14,18 @@
   {% block style %}
   {% endblock %}
 </head>
+<!--top_banner-->
 <header>
     <a href="#">
         <div class="container-fluid" style="height: 80px; background: url({% static 'main/images/top.jpg' %})"></div>
     </a>
 </header>
+<!--end top_banner-->
+
 <body {% if banner.is_photo_bg %}style="background-image: url({{ banner.photo.url }})" {% endif %}>
-    <div class="container" style="max-width: 1340px; margin-bottom: 10px">
+
+    <!--nav bar-->
+    <div class="container" style="max-width: 1340px; margin-bottom: 20px">
         <div class="row">
             <div class="col-xl-3 col-md-3 col-sm-12" style="padding-top: 10px; text-align: center">
                 <a href="{% url 'main' %}"><img src="{% static 'main/images/Logo.png' %}" width="128" height="128"></a>
@@ -175,27 +180,31 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="max-width: 1340px; background: #f2f3f4; padding-right: 0; padding-left: 0">
+    <!--end nav bar-->
+
+    <!--top_carousel-->
+    {% if top_carousel.status %}
+    <div class="container-fluid" style="max-width: 1340px; background: #f2f3f4; padding-right: 0; padding-left: 0; padding-bottom: 30px">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 0"></button>
             {% for slide in top_slides %}
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.counter0 == 0 %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter0 }}"></button>
             {% endfor %}
           </div>
           <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="{% static 'cms/dist/img/shield.jpg' %}" height="400" class="d-block w-100" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-              </div>
-            </div>
             {% for slide in top_slides %}
-            <div class="carousel-item">
+            <a href="{{ slide.url }}">
+            <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}" data-bs-interval="{{ top_carousel.speed }}">
               <img src="{{ slide.image.url }}" height="400" class="d-block w-100" alt="...">
               <div class="carousel-caption d-none d-md-block">
-                <p style="font-size: 40px; text-align: left; padding-bottom: 50px"><b>{{ slide.text }}</b></p>
+                <p style="font-size: 40px; text-align: left; padding-bottom: 95px; margin-left: -50px; color: white"><b>{{ slide.text }}</b></p>
+                <p style="text-align: right; margin-right: -100px; margin-bottom: -30px">
+                    <a href="#"><img src="{% static 'main/images/g1.png' %}" height="49px" width="150px" style="padding-top: 6px; margin-right: 10px"></a>
+                    <a href="#"><img src="{% static 'main/images/appstore.png' %}" height="50px" width="150px"></a>
+                </p>
               </div>
             </div>
+            </a>
             {% endfor %}
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="prev">
@@ -208,6 +217,91 @@
           </button>
         </div>
     </div>
+    {% endif %}
+    <!--end top_carousel-->
+
+    <!--current_film-->
+    <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 40px">
+        <h3 style="text-align: center; padding-bottom: 15px"><b>Смотрите сегодня</b>, {{ day }}</h3>
+        <div class="row">
+            {% for film in current_films %}
+            <div class="col-xl-3 col-md-4 col-sm-6" style="text-align: center; padding-top: 15px; padding-bottom: 20px">
+                <div>
+                    <a href="#"><img src="{{ film.main_picture.url }}" width="250" height="338"></a>
+                </div>
+                <div style="height: 60px">
+                    <a href="#"><p style="font-size: 20px; color: black"><b>{{ film.name }}</b></p></a>
+                </div>
+                <div style="text-align: center; padding-top: 3px">
+                    <a href="#" class="btn btn-success" style="font-size: 18px; min-width: 200px"><b>Купить билет</b></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!--end current_film-->
+
+    <!--soon_film-->
+    <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 40px">
+        <h3 style="text-align: center; padding-bottom: 15px"><b>Смотрите скоро</b></h3>
+        <div class="row">
+            {% for film in soon_films %}
+            <div class="col-xl-3 col-md-4 col-sm-6" style="text-align: center; padding-top: 15px; padding-bottom: 20px">
+                <div>
+                    <a href="#"><img src="{{ film.main_picture.url }}" width="250" height="338"></a>
+                </div>
+                <div style="height: 60px">
+                    <a href="#"><p style="font-size: 20px; color: black"><b>{{ film.name }}</b></p></a>
+                </div>
+                <div style="text-align: center; padding-top: 3px">
+                    <p style="color: #00ec00; font-size: 25px"><b>С {{ film.premier_date|date:"d E" }}</b></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!--end soon_film-->
+
+    <!--bottom_carousel-->
+    {% if bottom_carousel.status %}
+    <div class="container-fluid" style="max-width: 1340px; background: #f2f3f4; padding-right: 0; padding-left: 0">
+        <h2 style="text-align: center; padding-bottom: 20px">Новости и Акции</h2>
+        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for slide in bottom_slides %}
+            <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}" data-bs-interval="{{ bottom_carousel.speed }}">
+              <a href="{{ slide.url }}"><img src="{{ slide.image.url }}" height="300" class="d-block w-100" alt="..."></a>
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"  data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Предыдущий</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"  data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Следующий</span>
+          </button>
+        </div>
+    {% endif %}
+    <!--end bottom_carousel-->
+
+    <!--prom and seo_text-->
+    <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 40px; padding-top: 80px">
+        <div style="text-align: center" class="row">
+            <div class="col-xl-2 col-md-2"></div>
+            <div class="col-xl-8 col-md-8">
+                <img src="{% static 'cms/dist/img/avada.png' %}" height="200" class="img-fluid">
+            </div>
+            <div class="col-xl-2 col-md-2"></div>
+        </div>
+        <div style="padding-top: 40px; text-align: center">
+            <p>{{ main_page.seo_text }}</p>
+        </div>
+    </div>
+    <!--end prom and seo_text-->
+
+    <!--footer-->
     <div class="container" style="max-width: 1340px; background: #f2f3f4">
         <footer style="padding-top: 20px; border-top: black 2px solid">
             <div class="row">
@@ -247,7 +341,7 @@
             <p style="text-align: center; padding-top: 40px" class="text-muted">ⒸCinemaCMS 2022, All rights reserved</p>
         </footer>
     </div>
-
+    <!--end footer-->
 
 
 <!-- REQUIRED SCRIPTS -->
