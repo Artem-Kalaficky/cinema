@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.forms.widgets import TextInput, EmailInput, RadioSelect, Select, PasswordInput
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from cms.forms import DateInputWidget
 from .models import UserProfile
@@ -10,12 +11,12 @@ from .models import UserProfile
 
 class ChangeUserInfoForm(UserChangeForm):
     error_messages = {
-        "password_mismatch": "Введённые пароли не совпадают.",
+        "password_mismatch": _("Введённые пароли не совпадают."),
     }
 
-    password1 = forms.CharField(required=False, label='Пароль', widget=PasswordInput(attrs={'class': 'form-control'}),
+    password1 = forms.CharField(required=False, label=_('Пароль'), widget=PasswordInput(attrs={'class': 'form-control'}),
                                 help_text=password_validation.password_validators_help_texts())
-    password2 = forms.CharField(required=False, label='Повторить пароль', widget=PasswordInput(attrs={'class': 'form-control'}),
+    password2 = forms.CharField(required=False, label=_('Повторить пароль'), widget=PasswordInput(attrs={'class': 'form-control'}),
                                 help_text='Повторите пароль')
 
     class Meta:
@@ -28,10 +29,10 @@ class ChangeUserInfoForm(UserChangeForm):
                    'email': EmailInput(attrs={'class': 'form-control'}),
                    'address': TextInput(attrs={'class': 'form-control'}),
                    'card_number': TextInput(attrs={'class': 'form-control'}),
-                   'is_ru': RadioSelect(choices=[(True, 'Русский'),
-                                                 (False, 'Украинский')]),
-                   'is_male': RadioSelect(choices=[(True, 'Мужской'),
-                                                   (False, 'Женский')]),
+                   'is_ru': RadioSelect(choices=[(True, _('Русский')),
+                                                 (False, _('Украинский'))]),
+                   'is_male': RadioSelect(choices=[(True, _('Мужской')),
+                                                   (False, _('Женский'))]),
                    'telephone': TextInput(attrs={'class': 'form-control'}),
                    'birth_date': DateInputWidget(attrs={'type': 'date',
                                                         'class': 'form-control'}),
@@ -74,9 +75,9 @@ class ChangeUserInfoForm(UserChangeForm):
 
 
 class RegisterUserForm(UserCreationForm):
-    password1 = forms.CharField(label='Пароль', widget=PasswordInput(attrs={'class': 'form-control'}),
+    password1 = forms.CharField(label=_('Пароль'), widget=PasswordInput(attrs={'class': 'form-control'}),
                                 help_text=password_validation.password_validators_help_texts())
-    password2 = forms.CharField(label='Повторить пароль', widget=PasswordInput(attrs={'class': 'form-control'}),
+    password2 = forms.CharField(label=_('Повторить пароль'), widget=PasswordInput(attrs={'class': 'form-control'}),
                                 help_text='Повторите пароль')
 
     class Meta:
@@ -86,8 +87,8 @@ class RegisterUserForm(UserCreationForm):
                    'last_name': TextInput(attrs={'class': 'form-control'}),
                    'alias': TextInput(attrs={'class': 'form-control'}),
                    'email': EmailInput(attrs={'class': 'form-control'}),
-                   'is_male': RadioSelect(choices=[(True, 'Мужской'),
-                                                   (False, 'Женский')])}
+                   'is_male': RadioSelect(choices=[(True, _('Мужской')),
+                                                   (False, _('Женский'))])}
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

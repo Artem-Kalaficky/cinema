@@ -1,7 +1,9 @@
 {% extends 'main/layout/base.html' %}
+{% load i18n %}
 {% load static %}
 
-{% block title %}Моя страница{% endblock %}
+
+{% block title %}{% trans 'Моя страница' %}{% endblock %}
 
 {% block style %}
 
@@ -9,8 +11,8 @@
 
 {% block content %}
     <div class="container" style="max-width: 1340px; background-color: #f2f3f4; height: 1200px">
-        <h3 style="text-align: center; padding-top: 20px; margin-bottom: 40px"><b>Страница клиента</b></h3>
-        <form method="post">
+        <h3 style="text-align: center; padding-top: 20px; margin-bottom: 40px"><b>{% trans 'Страница клиента' %}</b></h3>
+        <form method="post" action="{% url 'account' %}">
             {% csrf_token %}
             <div class="container">
                 <div class="row">
@@ -174,7 +176,7 @@
                     <div class="col-xl-6"></div>
                 </div>
                 <div style="text-align: center; padding-top: 60px">
-                    <input type="submit" value="Сохранить" class="btn btn-block btn-success" style="max-width: 150px; display: inline-block">
+                    <input type="submit" value="{% trans 'Сохранить' %}" class="btn btn-block btn-success" style="max-width: 150px; display: inline-block">
                 </div>
             </div>
         </form>

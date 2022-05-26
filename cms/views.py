@@ -554,11 +554,6 @@ class UsersDeleteView(DeleteView):
         context = super(UsersDeleteView, self).get_context_data(**kwargs)
         context['users'] = UserProfile.objects.filter(is_staff=False)
         return context
-
-
-
-
-
 # endregion USERS page
 
 

@@ -142,7 +142,7 @@ class Carousel(models.Model):
 class Slide(models.Model):
     image = models.ImageField(upload_to='gallery/', verbose_name="Картинка")
     url = models.URLField(verbose_name="URL")
-    text = models.CharField(max_length=20, null=True, blank=True, verbose_name="Текст")
+    text = models.CharField(max_length=45, null=True, blank=True, verbose_name="Текст")
     is_main = models.BooleanField(default=True, verbose_name='Главный слайд')
 
     class Meta:

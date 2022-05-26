@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="ru">
@@ -28,40 +29,40 @@
                             <div class="col-xl-6" style="padding-top: 13px">
                                 <div class="row">
                                     <div style="padding-top: 2px" class="col-xl-6">
-                                        <input type="text" class="form-control" placeholder="Поиск" style="max-width: 450px">
+                                        <input type="text" class="form-control" placeholder="{% trans 'Поиск' %}" style="max-width: 450px">
                                     </div>
                                     <div class="col-xl-6" style="padding-top: 4px; text-align: right">
                                         {% if not user.is_authenticated %}
                                         <div style="display: inline-block; padding-right: 10px">
-                                            <a href="{% url 'login' %}"><button type="button" class="btn btn-block btn-success btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Логин</font></font></button></a>
+                                            <a href="{% url 'login' %}"><button type="button" class="btn btn-block btn-success btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{% trans 'Логин' %}</font></font></button></a>
                                         </div>
                                         {% else %}
                                         <div style="display: inline-block; padding-right: 10px">
-                                            <a href="{% url 'account' %}"><button type="button" class="btn btn-block btn-success btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Профиль</font></font></button></a>
+                                            <a href="{% url 'account' %}"><button type="button" class="btn btn-block btn-success btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{% trans 'Профиль' %}</font></font></button></a>
                                         </div>
                                         {% endif %}
                                         {% if not user.is_authenticated %}
                                         <div style="display: inline-block; padding-right: 10px">
-                                            <a href="#"><button type="button" class="btn btn-block btn-secondary btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Регистрация</font></font></button></a>
+                                            <a href="#"><button type="button" class="btn btn-block btn-secondary btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{% trans 'Регистрация' %}</font></font></button></a>
                                         </div>
                                         {% else %}
                                         <div style="display: inline-block; padding-right: 10px">
-                                            <button type="button" class="btn btn-block btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Выход</font></font></button>
+                                            <button type="button" class="btn btn-block btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{% trans 'Выход' %}</font></font></button>
                                         </div>
                                         <!-- Modal -->
                                         <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                               <div class="modal-header bg-danger">
-                                                <h5 class="modal-title" id="deleteModal1Label">Подтверждение выхода</h5>
+                                                <h5 class="modal-title" id="deleteModal1Label">{% trans 'Подтверждение выхода' %}</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                               </div>
                                                   <div class="modal-body">
-                                                      Вы действительно хотите выйти с аккаунта?
+                                                      {% trans 'Вы действительно хотите выйти с аккаунта?' %}
                                                   </div>
                                                   <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                                                    <a href="{% url 'logout' %}"><button type="submit" class="btn btn-danger">Выйти</button></a>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans 'Отмена' %}</button>
+                                                    <a href="{% url 'logout' %}"><button type="submit" class="btn btn-danger">{% trans 'Выйти' %}</button></a>
                                                   </div>
                                             </div>
                                           </div>
@@ -93,67 +94,67 @@
                                 <div class="collapse navbar-collapse" id="navbarScroll">
                                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>Афіша</b></a>
+                                            <a class="nav-link" href="#"><b>{% trans 'Афиша' %}</b></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>Розклад</b></a>
+                                            <a class="nav-link" href="#"><b>{% trans 'Расписание' %}</b></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>Скоро</b></a>
+                                            <a class="nav-link" href="#"><b>{% trans 'Скоро' %}</b></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>Кінотеатри</b></a>
+                                            <a class="nav-link" href="#"><b>{% trans 'Кинотеатры' %}</b></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>Акції</b></a>
+                                            <a class="nav-link" href="#"><b>{% trans 'Акции' %}</b></a>
                                         </li>
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <b>Про кінотеатр</b>
+                                                <b>{% trans 'О кинотеатре' %}</b>
                                             </a>
                                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                                                 <li><a class="dropdown-item" href="#">
-                                                    Про кінотеатр
+                                                    {% trans 'О кинотеатре' %}
                                                 </a>
                                                 </li>
                                                 <li><a class="dropdown-item" href="#">
-                                                    Новини
+                                                    {% trans 'Новости' %}
                                                 </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#">
-                                                        Реклама
+                                                        {% trans 'Реклама' %}
                                                     </a>
                                                 </li>
                                                 <li><a class="dropdown-item" href="#">
-                                                    Кафе
+                                                    {% trans 'Кафе' %}
                                                 </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#">
-                                                        Мобільний додаток
+                                                        {% trans 'Мобильное приложение' %}
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#">
-                                                        Контакти
+                                                        {% trans 'Контакты' %}
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#">
-                                                        VIP-зал
+                                                        {% trans 'VIP-зал' %}
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#">
-                                                        Дитяча кімната
+                                                        {% trans 'Детская комната' %}
                                                     </a>
                                                 </li>
                                             </ul>
                                         </li>
                                         {% if request.user.is_staff %}
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'statistics' %}" style="color: black"><b>Админ. панель</b></a>
+                                            <a class="nav-link" href="{% url 'statistics' %}" style="color: black"><b>{% trans 'Админ. панель' %}</b></a>
                                         </li>
                                         {% endif %}
                                     </ul>
@@ -162,10 +163,19 @@
                         </nav>
                     </div>
                     <div class="col-xl-2" style="float: right">
-                        <select id="languages" class="form-select" name="language">
-                            <option value="ru">Русский</option>
-                            <option value="uk">Украинский</option>
-                        </select>
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ redirect_to }}">
+                            <select id="languages" name="language" class="form-select">
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                        {{ language.name_local }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -177,28 +187,28 @@
         <footer style="padding-top: 20px; border-top: black 2px solid">
             <div class="row">
                 <div class="col-xl-6">
-                    <p style="font-size: 21px">Мобильные приложения</p>
+                    <p style="font-size: 21px">{% trans 'Мобильные приложения' %}</p>
                     <p>
                         <a href="#"><img src="{% static 'main/images/g1.png' %}" height="49px" width="150px" style="padding-top: 6px; margin-right: 10px"></a>
                         <a href="#"><img src="{% static 'main/images/appstore.png' %}" height="50px" width="150px"></a>
                     </p>
-                    <p style="padding-top: 30px">Разработка сайтов AVADA-MEDIA</p>
+                    <p style="padding-top: 30px">{% trans 'Разработка сайтов AVADA-MEDIA' %}</p>
                 </div>
                 <div class="col-xl-6">
                     <div class="row">
                         <div class="col-xl-4">
-                            <p style="font-size: 21px"><a href="#" style="color: black">Афиша</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">Расписание</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">Скоро в прокате</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">Кинотеатры</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">Акции</a></p>
+                            <p style="font-size: 21px"><a href="#" style="color: black">{% trans 'Афиша' %}</a></p>
+                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Расписание' %}</a></p>
+                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Скоро в прокате' %}</a></p>
+                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Кинотеатры' %}</a></p>
+                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Акции' %}</a></p>
                         </div>
                         <div class="col-xl-4">
-                            <p style="font-size: 21px"><a href="#" style="color: black">О кинотеатре</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">Новости</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">Реклама</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">Кафе-бар</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">Контакты</a></p>
+                            <p style="font-size: 21px"><a href="#" style="color: black">{% trans 'О кинотеатре' %}</a></p>
+                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Новости' %}</a></p>
+                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Реклама' %}</a></p>
+                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Кафе-бар' %}</a></p>
+                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Контакты' %}</a></p>
                         </div>
                         <div class="col-xl-4" style="text-align: center">
                             <a href="#"><img src="{% static 'main/images/face.png' %}" width="30" height="30" alt="Facebook"></a>
@@ -218,13 +228,13 @@
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
 <script src="{% static 'cms/plugins/jquery/jquery.min.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="{% static 'cms/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'cms/dist/js/adminlte.min.js' %}"></script>
 <!-- scripts -->
 <script src="{% static 'cms/bootstrap5dist/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'main/scripts/languages.js' %}"></script>
 {% block script %}
 {% endblock %}
 </body>

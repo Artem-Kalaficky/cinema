@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CinemaCMS | Вход</title>
+  <title>CinemaCMS | {% trans 'Вход' %}</title>
   <link rel="stylesheet" href="{% static 'cms/bootstrap5dist/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
@@ -17,15 +18,15 @@
 
 <body class="login-page">
 {% if form.errors %}
-<p style="color: red; font-size: 18px">Почта или пароль некорректны!</p>
+<p style="color: red; font-size: 18px">{% trans 'Почта или пароль некорректны!' %}</p>
 {% endif %}
 
 
 {% if next %}
     {% if user.is_authenticated %}
-    <p>Ваш аккаунт не имеет доступа к этой странице. Войдите с аккаунта у которого есть доступ.</p>
+    <p>{% trans 'Ваш аккаунт не имеет доступа к этой странице. Войдите с аккаунта у которого есть доступ.' %}</p>
     {% else %}
-    <p>Пожалуйста, сначала авторизуйтесь!</p>
+    <p>{% trans 'Пожалуйста, сначала авторизуйтесь!' %}</p>
     {% endif %}
 {% endif %}
     <div style="margin-right: 30px; margin-left: 30px">
@@ -33,7 +34,7 @@
             <div class="card">
                 <div class="card-body login-card-body">
                     <div style="border-bottom: grey 1px solid; margin-bottom: 30px">
-                        <h3 class="login-box-msg" style="text-align: center"><b>Войдите в аккаунт</b></h3>
+                        <h3 class="login-box-msg" style="text-align: center"><b>{% trans 'Войдите в аккаунт' %}</b></h3>
                     </div>
                     <form method="post">
                         {% csrf_token %}
@@ -48,11 +49,11 @@
                             </tr>
                         </table>
                         <div style="text-align: center; padding-top: 40px">
-                            <input type="submit" value="Войти" class="btn btn-block btn-primary" style="max-width: 150px; display: inline-block">
+                            <input type="submit" value="{% trans 'Войти' %}" class="btn btn-block btn-primary" style="max-width: 150px; display: inline-block">
                             <input type="hidden" name="next" value="{{ next }}">
                         </div>
                     </form>
-                    <p style="text-align: center; padding-top: 15px; margin-bottom: 0">У Вас ещё нет аккаунтa? <a href="{% url 'register' %}">Регистрация</a>.</p>
+                    <p style="text-align: center; padding-top: 15px; margin-bottom: 0">{% trans 'У Вас ещё нет аккаунтa?' %} <a href="{% url 'register' %}">{% trans 'Регистрация' %}</a>.</p>
                 </div>
             </div>
         </div>

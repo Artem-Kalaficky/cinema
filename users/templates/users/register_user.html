@@ -1,10 +1,11 @@
+{% load i18n %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CinemaCMS | Регистрация</title>
+  <title>CinemaCMS | {% trans 'Регистрация' %}</title>
   <link rel="stylesheet" href="{% static 'cms/bootstrap5dist/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
@@ -27,7 +28,7 @@
             <div class="card">
                 <div class="card-body login-card-body">
                     <div style="border-bottom: grey 1px solid; margin-bottom: 30px">
-                        <h3 class="login-box-msg" style="text-align: center"><b>Регистрация</b></h3>
+                        <h3 class="login-box-msg" style="text-align: center"><b>{% trans 'Регистрация' %}</b></h3>
                     </div>
                     <form method="post">
                         {% csrf_token %}
@@ -43,10 +44,10 @@
                         </div>
                         {% endfor %}
                         <div style="text-align: center; padding-top: 40px">
-                            <input type="submit" value="Зарегистрироваться" class="btn btn-block btn-primary" style="max-width: 170px; display: inline-block">
+                            <input type="submit" value="{% trans 'Зарегистрироваться' %}" class="btn btn-block btn-primary" style="max-width: 170px; display: inline-block">
                         </div>
                     </form>
-                    <p style="text-align: center; padding-top: 15px; margin-bottom: 0">Уже есть аккаунт? <a href="{% url 'login' %}">Войти в систему</a>.</p>
+                    <p style="text-align: center; padding-top: 15px; margin-bottom: 0">{% trans 'У вас уже есть аккаунт?' %} <a href="{% url 'login' %}">{% trans 'Войти в систему' %}</a>.</p>
                 </div>
             </div>
         </div>

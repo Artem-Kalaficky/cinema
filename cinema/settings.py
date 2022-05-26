@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,6 +34,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'modeltranslation',
+    'cms.apps.CmsConfig',
+    'main.apps.MainConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,8 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cms.apps.CmsConfig',
-    'main.apps.MainConfig',
 ]
 
 MIDDLEWARE = [
@@ -119,20 +121,27 @@ MEDIA_URL = '/media/'
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-gettext = lambda s: s
-LANGUAGE_CODE = 'ru'
-LANGUAGES = (
-    ('ru', 'Russian'),
-    ('uk', 'Ukrainian'),
-)
-USE_I18N = True
-LOCALE_PATHS = (
-    'locale',
-)
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
+
+USE_I18N = True
+
+USE_L10N = False
+
+LANGUAGE_CODE = 'ru'
 
 USE_TZ = True
+
+DATE_FORMAT = 'y-m-d'
+
+LANGUAGES = [
+    ('ru', _('Russian')),
+    ('uk', _('Ukrainian')),
+]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 
 # Static files (CSS, JavaScript, Images)
