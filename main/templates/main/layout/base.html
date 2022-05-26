@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -15,7 +16,6 @@
   {% block style %}
   {% endblock %}
 </head>
-
 <body>
     <div class="container" style="max-width: 1340px; margin-bottom: 10px">
         <div class="row">
