@@ -25,7 +25,7 @@ active
                 <div class="col" style="display: inline-block; margin: 30px 30px 30px 30px; width: 200px; max-width: 200px; min-width: 200px; max-height: 325px; overflow: hidden; vertical-align: top" >
                     <div style="position: relative; max-height: 0; text-align: right"><button style="padding: 4px 4px" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal1-{{ forloop.counter }}"><b>Delete</b></button></div>
                     <a href="{% url 'edit_film' film.id %}"><img src="{{ film.main_picture.url }}" width="200" height="270"></a>
-                    <a href="{% url 'edit_film' film.id %}" style="color: black"><p style="text-align: center; font-size: 20px">{{ film.name }}</p></a>
+                    <a href="{% url 'edit_film' film.id %}" style="color: black"><p style="text-align: center; font-size: 20px">{{ film.name_ru }}</p></a>
                     <!-- Modal -->
                     <div class="modal fade" id="deleteModal1-{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">
@@ -56,7 +56,7 @@ active
                 <div class="col" style="display: inline-block; margin: 30px 30px 30px 30px; width: 200px; max-width: 200px; min-width: 200px; max-height: 325px; overflow: hidden; vertical-align: top" >
                     <div style="position: relative; max-height: 0; text-align: right"><button style="padding: 4px 4px" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal100-{{ forloop.counter }}"><b>Delete</b></button></div>
                     <a href="{% url 'edit_film' film.id %}"><img src="{{ film.main_picture.url }}" width="200" height="270"></a>
-                    <a href="{% url 'edit_film' film.id %}" style="color: black"><p style="text-align: center; font-size: 20px">{{ film.name }}</p></a>
+                    <a href="{% url 'edit_film' film.id %}" style="color: black"><p style="text-align: center; font-size: 20px">{{ film.name_ru }}</p></a>
                     <!-- Modal -->
                     <div class="modal fade" id="deleteModal100-{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">

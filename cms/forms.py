@@ -38,13 +38,15 @@ class DateInputWidget(forms.DateInput):
 class FilmForm(ModelForm):
     class Meta:
         model = Film
-        fields = ('name', 'description', 'main_picture', 'trailer', 'type_2d', 'type_3d', 'type_imax', 'premier_date',
+        fields = ('name_ru', 'description_ru', 'main_picture', 'trailer', 'type_2d', 'type_3d', 'type_imax', 'premier_date',
                   'description_uk', 'name_uk')
-        widgets = {'name': TextInput(attrs={'placeholder': 'Название фильма',
-                                            'class': 'form-control'}),
-                   'description': Textarea(attrs={'rows': 4,
-                                                  'class': 'form-control',
-                                                  'placeholder': 'Текст описания'}),
+        widgets = {'name_ru': TextInput(attrs={'placeholder': 'Название фильма',
+                                               'class': 'form-control',
+                                               'required': 'true'}),
+                   'description_ru': Textarea(attrs={'rows': 4,
+                                                     'class': 'form-control',
+                                                     'placeholder': 'Текст описания',
+                                                     'required': 'true'}),
                    'name_uk': TextInput(attrs={'placeholder': 'Назва фільму',
                                                'class': 'form-control'}),
                    'description_uk': Textarea(attrs={'rows': 4,
@@ -63,15 +65,18 @@ FilmGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_de
 class CinemaForm(ModelForm):
     class Meta:
         model = Cinema
-        fields = ('name', 'description', 'condition', 'logo', 'top_banner', 'name_uk', 'description_uk', 'condition_uk')
-        widgets = {'name': TextInput(attrs={'placeholder': 'Название кинотеатра',
-                                            'class': 'form-control'}),
-                   'description': Textarea(attrs={'rows': 4,
-                                                  'class': 'form-control',
-                                                  'placeholder': 'Текст описания'}),
-                   'condition': Textarea(attrs={'rows': 4,
-                                                'class': 'form-control',
-                                                'placeholder': 'Текст условий'}),
+        fields = ('name_ru', 'description_ru', 'condition_ru', 'logo', 'top_banner', 'name_uk', 'description_uk', 'condition_uk')
+        widgets = {'name_ru': TextInput(attrs={'placeholder': 'Название кинотеатра',
+                                               'class': 'form-control',
+                                               'required': 'true'}),
+                   'description_ru': Textarea(attrs={'rows': 4,
+                                                     'class': 'form-control',
+                                                     'placeholder': 'Текст описания',
+                                                     'required': 'true'}),
+                   'condition_ru': Textarea(attrs={'rows': 4,
+                                                   'class': 'form-control',
+                                                   'placeholder': 'Текст условий',
+                                                   'required': 'true'}),
                    'name_uk': TextInput(attrs={'placeholder': 'Назва кінотеатру',
                                                'class': 'form-control'}),
                    'description_uk': Textarea(attrs={'rows': 4,
@@ -91,12 +96,13 @@ CinemaGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_
 class HallForm(ModelForm):
     class Meta:
         model = Hall
-        fields = ('hall_number', 'description', 'scheme', 'top_banner', 'description_uk', 'is_base')
+        fields = ('hall_number', 'description_ru', 'scheme', 'top_banner', 'description_uk', 'is_base')
         widgets = {'hall_number': NumberInput(attrs={'placeholder': '№',
                                                      'class': 'form-control'}),
-                   'description': Textarea(attrs={'rows': 4,
-                                                  'class': 'form-control',
-                                                  'placeholder': 'Текст описания'}),
+                   'description_ru': Textarea(attrs={'rows': 4,
+                                                     'class': 'form-control',
+                                                     'placeholder': 'Текст описания',
+                                                     'required': 'true'}),
                    'description_uk': Textarea(attrs={'rows': 4,
                                                      'class': 'form-control',
                                                      'placeholder': 'Текст опису'}),
@@ -111,13 +117,15 @@ HallGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_de
 class NPForm(ModelForm):
     class Meta:
         model = NewsOrProm
-        fields = ('name', 'description', 'main_picture', 'link_to_video', 'status', 'pub_date', 'name_uk',
+        fields = ('name_ru', 'description_ru', 'main_picture', 'link_to_video', 'status', 'pub_date', 'name_uk',
                   'description_uk', 'type')
-        widgets = {'name': TextInput(attrs={'placeholder': 'Название',
-                                            'class': 'form-control'}),
-                   'description': Textarea(attrs={'rows': 4,
-                                                  'class': 'form-control',
-                                                  'placeholder': 'Текст описания'}),
+        widgets = {'name_ru': TextInput(attrs={'placeholder': 'Название',
+                                               'class': 'form-control',
+                                               'required': 'true'}),
+                   'description_ru': Textarea(attrs={'rows': 4,
+                                                     'class': 'form-control',
+                                                     'placeholder': 'Текст описания',
+                                                     'required': 'true'}),
                    'name_uk': TextInput(attrs={'placeholder': 'Назва',
                                                'class': 'form-control'}),
                    'description_uk': Textarea(attrs={'rows': 4,
@@ -136,24 +144,27 @@ NPGalleryFormSet = modelformset_factory(Image, form=ImageForm, extra=0, can_dele
 class PageForm(ModelForm):
     class Meta:
         model = Page
-        fields = ('status', 'telephone1', 'telephone2', 'seo_text', 'seo_text_uk', 'name', 'name_uk', 'description',
-                  'description_uk', 'main_picture', 'is_base', 'is_main', 'is_contact')
+        fields = ('status', 'telephone1', 'telephone2', 'seo_text_ru', 'seo_text_uk', 'name_ru', 'name_uk',
+                  'description_ru', 'description_uk', 'main_picture', 'is_base', 'is_main', 'is_contact')
         widgets = {'telephone1': TextInput(attrs={'placeholder': '777-77-77',
                                                   'class': 'form-control'}),
                    'telephone2': TextInput(attrs={'placeholder': '777-77-77',
                                                   'class': 'form-control'}),
-                   'seo_text': Textarea(attrs={'rows': 4,
-                                               'class': 'form-control',
-                                               'placeholder': 'SEO-текст'}),
+                   'seo_text_ru': Textarea(attrs={'rows': 4,
+                                                  'class': 'form-control',
+                                                  'placeholder': 'SEO-текст',
+                                                  'required': 'true'}),
                    'seo_text_uk': Textarea(attrs={'rows': 4,
                                                   'class': 'form-control',
                                                   'placeholder': 'SEO-текст',
                                                   'required': 'true'}),
-                   'name': TextInput(attrs={'placeholder': 'Название страницы',
-                                            'class': 'form-control'}),
-                   'description': Textarea(attrs={'rows': 4,
-                                                  'class': 'form-control',
-                                                  'placeholder': 'Текст описания'}),
+                   'name_ru': TextInput(attrs={'placeholder': 'Название страницы',
+                                               'class': 'form-control',
+                                               'required': 'true'}),
+                   'description_ru': Textarea(attrs={'rows': 4,
+                                                     'class': 'form-control',
+                                                     'placeholder': 'Текст описания',
+                                                     'required': 'true'}),
                    'name_uk': TextInput(attrs={'placeholder': 'Назва сторінки',
                                                'class': 'form-control'}),
                    'description_uk': Textarea(attrs={'rows': 4,

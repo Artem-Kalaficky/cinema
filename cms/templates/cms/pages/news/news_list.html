@@ -31,7 +31,7 @@ active
                 <tbody>
                     {% for news in newss %}
                         <tr>
-                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ news.name }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ news.name_ru }}</font></font></td>
                             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ news.pub_date|date:"d.m.Y" }}</font></font></td>
                             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
                                 {% if news.status %}

@@ -1,21 +1,15 @@
+{% extends 'main/layout/base.html' %}
 {% load i18n %}
 {% load static %}
-{% get_current_language as LANGUAGE_CODE %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CinemaCMS | {% block title %}{% translate "Главная" %}{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'cms/bootstrap5dist/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="{% static 'cms/plugins/fontawesome-free/css/all.min.css' %}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static 'cms/dist/css/adminlte.min.css' %}">
-  {% block style %}
-  {% endblock %}
-</head>
+
+{% block title %}
+    {% trans 'Главная' %}
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block header %}
 <!--top_banner-->
 <header>
     <a href="#">
@@ -23,176 +17,17 @@
     </a>
 </header>
 <!--end top_banner-->
-<body {% if banner.is_photo_bg %}style="background-image: url({{ banner.photo.url }})" {% endif %}>
+{% endblock %}
 
-    <!--nav bar-->
-    <div class="container" style="max-width: 1340px; margin-bottom: 20px">
-        <div class="row">
-            <div class="col-xl-3 col-md-3 col-sm-12" style="padding-top: 10px; text-align: center">
-                <a href="{% url 'main' %}"><img src="{% static 'main/images/Logo.png' %}" width="128" height="128"></a>
-            </div>
-            <div class="col-xl-9">
-                <div class="row">
-                    <div class="col-xl-12" style="padding-top: 10px">
-                        <div class="row">
-                            <div class="col-xl-6" style="padding-top: 13px">
-                                <div class="row">
-                                    <div style="padding-top: 2px" class="col-xl-6">
-                                        <input type="text" class="form-control" placeholder="{% translate "Поиск" %}" style="max-width: 450px">
-                                    </div>
-                                    <div class="col-xl-6" style="padding-top: 4px; text-align: right">
-                                        {% if not user.is_authenticated %}
-                                        <div style="display: inline-block; padding-right: 10px">
-                                            <a href="{% url 'login' %}"><button type="button" class="btn btn-block btn-success btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{% translate 'Логин' %}</font></font></button></a>
-                                        </div>
-                                        {% else %}
-                                        <div style="display: inline-block; padding-right: 10px">
-                                            <a href="{% url 'account' %}"><button type="button" class="btn btn-block btn-success btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{% translate 'Профиль' %}</font></font></button></a>
-                                        </div>
-                                        {% endif %}
-                                        {% if not user.is_authenticated %}
-                                        <div style="display: inline-block; padding-right: 10px">
-                                            <a href="{% url 'register' %}"><button type="button" class="btn btn-block btn-secondary btn-sm" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{% translate 'Регистрация' %}</font></font></button></a>
-                                        </div>
-                                        {% else %}
-                                        <div style="display: inline-block; padding-right: 10px">
-                                            <button type="button" class="btn btn-block btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" style="min-width: 100px"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{% translate 'Выход' %}</font></font></button>
-                                        </div>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                          <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                              <div class="modal-header bg-danger">
-                                                <h5 class="modal-title" id="deleteModal1Label">{% translate 'Подтверждение выхода' %}</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                              </div>
-                                                  <div class="modal-body">
-                                                      {% translate 'Вы действительно хотите выйти с аккаунта?' %}
-                                                  </div>
-                                                  <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate 'Отмена' %}</button>
-                                                    <a href="{% url 'logout' %}"><button type="submit" class="btn btn-danger">{% translate 'Выйти' %}</button></a>
-                                                  </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3" style="padding-top: 18px; text-align: right">
-                                <a href="#"><img src="{% static 'main/images/face.png' %}" width="30" height="30" alt="Facebook"></a>
-                                <a href="#"><img src="{% static 'main/images/twit.png' %}" width="30" height="30" alt="Twitter"></a>
-                                <a href="#"><img src="{% static 'main/images/vk.png' %}" width="30" height="30" alt="VK"></a>
-                                <a href="#"><img src="{% static 'main/images/ok.png' %}" width="30" height="30" alt="OK"></a>
-                                <a href="#"><img src="{% static 'main/images/gplus.png' %}" width="30" height="30" alt="Goodle+"></a>
-                                <a href="#"><img src="{% static 'main/images/pint.png' %}" width="30" height="30" alt="Pinterest"></a>
-                            </div>
-                            <div class="col-xl-3" style="text-align: right">
-                                <h4 style="color: white"><b>(048) {{ main_page.telephone1 }}</b></h4>
-                                <h4 style="color: white"><b>(097) {{ main_page.telephone2 }}</b></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-10">
-                        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-radius: 10px">
-                            <div class="container">
-                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="navbar-toggler-icon"></span>
-                                </button>
-                                <div class="collapse navbar-collapse" id="navbarScroll">
-                                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>{% translate 'Афиша' %}</b></a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>{% translate 'Расписание' %}</b></a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>{% translate 'Скоро' %}</b></a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>{% translate 'Кинотеатры' %}</b></a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>{% translate 'Акции' %}</b></a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <b>{% translate 'О кинотеатре' %}</b>
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                                <li><a class="dropdown-item" href="#">
-                                                    {% translate 'О кинотеатре' %}
-                                                </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        {% translate 'Новости' %}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        {% translate 'Реклама' %}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        {% translate 'Кафе' %}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        {% translate 'Мобильное приложение' %}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        {% translate 'Контакты' %}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        {% translate 'VIP-зал' %}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        {% translate 'Детская комната' %}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        {% if request.user.is_staff %}
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'statistics' %}" style="color: black"><b>{% translate 'Админ. панель' %}</b></a>
-                                        </li>
-                                        {% endif %}
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                    <div class="col-xl-2" style="float: right">
-                        <form action="{% url 'set_language' %}" method="post">
-                            {% csrf_token %}
-                            <input name="next" type="hidden" value="{{ redirect_to }}">
-                            <select id="languages" name="language" class="form-select">
-                                {% get_available_languages as LANGUAGES %}
-                                {% get_language_info_list for LANGUAGES as languages %}
-                                {% for language in languages %}
-                                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                                        {{ language.name_local }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--end nav bar-->
+{% block top_ban %}
+    {% if banner.is_photo_bg %}
+        style="background-image: url({{ banner.photo.url }})"
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% block t1 %}style="color: white"{% endblock %}
+    {% block t2 %}style="color: white"{% endblock %}
 
     <!--top_carousel-->
     {% if top_carousel.status %}
@@ -297,6 +132,7 @@
             <span class="visually-hidden">Следующий</span>
           </button>
         </div>
+    </div>
     {% endif %}
     <!--end bottom_carousel-->
 
@@ -314,62 +150,8 @@
         </div>
     </div>
     <!--end prom and seo_text-->
+{% endblock %}
 
-    <!--footer-->
-    <div class="container" style="max-width: 1340px; background: #f2f3f4">
-        <footer style="padding-top: 20px; border-top: black 2px solid">
-            <div class="row">
-                <div class="col-xl-6">
-                    <p style="font-size: 21px">{% translate 'Мобильные приложения' %}</p>
-                    <p>
-                        <a href="#"><img src="{% static 'main/images/g1.png' %}" height="49px" width="150px" style="padding-top: 6px; margin-right: 10px"></a>
-                        <a href="#"><img src="{% static 'main/images/appstore.png' %}" height="50px" width="150px"></a>
-                    </p>
-                    <p style="padding-top: 30px">{% translate 'Разработка сайтов AVADA-MEDIA' %}</p>
-                </div>
-                <div class="col-xl-6">
-                    <div class="row">
-                        <div class="col-xl-4">
-                            <p style="font-size: 21px"><a href="#" style="color: black">{%  translate 'Афиша' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{%  translate 'Расписание' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{%  translate 'Скоро в прокате' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{%  translate 'Кинотеатры' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{%  translate 'Акции' %}</a></p>
-                        </div>
-                        <div class="col-xl-4">
-                            <p style="font-size: 21px"><a href="#" style="color: black">{%  translate 'О кинотеатре' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{%  translate 'Новости' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{%  translate 'Реклама' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{%  translate 'Кафе-бар' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{%  translate 'Контакты' %}</a></p>
-                        </div>
-                        <div class="col-xl-4" style="text-align: center">
-                            <a href="#"><img src="{% static 'main/images/face.png' %}" width="30" height="30" alt="Facebook"></a>
-                            <a href="#"><img src="{% static 'main/images/twit.png' %}" width="30" height="30" alt="Twitter"></a>
-                            <a href="#"><img src="{% static 'main/images/vk.png' %}" width="30" height="30" alt="VK"></a>
-                            <a href="#"><img src="{% static 'main/images/ok.png' %}" width="30" height="30" alt="OK"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p style="text-align: center; padding-top: 40px" class="text-muted">ⒸCinemaCMS 2022, All rights reserved</p>
-        </footer>
-    </div>
-    <!--end footer-->
-
-
-<!-- REQUIRED SCRIPTS -->
-<!-- jQuery -->
-<script src="{% static 'cms/plugins/jquery/jquery.min.js' %}"></script>
-{#<script src="{% static 'cms/plugins/jquery/jquery.validate.min.js' %}"></script>#}
-<!-- Bootstrap 4 -->
-<script src="{% static 'cms/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<!-- AdminLTE App -->
-<script src="{% static 'cms/dist/js/adminlte.min.js' %}"></script>
-<!-- scripts -->
-<script src="{% static 'cms/bootstrap5dist/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'main/scripts/languages.js' %}"></script>
 {% block script %}
 {% endblock %}
-</body>
-</html>
+

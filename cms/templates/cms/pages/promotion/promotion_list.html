@@ -31,7 +31,7 @@ active
                 <tbody>
                     {% for promotion in promotions %}
                         <tr>
-                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ promotion.name }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ promotion.name_ru }}</font></font></td>
                             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ promotion.pub_date|date:"d.m.Y" }}</font></font></td>
                             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
                                 {% if promotion.status %}

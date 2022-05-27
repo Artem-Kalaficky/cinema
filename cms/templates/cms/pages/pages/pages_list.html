@@ -48,7 +48,7 @@ active
                     {% for page in pages %}
                         {% if page.is_base %}
                         <tr>
-                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ page.name }}</font></font></td>
+                            <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ page.name_ru }}</font></font></td>
                             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ page.date_created|date:"d.m.Y" }}</font></font></td>
                             <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
                                 {% if page.status %}

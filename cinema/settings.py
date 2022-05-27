@@ -121,14 +121,13 @@ MEDIA_URL = '/media/'
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
-USE_L10N = False
-
-LANGUAGE_CODE = 'ru'
+USE_L10N = True
 
 USE_TZ = True
 

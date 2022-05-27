@@ -16,7 +16,9 @@
   {% block style %}
   {% endblock %}
 </head>
-<body>
+{% block header %}
+{% endblock %}
+<body {% block top_ban %}{% endblock %}>
     <div class="container" style="max-width: 1340px; margin-bottom: 10px">
         <div class="row">
             <div class="col-xl-3 col-md-3 col-sm-12" style="padding-top: 10px; text-align: center">
@@ -80,8 +82,8 @@
                                 <a href="#"><img src="{% static 'main/images/pint.png' %}" width="30" height="30" alt="Pinterest"></a>
                             </div>
                             <div class="col-xl-3" style="text-align: right">
-                                <h4><b>(048) {{ main_page.telephone1 }}</b></h4>
-                                <h4><b>(097) {{ main_page.telephone2 }}</b></h4>
+                                <h4 {% block t1 %}{% endblock %}><b>(048) {{ main_page.telephone1 }}</b></h4>
+                                <h4 {% block t2 %}{% endblock %}><b>(097) {{ main_page.telephone2 }}</b></h4>
                             </div>
                         </div>
                     </div>
