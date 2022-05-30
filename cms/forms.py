@@ -2,7 +2,7 @@ from django.forms import ModelForm, modelformset_factory
 from django import forms
 from django.forms.widgets import TextInput, Textarea, URLInput, FileInput, NumberInput, RadioSelect
 
-from main.models import Film, Seo, Image, Cinema, Hall, NewsOrProm, Page, Contact, Carousel, Slide, Banner
+from main.models import Film, Seo, Image, Cinema, Hall, NewsOrProm, Page, Contact, Carousel, Slide, Banner, Mailing
 
 
 class ImageForm(ModelForm):
@@ -220,6 +220,13 @@ class BannerForm(ModelForm):
                    'is_photo_bg': RadioSelect(choices=[(True, 'Фото на фоне'),
                                                        (False, 'Просто фон')])}
 # endregion BANNERS forms
+
+# region MAILING form
+class EmailForm(ModelForm):
+    class Meta:
+        model = Mailing
+        fields = ('letter',)
+# endregion MAILING form
 
 
 

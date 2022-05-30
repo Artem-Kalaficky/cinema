@@ -172,12 +172,12 @@ class Ticket(models.Model):
     pass
 
 
-# class Email(models.Model):
-#     letter = models.FileField(verbose_name="Письмо")
-#     user = models.ForeignKey(UserProfile, on_delete=models.PROTECT, verbose_name="Пользователь")
-#
-#     class Meta:
-#         verbose_name = 'E-mail'
+class Mailing(models.Model):
+    letter = models.FileField(upload_to="", null=True, blank=True, verbose_name="Письмо")
+
+    class Meta:
+        verbose_name = 'E-mail'
+        verbose_name_plural = 'E-mails'
 
 
 

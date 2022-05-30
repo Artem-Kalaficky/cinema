@@ -1,0 +1,204 @@
+{% extends 'cms/layout/base.html' %}
+{% load static %}
+
+{% block title %}
+    Рассылка
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'cms/plugins/bootstrap/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cms/plugins/bootstrap/css/responsive.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block mailing-active %}
+    active
+{% endblock %}
+
+{% block content %}
+    <div style="padding-top: 30px"></div>
+    <div class="container" style="border: black 1px solid; border-radius: 15px; max-width: 1500px; padding: 20px">
+        <h1 style="text-align: center; padding-bottom: 30px"><b>E-mail</b></h1>
+        <!--nav bar-->
+        <div class="row" style="padding-bottom: 30px">
+            <div class="col-xl-4">
+                <p><b>Выбрать кому слать email</b></p>
+            </div>
+            <div class="col-xl-4">
+                <div class="row">
+                    <div class="form-check col-xl-6">
+                      <input class="form-check-input" type="radio" name="flexRadioDefault" id="all_users">
+                      <label class="form-check-label" for="all_users">
+                          <b>Всем пользователям</b>
+                      </label>
+                    </div>
+                    <div class="form-check col-xl-6">
+                      <input class="form-check-input" type="radio" name="flexRadioDefault" id="selective_users" checked>
+                      <label class="form-check-label" for="selective_users">
+                        <b>Выборочно</b>
+                      </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4" style="text-align: center">
+                <button type="button" id="choose-btn" class="btn btn-block btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="border-radius: 12px; display: inline-block; max-width: 250px"><b>Выбрать пользователей</b></button>
+
+                <!-- Модальное окно -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" style="max-width: 1340px">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Выбор пользователей для рассылки</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                      </div>
+                      <div class="modal-body">
+
+                      <!--Choose Users-->
+                          <div class="card-body">
+                            <div class="row">
+                                <table id="example" class="table table-bordered table-responsive" style="width:100%; margin-top: 50px">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 3%"></th>
+                                            <th style="width: 5%">ID</th>
+                                            <th style="width: 15%">Дата регистрации</th>
+                                            <th style="width: 15%">День рождения</th>
+                                            <th style="width: 15%">Email</th>
+                                            <th style="width: 12%">Телефон</th>
+                                            <th style="width: 15%">ФИО</th>
+                                            <th style="width: 10%">Псевдоним</th>
+                                            <th style="width: 10%">Город</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in users %}
+                                        <tr>
+                                            <td><input type="checkbox" id="{{ forloop.counter }}-check"></td>
+                                            <td>{{ user.id }}</td>
+                                            <td>{{ user.date_joined|date:"d.m.Y" }}</td>
+                                            <td>{{ user.birth_date|date:"d.m.Y" }}</td>
+                                            <td>{{ user.email }}</td>
+                                            <td>{{ user.telephone }}</td>
+                                            <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                            <td>{{ user.alias }}</td>
+                                            <td>{{ user.city }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                      <!--End Choose Users-->
+
+                      </div>
+                      <div style="text-align: center; padding-bottom: 15px; padding-top: 30px">
+                        <button type="button" class="btn btn-block btn-primary" style="max-width: 200px; display: inline-block">Отправить выбранным</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <!--end nav bar-->
+
+        <div class="row">
+            <div class="col-xl-7 col-md-7">
+                <form method="post" id="mailing-form" enctype="multipart/form-data" action="{% url 'mailing' %}">
+                {% csrf_token %}
+                    <div class="row" style="padding-bottom: 20px">
+                        <div class="col-xl-3">
+                            <p style="padding-top: 4px"><b>Загрузить HTML-письмо</b></p>
+                        </div>
+                        <div class="col-xl-9">
+                            <a class="btn btn-primary btn-file" style="min-width: 150px">Загрузить
+                            {{ file_form.letter }}
+                            </a>
+                        </div>
+                    </div>
+                    <p><b>Загружен файл: </b><span id="loaded_template" style="color: #1f76b0"></span></p>
+                    <p style="padding-top: 20px"><b>Шаблон используемый в текущей рассылке: </b><span id="current_template" style="color: #1f76b0"> </span></p>
+                </form>
+                <div class="row" style="padding-top: 20px">
+                    <div class="col-xl-6">
+                        <p><b>Кол-во писем: </b></p>
+                    </div>
+                    <div class="col-xl-6">
+                        <p><b>Рассылка выполнена на: </b></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-5 col-md-5">
+                <div class="container" style="border: black 1px solid; border-radius: 15px">
+                    <h5 style="text-align: center">Список последних загруженных шаблонов</h5>
+                    <table class="text-center table-responsive">
+                        <tbody>
+                            {% for template in templates %}
+                                <tr>
+                                    <td style="width: 5%">
+                                        <div class="form-check">
+                                            <input onchange="checked_email(this.id)" class="form-check-input radio-unchecked" type="radio" name="flexRadioDefault1" id="flexRadioDefault-{{ forloop.counter }}">
+                                        </div>
+                                    </td>
+                                    <td id="nameflexRadioDefault-{{ forloop.counter }}" style="width: 90%">{{ template.letter }}</td>
+                                    <td style="width: 5%"><a href="#" style="color: red; text-decoration: underline" data-bs-toggle="modal" data-bs-target="#deleteModal100-{{ forloop.counter }}">Удалить</a></td>
+                                </tr>
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteModal100-{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header bg-danger">
+                                        <h5 class="modal-title" id="deleteModal1Label-{{ forloop.counter }}">Подтверждение удаления</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <form method="post" action="{% url 'delete_email' template.id %}">
+                                          {% csrf_token %}
+                                          <div class="modal-body">
+                                              Вы действительно хотите удалить шаблон <b>{{ template.letter.name }}</b>?
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                            <button type="submit" class="btn btn-danger">Удалить</button>
+                                          </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; padding-top: 50px">
+            <button type="button" class="btn btn-block btn-success" style="max-width: 200px; display: inline-block" id="go">Начать рассылку</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'cms/scripts/mailing/choose.js' %}"></script>
+    <script src="{% static 'cms/plugins/jquery/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'cms/plugins/bootstrap/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'cms/plugins/bootstrap/js/dataTables.responsive.min.js' %}"></script>
+    <script>
+        $(function () {
+            $("#example").DataTable({
+                "responsive": false,
+                "lengthChange": false,
+                "autoWidth": true,
+                "language": {
+                    "infoFiltered": "(Отфильтровано _MAX_ записей)",
+                    "zeroRecords": "Записей не найдено",
+                    "info": "Показано с _START_ по _END_ записей из _TOTAL_",
+                    "infoEmpty": "Нет записей.",
+                    "search": "Поиск:",
+                    "paginate": {
+                        "previous": "Предыдущая",
+                        "last": "Последняя",
+                        "next": "Следующая"
+                    }
+                }
+            })
+        });
+    </script>
+{% endblock %}

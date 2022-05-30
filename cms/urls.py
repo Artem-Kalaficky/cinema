@@ -43,5 +43,8 @@ urlpatterns = [
     path('users/<int:pk>/delete/', UsersDeleteView.as_view(), name='delete_user'),
     path('users/<int:pk>/edit/', UsersEditView.as_view(), name='edit_user'),
     path('users/', UsersView.as_view(), name='users'),
+    #mailing
+    path('mailing/<int:pk>/delete/', EmailDeleteView.as_view(), name='delete_email'),
+    path('mailing/', mailing, name='mailing'),
 
 ]

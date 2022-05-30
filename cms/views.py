@@ -2,9 +2,8 @@ import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
-from django.views.generic.edit import DeleteView, UpdateView
+from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.urls import reverse_lazy
-from django.forms import modelformset_factory
 
 from users.models import UserProfile
 from users.forms import ChangeUserInfoForm
@@ -555,6 +554,27 @@ class UsersDeleteView(DeleteView):
         context['users'] = UserProfile.objects.filter(is_staff=False)
         return context
 # endregion USERS page
+
+# region MAILING page
+def mailing(request):
+    users = UserProfile.objects.filter(is_staff=False)
+    templates = Mailing.objects.all().order_by('-id')[:5]
+    file_form = EmailForm(request.POST or None, request.FILES or None, prefix='file_form')
+    if request.method == 'POST':
+        if file_form.is_valid():
+            file_form.save()
+        return redirect('mailing')
+    context = {'users': users,
+               'templates': templates,
+               'file_form': file_form}
+    return render(request, 'cms/pages/mailing/mailing.html', context)
+
+
+class EmailDeleteView(DeleteView):
+    model = Mailing
+    success_url = reverse_lazy('mailing')
+
+# endregion MAILING page
 
 
 

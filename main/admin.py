@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Film, Seo, Image, Cinema, Hall, NewsOrProm, Page, Contact, Carousel, Slide, Banner
+from .models import Film, Seo, Image, Cinema, Hall, NewsOrProm, Page, Contact, Carousel, Slide, Banner, Mailing
 
 
 admin.site.register(Film)
@@ -14,5 +14,6 @@ admin.site.register(Contact)
 admin.site.register(Carousel)
 admin.site.register(Slide)
 admin.site.register(Banner)
+admin.site.register(Mailing)
 
 

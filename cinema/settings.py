@@ -113,6 +113,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'users.UserProfile'
 
+#MAILING
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'testartemtest657@gmail.com'
+EMAIL_HOST_PASSWORD = 'Zaqwerty123'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 #MEDIA
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
