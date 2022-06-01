@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('cms/', include('cms.urls')),
     path('admin/', admin.site.urls),
+    path('__debug__/', include('debug_toolbar.urls')),
 ] + i18n_patterns(
     path('i18n/', include('django.conf.urls.i18n'), name='lang'),
     path('', include('main.urls')),

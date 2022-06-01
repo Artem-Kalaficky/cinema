@@ -72,11 +72,11 @@
                                     <tbody>
                                         {% for user in users %}
                                         <tr>
-                                            <td><input type="checkbox" id="{{ forloop.counter }}-check"></td>
+                                            <td><input type="checkbox" class="checked_user"></td>
                                             <td>{{ user.id }}</td>
                                             <td>{{ user.date_joined|date:"d.m.Y" }}</td>
                                             <td>{{ user.birth_date|date:"d.m.Y" }}</td>
-                                            <td>{{ user.email }}</td>
+                                            <td class="user_email">{{ user.email }}</td>
                                             <td>{{ user.telephone }}</td>
                                             <td>{{ user.first_name }} {{ user.last_name }}</td>
                                             <td>{{ user.alias }}</td>
@@ -114,12 +114,13 @@
                             </a>
                         </div>
                     </div>
+                    <p id="errorext" style="color: red; font-size: 14px; display: none">Выберите файл с расширением '.html'</p>
                     <p><b>Загружен файл: </b><span id="loaded_template" style="color: #1f76b0"></span></p>
                     <p style="padding-top: 20px"><b>Шаблон используемый в текущей рассылке: </b><span id="current_template" style="color: #1f76b0"> </span></p>
                 </form>
                 <div class="row" style="padding-top: 20px">
                     <div class="col-xl-6">
-                        <p><b>Кол-во писем: </b></p>
+                        <p><b>Кол-во писем: </b><span id="sum_letter" style="color: #1f76b0"> 0</span></p>
                     </div>
                     <div class="col-xl-6">
                         <p><b>Рассылка выполнена на: </b></p>
@@ -172,6 +173,7 @@
         <div style="text-align: center; padding-top: 50px">
             <button type="button" class="btn btn-block btn-success" style="max-width: 200px; display: inline-block" id="go">Начать рассылку</button>
         </div>
+        <div class="hidden-list" style="display: none"></div>
     </div>
 {% endblock %}
 
@@ -180,25 +182,4 @@
     <script src="{% static 'cms/plugins/jquery/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'cms/plugins/bootstrap/js/dataTables.bootstrap4.min.js' %}"></script>
     <script src="{% static 'cms/plugins/bootstrap/js/dataTables.responsive.min.js' %}"></script>
-    <script>
-        $(function () {
-            $("#example").DataTable({
-                "responsive": false,
-                "lengthChange": false,
-                "autoWidth": true,
-                "language": {
-                    "infoFiltered": "(Отфильтровано _MAX_ записей)",
-                    "zeroRecords": "Записей не найдено",
-                    "info": "Показано с _START_ по _END_ записей из _TOTAL_",
-                    "infoEmpty": "Нет записей.",
-                    "search": "Поиск:",
-                    "paginate": {
-                        "previous": "Предыдущая",
-                        "last": "Последняя",
-                        "next": "Следующая"
-                    }
-                }
-            })
-        });
-    </script>
 {% endblock %}

@@ -2,11 +2,12 @@ import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
-from django.views.generic.edit import DeleteView, UpdateView, CreateView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.urls import reverse_lazy
 
 from users.models import UserProfile
 from users.forms import ChangeUserInfoForm
+from .tasks import add
 from .forms import *
 
 
@@ -561,8 +562,10 @@ def mailing(request):
     templates = Mailing.objects.all().order_by('-id')[:5]
     file_form = EmailForm(request.POST or None, request.FILES or None, prefix='file_form')
     if request.method == 'POST':
+        add(['kalaficzkij@ukr.net'])
         if file_form.is_valid():
-            file_form.save()
+            if file_form.cleaned_data['letter']:
+                file_form.save()
         return redirect('mailing')
     context = {'users': users,
                'templates': templates,
