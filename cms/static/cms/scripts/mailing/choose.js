@@ -3,7 +3,7 @@
     let table = $("#example").DataTable({
         "responsive": false,
         "lengthChange": false,
-        "autoWidth": true,
+        "autoWidth": false,
         "language": {
             "infoFiltered": "(Отфильтровано _MAX_ записей)",
             "zeroRecords": "Записей не найдено",
@@ -24,12 +24,11 @@
     })
 });
 
-
 //checkbox for choice All users or Selective choice users
-let sumOfLetterAll = $('.user_email').length
+let sumOfAllUsers = $('.user_email').length
 $('#all_users').on('change', function () {
     if ($(this).is(':checked')) {
-        $('#sum_letter').text(sumOfLetterAll)
+        $('#sum_letter').text(sumOfAllUsers)
         $('#choose-btn').prop('disabled', true);
         return false;
     }
