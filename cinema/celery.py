@@ -11,7 +11,7 @@ from celery import Celery
 # this code copied from manage.py
 # set the default Django settings module for the 'celery' app.
 from django.conf import settings
-from django.core.mail import send_mail
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cinema.settings')
 

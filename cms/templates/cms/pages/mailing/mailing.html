@@ -91,7 +91,7 @@
 
                       </div>
                       <div style="text-align: center; padding-bottom: 15px; padding-top: 30px">
-                        <button type="button" class="btn btn-block btn-primary" style="max-width: 200px; display: inline-block">Отправить выбранным</button>
+                        <button type="button" class="btn-close-send btn btn-block btn-primary" data-bs-dismiss="modal" style="max-width: 200px; display: inline-block">Отправить выбранным</button>
                       </div>
                     </div>
                   </div>
@@ -102,22 +102,19 @@
 
         <div class="row">
             <div class="col-xl-7 col-md-7">
-                <form method="post" id="mailing-form" enctype="multipart/form-data" action="{% url 'mailing' %}">
-                {% csrf_token %}
-                    <div class="row" style="padding-bottom: 20px">
-                        <div class="col-xl-3">
-                            <p style="padding-top: 4px"><b>Загрузить HTML-письмо</b></p>
-                        </div>
-                        <div class="col-xl-9">
-                            <a class="btn btn-primary btn-file" style="min-width: 150px">Загрузить
-                            {{ file_form.letter }}
-                            </a>
-                        </div>
+                <div class="row" style="padding-bottom: 20px">
+                    <div class="col-xl-3">
+                        <p style="padding-top: 4px"><b>Загрузить HTML-письмо</b></p>
                     </div>
-                    <p id="errorext" style="color: red; font-size: 14px; display: none">Выберите файл с расширением '.html'</p>
-                    <p><b>Загружен файл: </b><span id="loaded_template" style="color: #1f76b0"></span></p>
-                    <p style="padding-top: 20px"><b>Шаблон используемый в текущей рассылке: </b><span id="current_template" style="color: #1f76b0"> </span></p>
-                </form>
+                    <div class="col-xl-9">
+                        <a class="btn btn-primary btn-file" style="min-width: 150px">Загрузить
+                        {{ file_form.letter }}
+                        </a>
+                    </div>
+                </div>
+                <p id="errorext" style="color: red; font-size: 14px; display: none">Выберите файл с расширением '.html'</p>
+                <p><b>Загружен файл: </b><span id="loaded_template" style="color: #1f76b0"></span></p>
+                <p style="padding-top: 20px"><b>Шаблон используемый в текущей рассылке: </b><span id="current_template" style="color: #1f76b0"> </span></p>
                 <div class="row" style="padding-top: 20px">
                     <div class="col-xl-6">
                         <p><b>Кол-во писем: </b><span id="sum_letter" style="color: #1f76b0"> 0</span></p>
@@ -135,6 +132,7 @@
                         <tbody>
                             {% for template in templates %}
                                 <tr>
+                                    <td id="idflexRadioDefault-{{ forloop.counter }}" style="display: none">{{ template.id }}</td>
                                     <td style="width: 5%">
                                         <div class="form-check">
                                             <input onchange="checked_email(this.id)" class="form-check-input radio-unchecked" type="radio" name="flexRadioDefault1" id="flexRadioDefault-{{ forloop.counter }}">
@@ -173,7 +171,6 @@
         <div style="text-align: center; padding-top: 50px">
             <button type="button" class="btn btn-block btn-success" style="max-width: 200px; display: inline-block" id="go">Начать рассылку</button>
         </div>
-        <div class="hidden-list" style="display: none"></div>
     </div>
 {% endblock %}
 
@@ -182,4 +179,32 @@
     <script src="{% static 'cms/plugins/jquery/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'cms/plugins/bootstrap/js/dataTables.bootstrap4.min.js' %}"></script>
     <script src="{% static 'cms/plugins/bootstrap/js/dataTables.responsive.min.js' %}"></script>
+    <script>
+    // submit and mailing
+    $('#go').on('click', function () {
+        let format_data = new FormData()
+        format_data.append('emails', collect_data.get('emails'))
+        format_data.append('file', collect_data.get('file'))
+        format_data.append('id_template', collect_data.get('id_template'))
+        $.ajax({
+            url: '{% url "mailing" %}',
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            data: format_data,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            success: (data) => {
+                console.log(data);
+            },
+            error: (error) => {
+                console.log(error);
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        })
+    });
+    </script>
 {% endblock %}

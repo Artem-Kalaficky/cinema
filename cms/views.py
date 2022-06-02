@@ -1,5 +1,6 @@
 import datetime
 
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, UpdateView
@@ -7,7 +8,7 @@ from django.urls import reverse_lazy
 
 from users.models import UserProfile
 from users.forms import ChangeUserInfoForm
-from .tasks import add
+from .tasks import send
 from .forms import *
 
 
@@ -558,24 +559,41 @@ class UsersDeleteView(DeleteView):
 
 # region MAILING page
 def mailing(request):
-    users = UserProfile.objects.filter(is_staff=False)
-    templates = Mailing.objects.all().order_by('-id')[:5]
-    file_form = EmailForm(request.POST or None, request.FILES or None, prefix='file_form')
-    if request.method == 'POST':
-        add(['kalaficzkij@ukr.net'])
-        if file_form.is_valid():
-            if file_form.cleaned_data['letter']:
-                file_form.save()
-        return redirect('mailing')
-    context = {'users': users,
-               'templates': templates,
-               'file_form': file_form}
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        if request.method == 'POST':
+            recipients = request.POST.get('emails').split(',')
+            id_template = int(request.POST.get('id_template'))
+            file = request.FILES.get('file')
+            if file:
+                html_message = file.read().decode()
+                send.delay(recipients, html_message)
+                mail = Mailing(letter=file)
+                mail.save()
+                return JsonResponse({}, status=200)
+            else:
+                html_message = get_object_or_404(Mailing, pk=id_template).letter.read().decode()
+                send.delay(recipients, html_message)
+                return JsonResponse({}, status=200)
+    context = {'users': UserProfile.objects.filter(is_staff=False),
+               'templates': Mailing.objects.all().order_by('-id')[:5],
+               'file_form': EmailForm(request.POST or None, request.FILES or None, prefix='file_form')}
     return render(request, 'cms/pages/mailing/mailing.html', context)
 
 
 class EmailDeleteView(DeleteView):
     model = Mailing
     success_url = reverse_lazy('mailing')
+
+
+def test_ajax(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        if request.method == 'POST':
+            test = request.POST.get('test')
+            print(test)
+            response = {'test': test}
+            return JsonResponse(response, status=200)
 
 # endregion MAILING page
 

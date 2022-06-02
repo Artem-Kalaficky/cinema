@@ -44,7 +44,9 @@ urlpatterns = [
     path('users/<int:pk>/edit/', UsersEditView.as_view(), name='edit_user'),
     path('users/', UsersView.as_view(), name='users'),
     #mailing
-    path('mailing/<int:pk>/delete/', EmailDeleteView.as_view(), name='delete_email'),
     path('mailing/', mailing, name='mailing'),
+    path('mailing/<int:pk>/delete/', EmailDeleteView.as_view(), name='delete_email'),
+
+    path('ajax/', test_ajax, name='test_ajax'),
 
 ]
