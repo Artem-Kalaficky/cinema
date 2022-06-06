@@ -35,6 +35,7 @@ $('#selective_users').on('change', function () {
         $('#choose-btn').prop('disabled', false);
         $('.checked_user', $("#example").DataTable().rows().nodes()).prop('checked', false).removeClass('check-true');
         $('#sum_letter').text(0);
+        collect_data.delete('emails')
     }
 });
 
@@ -43,6 +44,10 @@ $('#selective_users').on('change', function () {
 $('.btn-close, .btn-close-send').on('click', function () {
     let count = $('.check-true', $("#example").DataTable().rows().nodes()).length;
     $('#sum_letter').text(count);
+    data = $("#example").DataTable().rows(function (idx, data, node) {
+        return $(node).find('input[type="checkbox"]').prop('checked');
+    }).data().pluck(4).toArray()
+    collect_data.set('emails', data)
 });
 
 

@@ -11,42 +11,4 @@
 
 {% block content %}
     статистика
-    <button type="button" id="test">test</button>
-{% endblock %}
-
-{% block script %}
-    <script>
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    $('#test').on('click', function () {
-        $.ajax({
-            url: '{% url "test_ajax" %}',
-            type: 'POST',
-            data: {'test': 'Test'},
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRFToken": getCookie("csrftoken"),
-            },
-            success: (response) => {
-                console.log(response)
-            },
-            error: (response) => {
-                console.log('fuck')
-            }
-        })
-    })
-    </script>
 {% endblock %}

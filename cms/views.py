@@ -1,5 +1,7 @@
 import datetime
 
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
@@ -12,10 +14,12 @@ from .tasks import send
 from .forms import *
 
 
+@user_passes_test(lambda u: u.is_staff)
 def statistics(request):
     return render(request, 'cms/pages/statistics.html')
 
 # region FILM page
+@user_passes_test(lambda u: u.is_staff)
 def film_list(request):
     current_films = Film.objects.filter(premier_date__lte=datetime.date.today())
     soon_films = Film.objects.filter(premier_date__gt=datetime.date.today())
@@ -86,6 +90,7 @@ def delete_film(request, film_id):
 # endregion FILM page
 
 # region CINEMA page
+@user_passes_test(lambda u: u.is_staff)
 def cinema_list(request):
     cinemas = Cinema.objects.all()
     return render(request, 'cms/pages/cinema/cinema_list.html', {'cinemas': cinemas})
@@ -225,6 +230,7 @@ def delete_hall(request, cinema_id, hall_id):
 # endregion HALL page
 
 # region NEWS page
+@user_passes_test(lambda u: u.is_staff)
 def news_list(request):
     newss = NewsOrProm.objects.filter(type=False)
     return render(request, 'cms/pages/news/news_list.html', {'newss': newss})
@@ -359,6 +365,7 @@ def delete_promotion(request, promotion_id):
 # endregion PROMOTION page
 
 # region PAGES page
+@user_passes_test(lambda u: u.is_staff)
 def pages_list(request):
     pages = Page.objects.filter(is_main=False, is_contact=False)
     main_page = Page.objects.filter(is_main=True)
@@ -473,6 +480,7 @@ def delete_page(request, page_id):
 # endregion PAGES page
 
 # region BANNERS page
+@user_passes_test(lambda u: u.is_staff)
 def banner_list(request):
     top_carousel = get_object_or_404(Carousel, is_main=True)
     bottom_carousel = get_object_or_404(Carousel, is_main=False)
@@ -523,7 +531,7 @@ def banner_list(request):
 # endregion BANNERS page
 
 # region USERS page
-class UsersView(ListView):
+class UsersView(LoginRequiredMixin, ListView):
     template_name = 'cms/pages/users/users_list.html'
 
     def get_queryset(self):
@@ -558,12 +566,13 @@ class UsersDeleteView(DeleteView):
 # endregion USERS page
 
 # region MAILING page
+@user_passes_test(lambda u: u.is_staff)
 def mailing(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if is_ajax:
         if request.method == 'POST':
             recipients = request.POST.get('emails').split(',')
-            id_template = int(request.POST.get('id_template'))
+            id_template = request.POST.get('id_template')
             file = request.FILES.get('file')
             if file:
                 html_message = file.read().decode()
@@ -572,7 +581,7 @@ def mailing(request):
                 mail.save()
                 return JsonResponse({}, status=200)
             else:
-                html_message = get_object_or_404(Mailing, pk=id_template).letter.read().decode()
+                html_message = get_object_or_404(Mailing, pk=int(id_template)).letter.read().decode()
                 send.delay(recipients, html_message)
                 return JsonResponse({}, status=200)
     context = {'users': UserProfile.objects.filter(is_staff=False),

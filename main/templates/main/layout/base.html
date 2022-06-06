@@ -6,6 +6,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block meta %}
+  {% endblock %}
   <title>CinemaCMS | {% block title %}{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'cms/bootstrap5dist/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -96,13 +98,13 @@
                                 <div class="collapse navbar-collapse" id="navbarScroll">
                                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>{% trans 'Афиша' %}</b></a>
+                                            <a class="nav-link" href="{% url 'poster' %}"><b>{% trans 'Афиша' %}</b></a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#"><b>{% trans 'Расписание' %}</b></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>{% trans 'Скоро' %}</b></a>
+                                            <a class="nav-link" href="{% url 'soon' %}"><b>{% trans 'Скоро' %}</b></a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#"><b>{% trans 'Кинотеатры' %}</b></a>
@@ -199,9 +201,9 @@
                 <div class="col-xl-6">
                     <div class="row">
                         <div class="col-xl-4">
-                            <p style="font-size: 21px"><a href="#" style="color: black">{% trans 'Афиша' %}</a></p>
+                            <p style="font-size: 21px"><a href="{% url 'poster' %}" style="color: black">{% trans 'Афиша' %}</a></p>
                             <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Расписание' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Скоро в прокате' %}</a></p>
+                            <p style="font-size: 15px"><a href="{% url 'soon' %}" style="color: black">{% trans 'Скоро в прокате' %}</a></p>
                             <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Кинотеатры' %}</a></p>
                             <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Акции' %}</a></p>
                         </div>

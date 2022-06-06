@@ -1,0 +1,55 @@
+{% extends 'main/layout/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    {% trans 'Афиша' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 1340px; background: #f2f3f4;">
+        <div class="row">
+            <div class="col-xl-2 col-md-3" style="text-align: center">
+                <button id="poster_btn" type="button" class="btn btn-block btn-info" style="max-width: 250px; display: inline-block"><a href="{% url 'poster' %}" style="color: black"><b>{% trans 'Афиша' %}</b></a></button>
+                <button id="soon_btn" type="button" class="btn btn-block btn-default" style="max-width: 250px; display: inline-block"><a href="#soon-1" style="color: black">{% trans 'Скоро' %}</a></button>
+                <div style="max-height: 400px; overflow: hidden; text-align: center; padding-top: 20px">
+                    <img src="{% static 'cms/dist/img/context_promo' %}" class="img-fluid">
+                </div>
+                <p style="text-align: center">{% trans 'Контекстная реклама' %}</p>
+            </div>
+            <div class="col-xl-10 col-md-9" style="background-color: #17a2b7">
+                <div class="row" style="padding-bottom: 40px">
+                    {% for film in current_films %}
+                        <div class="col-xl-3 col-md-4 col-sm-6" style="text-align: center; padding-top: 30px">
+                            <span style="text-align: center; color: white"><b>{% trans 'Сейчас в кино' %} </b></span>
+                            <a href="#"><img src="{{ film.main_picture.url }}" height="270" width="200"></a>
+                            <p style="font-size: 19px; text-decoration: underline; height: 45px"><b><a href="#" style="color: black">{{ film.name }}</a></b></p>
+                            <button type="button" class="btn btn-warning" style="min-width: 190px; border-radius: 25px"><a href="#" style="color: black"><img src="{% static 'cms/dist/img/ticket.png' %}" height="28" width="28" style="margin-right: 15px"><b style="font-size: 16px"> {% trans 'КУПИТЬ' %}</b></a></button>
+                        </div>
+                    {% endfor %}
+                    {% for film in soon_films %}
+                        <div class="col-xl-3 col-md-4 col-sm-6" style="text-align: center; padding-top: 30px" id="soon-{{ forloop.counter }}">
+                            <span style="text-align: center; color: white"><b>{% trans 'C' %} {{ film.premier_date|date:"d.m.Y" }}</b></span></br>
+                            <a href="#"><img src="{{ film.main_picture.url }}" height="270" width="200"></a>
+                            <p style="font-size: 19px; text-decoration: underline; height: 45px"><b><a href="#" style="color: black">{{ film.name }}</a></b></p>
+                            <button type="button" class="btn btn-warning" style="min-width: 190px; border-radius: 25px"><a href="#" style="color: black"><img src="{% static 'cms/dist/img/ticket.png' %}" height="28" width="28" style="margin-right: 15px"><b style="font-size: 16px"> {% trans 'КУПИТЬ' %}</b></a></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('#poster_btn').on('click', function () {
+            $(this).addClass('btn-info').removeClass('btn-default')
+            $('#soon_btn').removeClass('btn-info').addClass('btn-default')
+        })
+        $('#soon_btn').on('click', function () {
+            $(this).addClass('btn-info').removeClass('btn-default')
+            $('#poster_btn').removeClass('btn-info').addClass('btn-default')
+        })
+    </script>
+{% endblock %}

@@ -2,11 +2,15 @@
 {% load i18n %}
 {% load static %}
 
-{% block title %}
-    {% trans 'Главная' %}
+{% block meta %}
+    <meta property="og:url" content="{{ main_page.seo.url }}"/>
+    <meta name="title" content="{{ main_page.seo.title }}"/>
+    <meta name="keywords" content="{{ main_page.seo.keyword }}"/>
+    <meta name="description" content="{{ main_page.seo.description }}"/>
 {% endblock %}
 
-{% block style %}
+{% block title %}
+    {% trans 'Главная' %}
 {% endblock %}
 
 {% block header %}
@@ -152,6 +156,4 @@
     <!--end prom and seo_text-->
 {% endblock %}
 
-{% block script %}
-{% endblock %}
 

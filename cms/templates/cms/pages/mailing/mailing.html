@@ -169,6 +169,7 @@
             </div>
         </div>
         <div style="text-align: center; padding-top: 50px">
+            <p style="color: red; font-size: 14px; text-align: center; display: none" id="error_emails"><b>Выберите пользователей для отправки письма!</b></p>
             <button type="button" class="btn btn-block btn-success" style="max-width: 200px; display: inline-block" id="go">Начать рассылку</button>
         </div>
     </div>
@@ -182,29 +183,37 @@
     <script>
     // submit and mailing
     $('#go').on('click', function () {
-        let format_data = new FormData()
-        format_data.append('emails', collect_data.get('emails'))
-        format_data.append('file', collect_data.get('file'))
-        format_data.append('id_template', collect_data.get('id_template'))
-        $.ajax({
-            url: '{% url "mailing" %}',
-            type: 'POST',
-            enctype: 'multipart/form-data',
-            data: format_data,
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRFToken": getCookie("csrftoken"),
-            },
-            success: (data) => {
-                console.log(data);
-            },
-            error: (error) => {
-                console.log(error);
-            },
-            cache: false,
-            contentType: false,
-            processData: false,
-        })
+        if (collect_data.get('emails')) {
+            let format_data = new FormData()
+            format_data.append('emails', collect_data.get('emails'))
+            format_data.append('file', collect_data.get('file'))
+            format_data.append('id_template', collect_data.get('id_template'))
+            $.ajax({
+                url: '{% url "mailing" %}',
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                data: format_data,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+                success: (data) => {
+                    console.log(data);
+                },
+                error: (error) => {
+                    console.log(error);
+                },
+                cache: false,
+                contentType: false,
+                processData: false,
+            });
+            return true
+        } else {
+            $('#error_emails').css('display', 'block')
+            setTimeout(function (){
+            $('#error_emails').css('display', 'none');
+            },3000)
+        }
     });
     </script>
 {% endblock %}
