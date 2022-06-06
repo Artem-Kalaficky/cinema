@@ -1,0 +1,137 @@
+{% extends 'main/layout/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block meta %}
+    <meta property="og:url" content="{{ cinema.seo.url }}"/>
+    <meta name="title" content="{{ cinema.seo.title }}"/>
+    <meta name="keywords" content="{{ cinema.seo.keyword }}"/>
+    <meta name="description" content="{{ cinema.seo.description }}"/>
+{% endblock %}
+
+{% block title %}
+    {{ cinema.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 50px; padding-top: 20px">
+        <div style="text-align: -webkit-center;">
+            <img src="{{ cinema.top_banner.url }}" width="100%" height="500">
+        </div>
+        <div class="row" style="padding-top: 20px">
+            <!--Контент с боку-->
+            <div class="col-xl-2 col-md-3" style="text-align: center">
+                <div>
+                    <div style="max-height: 400px; overflow: hidden; text-align: center; padding-top: 20px">
+                        <img src="{% static 'cms/dist/img/context_promo' %}" class="img-fluid">
+                    </div>
+                    <p style="text-align: center">{% trans 'Контекстная реклама' %}</p>
+                </div>
+                <div style="padding-top: 30px">
+                    <h5>{% trans 'Колличество залов' %}: {{ count_halls }}</h5>
+                    <table class="table-bordered" style="">
+                        <tbody>
+                        {% for hall in halls %}
+                            <tr>
+                                <td style="min-width: 210px; text-align: left; border: 2px black solid"><a href="#" style="color: black;"><b>Зал {{ hall.hall_number }}</b></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div style="padding-top: 30px">
+                    <h5>{% trans 'Смотрите сегодня' %}:</h5>
+                    <table class="table-bordered" style="">
+                        <tbody>
+                            {% for session in sessions %}
+                            <tr>
+                                <td style="min-width: 210px; text-align: left; border: 2px black solid"><a href="#" style="color: black;"><b>Сеанс {{ forloop.counter }}</b></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div style="padding-top: 30px">
+                    <button class="btn btn-success" style="border: 2px black solid; max-width: 300px"><a href="#" style="color: black">{% trans 'Расписание всех сеансов' %}</a></button>
+                </div>
+            </div>
+            <!--Контент с боку конец-->
+            <div class="col-xl-10 col-md-9" style="padding-top: 20px; padding-left: 20px; padding-right: 20px">
+                <div class="row">
+                    <div class="col-xl-2">
+                        <h3>{{ cinema.name }}</h3>
+                    </div>
+                    <div class="col-xl-6">
+                        <img src="{{ cinema.logo.url }}" width="450px" height="300">
+                    </div>
+                    <div class="col-xl-4" style="text-align: center; padding-top: 30px">
+                        <button class="btn btn-success" style="border: 2px black solid; max-width: 300px; height: 50px"><a href="#" style="color: black">{% trans 'Расписание всех сеансов' %}</a></button>
+                    </div>
+                </div>
+
+                <div style="padding-top: 50px">
+                    <p>{{ cinema.description }}</p>
+                </div>
+
+                <!--условия-->
+                <div style="padding-top: 30px">
+                    <h3 style="text-align: center; padding-bottom: 10px">{% trans 'Условия' %}</h3>
+                    <div class="row" style="margin-left: 50px; margin-right: 50px; background-color: #171e27; padding: 15px">
+                        <div class="col-xl-6" style="padding: 10px;">
+                            <p style="text-decoration: underline; color: #3d9ddd; font-size: 21px"><b>{% trans 'Детская комната' %}</b></p>
+                            <p style="color: white">{{ cinema.condition }}</p>
+                        </div>
+                        <div class="col-xl-6" style="padding: 10px;">
+                            <p style="text-decoration: underline; color: #3d9ddd; font-size: 21px"><b>{% trans 'VIP-зал' %}</b></p>
+                            <p style="color: white">{{ cinema.condition }}</p>
+                        </div>
+                        <div class="col-xl-6" style="padding: 10px;">
+                            <p style="text-decoration: underline; color: #3d9ddd; font-size: 21px"><b>{% trans 'Бар Hitchcook' %}</b></p>
+                            <p style="color: white">{{ cinema.condition }}</p>
+                        </div>
+                        <div class="col-xl-6" style="padding: 10px;">
+                            <p style="text-decoration: underline; color: #3d9ddd; font-size: 21px"><b>{% trans 'Попкорн-бар Гулливер' %}</b></p>
+                            <p style="color: white">{{ cinema.condition }}</p>
+                        </div>
+                        <div class="col-xl-6" style="padding: 10px;">
+                            <p style="text-decoration: underline; color: #3d9ddd; font-size: 21px"><b>{% trans 'Магазин D-store' %}</b></p>
+                            <p style="color: white">{{ cinema.condition }}</p>
+                        </div>
+                        <div class="col-xl-6" style="padding: 10px;">
+                            <p style="text-decoration: underline; color: #3d9ddd; font-size: 21px"><b>{% trans 'Подарочные сертификаты' %}</b></p>
+                            <p style="color: white">{{ cinema.condition }}</p>
+                        </div>
+                    </div>
+                </div>
+                <!--условия конец-->
+                <!--фотогалерея-->
+                <div style="padding-top: 30px">
+                    <h3 style="text-align: center">{% trans 'ФОТОГАЛЕРЕЯ' %}</h3>
+                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                      <div class="carousel-indicators">
+                        {% for image in images %}
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.counter0 == 0 %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter0 }}"></button>
+                        {% endfor %}
+                      </div>
+                      <div class="carousel-inner">
+                        {% for img in images %}
+                        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                          <img src="{{ img.image.url }}" height="400" class="d-block w-100" alt="...">
+                        </div>
+                        {% endfor %}
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Предыдущий</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Следующий</span>
+                      </button>
+                    </div>
+                </div>
+                <!--фотогалерея конец-->
+            </div>
+        </div>
+    </div>
+{% endblock %}

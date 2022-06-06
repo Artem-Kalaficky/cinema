@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-03 22:58+0300\n"
+"POT-Creation-Date: 2022-06-06 14:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,6 +80,7 @@ msgstr "Вийти"
 #: main/templates/main/layout/base.html:204
 #: main/templates/main/pages/poster.html:6
 #: main/templates/main/pages/poster.html:13
+#: main/templates/main/pages/soon.html:6 main/templates/main/pages/soon.html:13
 #: users/templates/users/profile.html:106
 #: users/templates/users/profile.html:334
 msgid "Афиша"
@@ -94,12 +95,14 @@ msgstr "Розклад"
 
 #: main/templates/main/layout/base.html:107
 #: main/templates/main/pages/poster.html:14
+#: main/templates/main/pages/soon.html:14
 #: users/templates/users/profile.html:112
 msgid "Скоро"
 msgstr "Скоро"
 
 #: main/templates/main/layout/base.html:110
 #: main/templates/main/layout/base.html:207
+#: main/templates/main/pages/cinemas.html:6
 #: users/templates/users/profile.html:115
 #: users/templates/users/profile.html:337
 msgid "Кинотеатры"
@@ -199,6 +202,17 @@ msgstr "Сторінка клієнту"
 msgid "Сохранить"
 msgstr "Зберегти"
 
+#: main/templates/main/pages/cinemas.html:13
+msgid "Наши кинотеатры"
+msgstr "Наші кінотеатри"
+
+#: main/templates/main/pages/cinemas.html:27
+#: main/templates/main/pages/cinemas.html:36
+#: main/templates/main/pages/poster.html:18
+#: main/templates/main/pages/soon.html:18
+msgid "Контекстная реклама"
+msgstr "Контексна реклама"
+
 #: main/templates/main/pages/index.html:13 users/templates/users/profile.html:9
 msgid "Главная"
 msgstr "Головна"
@@ -228,20 +242,20 @@ msgstr "З"
 msgid "Новости и Акции"
 msgstr "Новини і Акції"
 
-#: main/templates/main/pages/poster.html:18
-msgid "Контекстная реклама"
-msgstr "Контексна реклама"
-
 #: main/templates/main/pages/poster.html:24
+#: main/templates/main/pages/soon.html:32
 msgid "Сейчас в кино"
 msgstr "Зараз у кіно"
 
 #: main/templates/main/pages/poster.html:27
 #: main/templates/main/pages/poster.html:35
+#: main/templates/main/pages/soon.html:27
+#: main/templates/main/pages/soon.html:35
 msgid "КУПИТЬ"
 msgstr "КУПИТИ"
 
 #: main/templates/main/pages/poster.html:32
+#: main/templates/main/pages/soon.html:24
 msgid "C"
 msgstr "З"
 
@@ -274,10 +288,8 @@ msgid "Женский"
 msgstr "Жіноча"
 
 #: users/models.py:10
-#, fuzzy
-#| msgid "Смотрите скоро"
 msgid "Выберите город"
-msgstr "Дивіться скоро"
+msgstr "Оберіть місто"
 
 #: users/models.py:11
 msgid "Одесса"

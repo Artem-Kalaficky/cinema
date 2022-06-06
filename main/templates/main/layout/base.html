@@ -107,7 +107,7 @@
                                             <a class="nav-link" href="{% url 'soon' %}"><b>{% trans 'Скоро' %}</b></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#"><b>{% trans 'Кинотеатры' %}</b></a>
+                                            <a class="nav-link" href="{% url 'cinemas' %}"><b>{% trans 'Кинотеатры' %}</b></a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#"><b>{% trans 'Акции' %}</b></a>
@@ -204,7 +204,7 @@
                             <p style="font-size: 21px"><a href="{% url 'poster' %}" style="color: black">{% trans 'Афиша' %}</a></p>
                             <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Расписание' %}</a></p>
                             <p style="font-size: 15px"><a href="{% url 'soon' %}" style="color: black">{% trans 'Скоро в прокате' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Кинотеатры' %}</a></p>
+                            <p style="font-size: 15px"><a href="{% url 'cinemas' %}" style="color: black">{% trans 'Кинотеатры' %}</a></p>
                             <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Акции' %}</a></p>
                         </div>
                         <div class="col-xl-4">
