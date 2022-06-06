@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-06 14:12+0300\n"
+"POT-Creation-Date: 2022-06-07 00:40+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,7 +102,7 @@ msgstr "Скоро"
 
 #: main/templates/main/layout/base.html:110
 #: main/templates/main/layout/base.html:207
-#: main/templates/main/pages/cinemas.html:6
+#: main/templates/main/pages/cinemas/cinemas.html:6
 #: users/templates/users/profile.html:115
 #: users/templates/users/profile.html:337
 msgid "Кинотеатры"
@@ -156,11 +156,13 @@ msgid "Контакты"
 msgstr "Контакти"
 
 #: main/templates/main/layout/base.html:149
+#: main/templates/main/pages/cinemas/cinema.html:85
 #: users/templates/users/profile.html:156
 msgid "VIP-зал"
 msgstr "VIP-зала"
 
 #: main/templates/main/layout/base.html:154
+#: main/templates/main/pages/cinemas/cinema.html:81
 #: users/templates/users/profile.html:161
 msgid "Детская комната"
 msgstr "Дитяча кімната"
@@ -202,25 +204,73 @@ msgstr "Сторінка клієнту"
 msgid "Сохранить"
 msgstr "Зберегти"
 
-#: main/templates/main/pages/cinemas.html:13
-msgid "Наши кинотеатры"
-msgstr "Наші кінотеатри"
-
-#: main/templates/main/pages/cinemas.html:27
-#: main/templates/main/pages/cinemas.html:36
+#: main/templates/main/pages/cinemas/cinema.html:28
+#: main/templates/main/pages/cinemas/cinemas.html:27
+#: main/templates/main/pages/cinemas/cinemas.html:36
+#: main/templates/main/pages/cinemas/hall.html:27
 #: main/templates/main/pages/poster.html:18
 #: main/templates/main/pages/soon.html:18
 msgid "Контекстная реклама"
 msgstr "Контексна реклама"
 
-#: main/templates/main/pages/index.html:13 users/templates/users/profile.html:9
-msgid "Главная"
-msgstr "Головна"
+#: main/templates/main/pages/cinemas/cinema.html:31
+msgid "Колличество залов"
+msgstr "Кількість залів"
 
+#: main/templates/main/pages/cinemas/cinema.html:36
+#: main/templates/main/pages/cinemas/hall.html:46
+msgid "Зал"
+msgstr "Зала"
+
+#: main/templates/main/pages/cinemas/cinema.html:43
+#: main/templates/main/pages/cinemas/hall.html:30
 #: main/templates/main/pages/index.html:76
 #: users/templates/users/profile.html:237
 msgid "Смотрите сегодня"
 msgstr "Дивіться сьогодні"
+
+#: main/templates/main/pages/cinemas/cinema.html:55
+#: main/templates/main/pages/cinemas/cinema.html:68
+#: main/templates/main/pages/cinemas/hall.html:42
+msgid "Расписание всех сеансов"
+msgstr "Розклад усіх сеансів"
+
+#: main/templates/main/pages/cinemas/cinema.html:78
+msgid "Условия"
+msgstr "Умови"
+
+#: main/templates/main/pages/cinemas/cinema.html:89
+msgid "Бар Hitchcook"
+msgstr "Бар Hitchcook"
+
+#: main/templates/main/pages/cinemas/cinema.html:93
+msgid "Попкорн-бар Гулливер"
+msgstr "Попкорн-бар Гулівер"
+
+#: main/templates/main/pages/cinemas/cinema.html:97
+msgid "Магазин D-store"
+msgstr "Магазин D-store"
+
+#: main/templates/main/pages/cinemas/cinema.html:101
+msgid "Подарочные сертификаты"
+msgstr "Подарункові сертифікати"
+
+#: main/templates/main/pages/cinemas/cinema.html:109
+#: main/templates/main/pages/cinemas/hall.html:55
+msgid "ФОТОГАЛЕРЕЯ"
+msgstr "ФОТОГАЛЕРЕЯ"
+
+#: main/templates/main/pages/cinemas/cinemas.html:13
+msgid "Наши кинотеатры"
+msgstr "Наші кінотеатри"
+
+#: main/templates/main/pages/cinemas/hall.html:48
+msgid "Карта зала"
+msgstr "Карта зали"
+
+#: main/templates/main/pages/index.html:13 users/templates/users/profile.html:9
+msgid "Главная"
+msgstr "Головна"
 
 #: main/templates/main/pages/index.html:87
 #: users/templates/users/profile.html:248

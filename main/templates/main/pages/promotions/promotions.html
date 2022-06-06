@@ -1,0 +1,20 @@
+{% extends 'main/layout/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block meta %}
+    <meta property="og:url" content="{{ promotions.seo.url }}"/>
+    <meta name="title" content="{{ promotions.seo.title }}"/>
+    <meta name="keywords" content="{{ promotions.seo.keyword }}"/>
+    <meta name="description" content="{{ promotions.seo.description }}"/>
+{% endblock %}
+
+{% block title %}
+    {% trans 'Акции' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 50px; padding-top: 20px">
+
+    </div>
+{% endblock %}

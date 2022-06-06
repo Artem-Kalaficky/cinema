@@ -33,7 +33,7 @@
                         <tbody>
                         {% for hall in halls %}
                             <tr>
-                                <td style="min-width: 210px; text-align: left; border: 2px black solid"><a href="#" style="color: black;"><b>Зал {{ hall.hall_number }}</b></a></td>
+                                <td style="min-width: 210px; text-align: left; border: 2px black solid"><a href="{% url 'concrete_hall' hall.id %}" style="color: black;"><b>{% trans 'Зал' %} {{ hall.hall_number }}</b></a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -45,7 +45,7 @@
                         <tbody>
                             {% for session in sessions %}
                             <tr>
-                                <td style="min-width: 210px; text-align: left; border: 2px black solid"><a href="#" style="color: black;"><b>Сеанс {{ forloop.counter }}</b></a></td>
+                                <td style="min-width: 210px; text-align: left; border: 2px black solid"><b>Сеанс {{ forloop.counter }}</b></td>
                             </tr>
                             {% endfor %}
                         </tbody>
