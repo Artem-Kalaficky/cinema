@@ -595,15 +595,6 @@ class EmailDeleteView(DeleteView):
     success_url = reverse_lazy('mailing')
 
 
-def test_ajax(request):
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    if is_ajax:
-        if request.method == 'POST':
-            test = request.POST.get('test')
-            print(test)
-            response = {'test': test}
-            return JsonResponse(response, status=200)
-
 # endregion MAILING page
 
 

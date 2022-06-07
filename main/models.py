@@ -41,7 +41,7 @@ class Contact(models.Model):
     status = models.BooleanField(default=True, verbose_name='Статус')
     name = models.CharField(max_length=30, verbose_name="Название кинотеатра")
     address = models.TextField(verbose_name="Адрес")
-    coordinate = models.CharField(max_length=128, verbose_name="Координаты для карты")
+    coordinate = models.CharField(max_length=512, verbose_name="Координаты для карты")
     logo = models.ImageField(upload_to='gallery/', verbose_name="Лого")
 
     class Meta:

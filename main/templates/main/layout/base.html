@@ -117,41 +117,26 @@
                                                 <b>{% trans 'О кинотеатре' %}</b>
                                             </a>
                                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                                <li><a class="dropdown-item" href="#">
-                                                    {% trans 'О кинотеатре' %}
-                                                </a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="#">
-                                                    {% trans 'Новости' %}
-                                                </a>
-                                                </li>
+                                                {% for page in pages %}
                                                 <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        {% trans 'Реклама' %}
+                                                    <a class="dropdown-item" href="{% url 'about_cinema' page.id %}">
+                                                        {{ page.name }}
                                                     </a>
                                                 </li>
-                                                <li><a class="dropdown-item" href="#">
-                                                    {% trans 'Кафе' %}
-                                                </a>
+                                                {% endfor %}
+                                                <li>
+                                                    <a class="dropdown-item" href="{% url 'about_news' %}">
+                                                        {% trans 'Новости' %}
+                                                    </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" href="#">
+                                                    <a class="dropdown-item" href="{% url 'mobile_app' %}">
                                                         {% trans 'Мобильное приложение' %}
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" href="#">
+                                                    <a class="dropdown-item" href="{% url 'about_contacts' %}">
                                                         {% trans 'Контакты' %}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        {% trans 'VIP-зал' %}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        {% trans 'Детская комната' %}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -208,11 +193,10 @@
                             <p style="font-size: 15px"><a href="{% url 'promotions' %}" style="color: black">{% trans 'Акции' %}</a></p>
                         </div>
                         <div class="col-xl-4">
-                            <p style="font-size: 21px"><a href="#" style="color: black">{% trans 'О кинотеатре' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Новости' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Реклама' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Кафе-бар' %}</a></p>
-                            <p style="font-size: 15px"><a href="#" style="color: black">{% trans 'Контакты' %}</a></p>
+                            <p style="font-size: 21px">{% trans 'О кинотеатре' %}</p>
+                            <p style="font-size: 15px"><a href="{% url 'about_news' %}" style="color: black">{% trans 'Новости' %}</a></p>
+                            <p style="font-size: 15px"><a href="{% url 'about_contacts' %}" style="color: black">{% trans 'Контакты' %}</a></p>
+                            <p style="font-size: 15px"><a href="{% url 'mobile_app' %}" style="color: black">{% trans 'Мобильное приложение' %}</a></p>
                         </div>
                         <div class="col-xl-4" style="text-align: center">
                             <a href="#"><img src="{% static 'main/images/face.png' %}" width="30" height="30" alt="Facebook"></a>

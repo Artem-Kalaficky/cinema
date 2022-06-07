@@ -47,6 +47,4 @@ urlpatterns = [
     path('mailing/', mailing, name='mailing'),
     path('mailing/<int:pk>/delete/', EmailDeleteView.as_view(), name='delete_email'),
 
-    path('ajax/', test_ajax, name='test_ajax'),
-
 ]

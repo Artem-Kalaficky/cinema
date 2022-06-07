@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-07 00:40+0300\n"
+"POT-Creation-Date: 2022-06-07 18:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,7 +77,7 @@ msgid "Выйти"
 msgstr "Вийти"
 
 #: main/templates/main/layout/base.html:101
-#: main/templates/main/layout/base.html:204
+#: main/templates/main/layout/base.html:189
 #: main/templates/main/pages/poster.html:6
 #: main/templates/main/pages/poster.html:13
 #: main/templates/main/pages/soon.html:6 main/templates/main/pages/soon.html:13
@@ -87,7 +87,7 @@ msgid "Афиша"
 msgstr "Афіша"
 
 #: main/templates/main/layout/base.html:104
-#: main/templates/main/layout/base.html:205
+#: main/templates/main/layout/base.html:190
 #: users/templates/users/profile.html:109
 #: users/templates/users/profile.html:335
 msgid "Расписание"
@@ -101,7 +101,7 @@ msgid "Скоро"
 msgstr "Скоро"
 
 #: main/templates/main/layout/base.html:110
-#: main/templates/main/layout/base.html:207
+#: main/templates/main/layout/base.html:192
 #: main/templates/main/pages/cinemas/cinemas.html:6
 #: users/templates/users/profile.html:115
 #: users/templates/users/profile.html:337
@@ -109,88 +109,61 @@ msgid "Кинотеатры"
 msgstr "Кінотеатри"
 
 #: main/templates/main/layout/base.html:113
-#: main/templates/main/layout/base.html:208
+#: main/templates/main/layout/base.html:193
+#: main/templates/main/pages/promotions/promotions.html:6
 #: users/templates/users/profile.html:118
 #: users/templates/users/profile.html:338
 msgid "Акции"
 msgstr "Акції"
 
 #: main/templates/main/layout/base.html:117
-#: main/templates/main/layout/base.html:121
-#: main/templates/main/layout/base.html:211
+#: main/templates/main/layout/base.html:196
 #: users/templates/users/profile.html:122
 #: users/templates/users/profile.html:126
 #: users/templates/users/profile.html:341
 msgid "О кинотеатре"
 msgstr "Про кінотеатр"
 
-#: main/templates/main/layout/base.html:125
-#: main/templates/main/layout/base.html:212
+#: main/templates/main/layout/base.html:129
+#: main/templates/main/layout/base.html:197
+#: main/templates/main/pages/pages/news.html:6
 #: users/templates/users/profile.html:131
 #: users/templates/users/profile.html:342
 msgid "Новости"
 msgstr "Новини"
 
-#: main/templates/main/layout/base.html:130
-#: main/templates/main/layout/base.html:213
-#: users/templates/users/profile.html:136
-#: users/templates/users/profile.html:343
-msgid "Реклама"
-msgstr "Реклама"
-
 #: main/templates/main/layout/base.html:134
-#: users/templates/users/profile.html:141
-msgid "Кафе"
-msgstr "Кафе"
-
-#: main/templates/main/layout/base.html:139
+#: main/templates/main/layout/base.html:199
 #: users/templates/users/profile.html:146
 msgid "Мобильное приложение"
 msgstr "Мобільний додаток"
 
-#: main/templates/main/layout/base.html:144
-#: main/templates/main/layout/base.html:215
+#: main/templates/main/layout/base.html:139
+#: main/templates/main/layout/base.html:198
 #: users/templates/users/profile.html:151
 #: users/templates/users/profile.html:345
 msgid "Контакты"
 msgstr "Контакти"
 
-#: main/templates/main/layout/base.html:149
-#: main/templates/main/pages/cinemas/cinema.html:85
-#: users/templates/users/profile.html:156
-msgid "VIP-зал"
-msgstr "VIP-зала"
-
-#: main/templates/main/layout/base.html:154
-#: main/templates/main/pages/cinemas/cinema.html:81
-#: users/templates/users/profile.html:161
-msgid "Детская комната"
-msgstr "Дитяча кімната"
-
-#: main/templates/main/layout/base.html:161
+#: main/templates/main/layout/base.html:146
 #: users/templates/users/profile.html:168
 msgid "Админ. панель"
 msgstr "Адмін. панель"
 
-#: main/templates/main/layout/base.html:194
+#: main/templates/main/layout/base.html:179
 #: users/templates/users/profile.html:324
 msgid "Мобильные приложения"
 msgstr "Мобільні додатки"
 
-#: main/templates/main/layout/base.html:199
+#: main/templates/main/layout/base.html:184
 #: users/templates/users/profile.html:329
 msgid "Разработка сайтов AVADA-MEDIA"
 msgstr "Розробка сайтів AVADA-MEDIA"
 
-#: main/templates/main/layout/base.html:206
+#: main/templates/main/layout/base.html:191
 #: users/templates/users/profile.html:336
 msgid "Скоро в прокате"
 msgstr "Скоро в прокаті"
-
-#: main/templates/main/layout/base.html:214
-#: users/templates/users/profile.html:344
-msgid "Кафе-бар"
-msgstr "Кафе-бар"
 
 #: main/templates/main/pages/account.html:6
 msgid "Моя страница"
@@ -208,7 +181,17 @@ msgstr "Зберегти"
 #: main/templates/main/pages/cinemas/cinemas.html:27
 #: main/templates/main/pages/cinemas/cinemas.html:36
 #: main/templates/main/pages/cinemas/hall.html:27
+#: main/templates/main/pages/pages/about_cinema_pages.html:127
+#: main/templates/main/pages/pages/about_cinema_pages.html:133
+#: main/templates/main/pages/pages/concrete_news.html:40
+#: main/templates/main/pages/pages/concrete_news.html:46
+#: main/templates/main/pages/pages/news.html:33
+#: main/templates/main/pages/pages/news.html:39
 #: main/templates/main/pages/poster.html:18
+#: main/templates/main/pages/promotions/promotion.html:40
+#: main/templates/main/pages/promotions/promotion.html:46
+#: main/templates/main/pages/promotions/promotions.html:33
+#: main/templates/main/pages/promotions/promotions.html:39
 #: main/templates/main/pages/soon.html:18
 msgid "Контекстная реклама"
 msgstr "Контексна реклама"
@@ -218,6 +201,7 @@ msgid "Колличество залов"
 msgstr "Кількість залів"
 
 #: main/templates/main/pages/cinemas/cinema.html:36
+#: main/templates/main/pages/cinemas/hall.html:13
 #: main/templates/main/pages/cinemas/hall.html:46
 msgid "Зал"
 msgstr "Зала"
@@ -239,6 +223,16 @@ msgstr "Розклад усіх сеансів"
 msgid "Условия"
 msgstr "Умови"
 
+#: main/templates/main/pages/cinemas/cinema.html:81
+#: users/templates/users/profile.html:161
+msgid "Детская комната"
+msgstr "Дитяча кімната"
+
+#: main/templates/main/pages/cinemas/cinema.html:85
+#: users/templates/users/profile.html:156
+msgid "VIP-зал"
+msgstr "VIP-зала"
+
 #: main/templates/main/pages/cinemas/cinema.html:89
 msgid "Бар Hitchcook"
 msgstr "Бар Hitchcook"
@@ -257,6 +251,7 @@ msgstr "Подарункові сертифікати"
 
 #: main/templates/main/pages/cinemas/cinema.html:109
 #: main/templates/main/pages/cinemas/hall.html:55
+#: main/templates/main/pages/pages/about_cinema_pages.html:97
 msgid "ФОТОГАЛЕРЕЯ"
 msgstr "ФОТОГАЛЕРЕЯ"
 
@@ -291,6 +286,32 @@ msgstr "З"
 #: users/templates/users/profile.html:282
 msgid "Новости и Акции"
 msgstr "Новини і Акції"
+
+#: main/templates/main/pages/pages/about_cinema_pages.html:31
+msgid "Оборудование"
+msgstr "Обладнання"
+
+#: main/templates/main/pages/pages/about_cinema_pages.html:56
+#: main/templates/main/pages/pages/about_cinema_pages.html:60
+#: main/templates/main/pages/pages/about_cinema_pages.html:61
+#: main/templates/main/pages/pages/about_cinema_pages.html:62
+msgid "Меню"
+msgstr "Меню"
+
+#: main/templates/main/pages/pages/about_cinema_pages.html:67
+#: main/templates/main/pages/pages/about_cinema_pages.html:68
+#: main/templates/main/pages/pages/about_cinema_pages.html:69
+#: main/templates/main/pages/pages/about_cinema_pages.html:73
+#: main/templates/main/pages/pages/about_cinema_pages.html:74
+#: main/templates/main/pages/pages/about_cinema_pages.html:75
+#: main/templates/main/pages/pages/about_cinema_pages.html:79
+#: main/templates/main/pages/pages/about_cinema_pages.html:80
+#: main/templates/main/pages/pages/about_cinema_pages.html:81
+#: main/templates/main/pages/pages/about_cinema_pages.html:85
+#: main/templates/main/pages/pages/about_cinema_pages.html:86
+#: main/templates/main/pages/pages/about_cinema_pages.html:87
+msgid "Позиция"
+msgstr "Позиція"
 
 #: main/templates/main/pages/poster.html:24
 #: main/templates/main/pages/soon.html:32
@@ -510,6 +531,19 @@ msgstr "Увійти"
 #: users/templates/users/login.html:56
 msgid "У Вас ещё нет аккаунтa?"
 msgstr "У вас ще немає акаунту?"
+
+#: users/templates/users/profile.html:136
+#: users/templates/users/profile.html:343
+msgid "Реклама"
+msgstr "Реклама"
+
+#: users/templates/users/profile.html:141
+msgid "Кафе"
+msgstr "Кафе"
+
+#: users/templates/users/profile.html:344
+msgid "Кафе-бар"
+msgstr "Кафе-бар"
 
 #: users/templates/users/register_user.html:47
 msgid "Зарегистрироваться"

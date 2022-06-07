@@ -71,6 +71,8 @@ class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
         context = super(ChangeUserInfoView, self).get_context_data(**kwargs)
         main_page = Page.objects.get(is_main=True)
         context['main_page'] = main_page
+        context['pages'] = Page.objects.filter(is_main=False, is_base=True, is_contact=False)
+        context['contact_page'] = Page.objects.filter(is_contact=True)
         return context
 
 
