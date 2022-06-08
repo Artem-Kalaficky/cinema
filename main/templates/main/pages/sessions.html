@@ -1,0 +1,101 @@
+{% extends 'main/layout/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    {% trans 'Расписание' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 50px; padding-top: 20px">
+
+        <!--Фильтры-->
+        <div class="row">
+            <div class="col-xl-4" style="background-color: #171e27; border-radius: 10px; text-align: center; height: 36px; padding-top: 5px; margin-bottom: 10px">
+                <span style="padding-right: 10px; color: white"><b>{% trans 'Показывать только' %}:</b></span>
+                <span style="padding-right: 8px; color: white"><input type="checkbox" checked> 2D</span>
+                <span style="padding-right: 8px; color: white"><input type="checkbox" checked> 3D</span>
+                <span style="padding-right: 8px; color: white"><input type="checkbox" checked> IMAX</span>
+            </div>
+            <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
+                <select id="cinema" name="cinema" class="form-select">
+                    <option value="all">{% trans 'Кинотеатр' %}</option>
+                    {% for cinema in cinemas %}
+                    <option value="{{ cinema.id }}">{{ cinema.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
+                <select name="date" class="form-select">
+                    <option value="default">{% trans 'Дата' %}</option>
+                    {% for date in dates %}
+                    <option value="{{ date }}">{{ date }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
+                <select name="film" class="form-select">
+                    <option value="default">{% trans 'Фильм: все' %}</option>
+                    {% for film in films %}
+                    <option value="{{ film.name }}">{{ film.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
+                <select name="hall" class="form-select">
+                    <option value="default">{% trans 'Зал: все' %}</option>
+                    {% for hall in halls %}
+                    <option value="{{ hall.hall_number }}">{% trans 'Зал' %} {{ hall.hall_number }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <!--Фильтры конец-->
+
+        <div class="row" style="padding-top: 40px">
+            <div class="col-xl-10 col-md-9">
+                <h5 class="text-muted" style="text-transform: uppercase">{{ date_now|date:"j E, l" }}</h5>
+                <table class="table-bordered table-responsive" style="border: 3px yellow solid">
+                    <thead>
+                        <tr style="text-align: center">
+                            <th style="width: 15%">{% trans 'ВРЕМЯ' %}</th>
+                            <th style="width: 55%">{% trans 'ФИЛЬМ' %}</th>
+                            <th style="width: 15%">{% trans 'ЗАЛ' %}</th>
+                            <th style="width: 15%">{% trans 'ЦЕНА В ГРН.' %}</th>
+                            <th style="color: red">{% trans 'БРОНИРОВАТЬ' %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in sessions %}
+                        <tr style="text-align: center">
+                            <td style="width: 15%">{{ session.time|date:"H:i" }}</td>
+                            <td style="width: 55%; text-align: left; padding-left: 10px; text-decoration: underline"><a href="#" style="color: black">{{ session.film.name }}</a></td>
+                            <td style="width: 15%">{{ session.hall.hall_number }}</td>
+                            <td style="width: 15%">{{ session.cost }}</td>
+                            <td style="color: red"><a href="#"><img src="{% static 'cms/dist/img/ticket.png' %}"></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xl-2 col-md-3">
+                <div>
+                    <div style="max-height: 400px; overflow: hidden; text-align: center; padding-top: 20px">
+                        <img src="{% static 'cms/dist/img/context_promo' %}" class="img-fluid">
+                    </div>
+                    <p style="text-align: center">{% trans 'Контекстная реклама' %}</p>
+                </div>
+                <div>
+                    <div style="max-height: 400px; overflow: hidden; text-align: center; padding-top: 20px">
+                        <img src="{% static 'cms/dist/img/prom' %}" class="img-fluid">
+                    </div>
+                    <p style="text-align: center">{% trans 'Контекстная реклама' %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'main/scripts/filters.js' %}"></script>
+{% endblock %}

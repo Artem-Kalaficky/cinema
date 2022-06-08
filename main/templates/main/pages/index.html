@@ -84,7 +84,7 @@
                     <a href="#"><p style="font-size: 20px; color: black"><b>{{ film.name }}</b></p></a>
                 </div>
                 <div style="text-align: center; padding-top: 3px">
-                    <a href="#" class="btn btn-success" style="font-size: 18px; min-width: 200px"><b>{% translate 'Купить билет' %}</b></a>
+                    <a href="{% url 'sessions' %}" class="btn btn-success" style="font-size: 18px; min-width: 200px"><b>{% translate 'Купить билет' %}</b></a>
                 </div>
             </div>
             {% endfor %}

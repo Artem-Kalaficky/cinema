@@ -134,3 +134,21 @@ def contacts(request):
     return render(request, 'main/pages/pages/contacts.html', context)
 # endregion PAGES
 
+
+# region SESSIONS
+def sessions(request):
+    halls = Hall.objects.filter(cinema=6)
+    idx = []
+    for hall in halls:
+        idx.append(hall.id)
+    sessions = Session.objects.filter(hall_id__in=idx)
+    context = {'main_page': Page.objects.get(is_main=True),
+               'pages': Page.objects.filter(is_main=False, is_base=True, is_contact=False),
+               'cinemas': Cinema.objects.all(),
+               'dates': [(datetime.datetime.now() + datetime.timedelta(days=d)).strftime("%m.%d.%Y") for d in range(7)],
+               'date_now': datetime.datetime.now(),
+               'films': Film.objects.all(),
+               'halls': Hall.objects.all(),
+               'sessions': sessions}
+    return render(request, 'main/pages/sessions.html', context)
+# endregion SESSIONS

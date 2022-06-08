@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import main, poster, soon, cinemas, DetailCinemaView, DetailHallView, promotions, concrete_promotion, \
-    about_cinema, news, concrete_news, mobile_app, contacts
+    about_cinema, news, concrete_news, mobile_app, contacts, sessions
 
 
 urlpatterns = [
@@ -20,5 +20,7 @@ urlpatterns = [
     path('news/<int:news_id>', concrete_news, name='concrete_news'),
     path('news/', news, name='about_news'),
     path('mobile_app/', mobile_app, name='mobile_app'),
-    path('contacts/', contacts, name='about_contacts')
+    path('contacts/', contacts, name='about_contacts'),
+    # sessions
+    path('sessions/', sessions, name='sessions')
 ]
