@@ -16,7 +16,7 @@ from django.conf import settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cinema.settings')
 
 # you change change the name here
-app = Celery("cinema")
+app = Celery("cinema", broker='redis://localhost')
 
 # read config from Django settings, the CELERY namespace would make celery
 # config keys has `CELERY` prefix
