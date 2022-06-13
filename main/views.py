@@ -1,5 +1,6 @@
 import datetime
 
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views.generic import DetailView
@@ -137,11 +138,18 @@ def contacts(request):
 
 # region SESSIONS
 def sessions(request):
-    halls = Hall.objects.filter(cinema=6)
-    idx = []
-    for hall in halls:
-        idx.append(hall.id)
-    sessions = Session.objects.filter(hall_id__in=idx)
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        if request.method == 'GET':
+            cinema_id = request.GET.get('cinema_id')
+            print(cinema_id)
+            halls = Hall.objects.filter(cinema=cinema_id)
+            idx = []
+            for hall in halls:
+                idx.append(hall.id)
+            sessions = Session.objects.filter(hall_id__in=idx)
+            print(f"new: {sessions}")
+        return JsonResponse({}, status=200)
     context = {'main_page': Page.objects.get(is_main=True),
                'pages': Page.objects.filter(is_main=False, is_base=True, is_contact=False),
                'cinemas': Cinema.objects.all(),
@@ -149,6 +157,6 @@ def sessions(request):
                'date_now': datetime.datetime.now(),
                'films': Film.objects.all(),
                'halls': Hall.objects.all(),
-               'sessions': sessions}
+               'sessions': Session.objects.all()}
     return render(request, 'main/pages/sessions.html', context)
 # endregion SESSIONS

@@ -3,16 +3,12 @@ from django.core.mail import send_mail
 from cinema.celery import *
 
 
-@app.task
-def send(recipients, html_message):
-    state = 0
-    current = 0
-
-    for recipient in recipients:
-        list_of_recipient = [recipient]
-        send_mail('Django mail', 'This e-mail was sent with Django.', None, list_of_recipient, fail_silently=False,
+@app.task(bind=True)
+def send(self, recipients, html_message):
+    print('Start')
+    for i in range(len(recipients)):
+        send_mail('Рассылка CinemaCMS', 'Это письмо пришло от CinemaCMS', None, [recipients[i]], fail_silently=False,
                   html_message=html_message)
-        current += 1
-        state = (current / len(recipients)) * 100
-        print(f"{int(state)}%")
-    return 'task end'
+        self.update_state(state='PROGRESS', meta={'current': i+1, 'total': len(recipients)})
+    print('End')
+    return {'current': 100, 'total': 100}

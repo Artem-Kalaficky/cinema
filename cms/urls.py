@@ -46,5 +46,6 @@ urlpatterns = [
     #mailing
     path('mailing/', mailing, name='mailing'),
     path('mailing/<int:pk>/delete/', EmailDeleteView.as_view(), name='delete_email'),
+    path('task_progress/', task_progress, name='task_progress'),
 
 ]

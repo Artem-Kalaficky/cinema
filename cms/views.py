@@ -1,5 +1,6 @@
 import datetime
 
+from celery.result import AsyncResult
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
@@ -576,18 +577,39 @@ def mailing(request):
             file = request.FILES.get('file')
             if file:
                 html_message = file.read().decode()
-                send.delay(recipients, html_message)
+                task = send.delay(recipients, html_message)
                 mail = Mailing(letter=file)
                 mail.save()
-                return JsonResponse({}, status=200)
+                return JsonResponse({'task_id': task.task_id}, status=200)
             else:
                 html_message = get_object_or_404(Mailing, pk=int(id_template)).letter.read().decode()
-                send.delay(recipients, html_message)
-                return JsonResponse({}, status=200)
+                task = send.delay(recipients, html_message)
+                return JsonResponse({'task_id': task.task_id}, status=200)
     context = {'users': UserProfile.objects.filter(is_staff=False),
                'templates': Mailing.objects.all().order_by('-id')[:5],
                'file_form': EmailForm(request.POST or None, request.FILES or None, prefix='file_form')}
     return render(request, 'cms/pages/mailing/mailing.html', context)
+
+
+def task_progress(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        if request.method == 'GET':
+            task_id = request.GET.get('task_id')
+            task = AsyncResult(task_id)
+            if task.state == 'FAILURE' or task.state == 'PENDING':
+                response = {
+                    'progression': '0'
+                }
+                return JsonResponse(response, status=200)
+            else:
+                current = task.info.get('current', 0)
+                total = task.info.get('total', 1)
+                progression = int((int(current) / int(total)) * 100)
+                response = {
+                    'progression': progression
+                }
+                return JsonResponse(response, status=200)
 
 
 class EmailDeleteView(DeleteView):

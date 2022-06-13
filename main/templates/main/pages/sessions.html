@@ -98,4 +98,29 @@
 
 {% block script %}
     <script src="{% static 'main/scripts/filters.js' %}"></script>
+    <script>
+        let cinema_id = new Map()
+
+        function get_data() {
+            $.ajax({
+                url: '{% url "sessions" %}',
+                type: 'GET',
+                data: {
+                    'cinema_id': cinema_id.get('cinema_id')
+                },
+                success: (data) => {
+                    console.log(data);
+                },
+                error: (error) => {
+                    console.log(error);
+                }
+            })
+        }
+        let filter_data = new Map()
+
+        $('#cinema').on('change', function () {
+            cinema_id.set('cinema_id', $(this).val())
+            get_data()
+        })
+    </script>
 {% endblock %}

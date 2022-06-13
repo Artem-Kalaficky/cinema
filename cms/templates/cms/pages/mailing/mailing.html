@@ -120,7 +120,7 @@
                         <p><b>Кол-во писем: </b><span id="sum_letter" style="color: #1f76b0"> 0</span></p>
                     </div>
                     <div class="col-xl-6">
-                        <p><b>Рассылка выполнена на: </b><span id="progress" style="color: #1f76b0"> 0%</span></p>
+                        <p><b>Рассылка выполнена на: </b><span id="progress" style="color: #1f76b0">0</span><span id="progress" style="color: #1f76b0">%</span></p>
                     </div>
                 </div>
             </div>
@@ -182,6 +182,7 @@
     <script src="{% static 'cms/plugins/bootstrap/js/dataTables.responsive.min.js' %}"></script>
     <script>
     // submit and mailing
+    let progression = new Map()
     $('#go').on('click', function () {
         if (collect_data.get('emails')) {
             let format_data = new FormData()
@@ -198,7 +199,25 @@
                     "X-CSRFToken": getCookie("csrftoken"),
                 },
                 success: (data) => {
-                    console.log(data);
+                    let timerId = setInterval(() => $(function (){
+                            $.ajax({
+                                url: '{% url "task_progress" %}',
+                                type: 'GET',
+                                data: {'task_id': data.task_id},
+                                success: (data) => {
+                                    $('#progress').html(data.progression)
+                                    $(function (){
+                                        if ($('#progress').text() === '100'){
+                                            clearInterval(timerId)
+                                        }
+                                    })
+                                },
+                                error: (data) => {
+                                    console.log('no')
+                                }
+                            })
+                        }), 1000
+                    )
                 },
                 error: (error) => {
                     console.log(error);
