@@ -6,6 +6,16 @@
     {% trans 'Расписание' %}
 {% endblock %}
 
+{% block style %}
+    <style>
+        .filmstr {
+            text-align: left;
+            padding-left: 10px;
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
     <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 50px; padding-top: 20px">
 
@@ -13,20 +23,20 @@
         <div class="row">
             <div class="col-xl-4" style="background-color: #171e27; border-radius: 10px; text-align: center; height: 36px; padding-top: 5px; margin-bottom: 10px">
                 <span style="padding-right: 10px; color: white"><b>{% trans 'Показывать только' %}:</b></span>
-                <span style="padding-right: 8px; color: white"><input type="checkbox" checked> 2D</span>
-                <span style="padding-right: 8px; color: white"><input type="checkbox" checked> 3D</span>
-                <span style="padding-right: 8px; color: white"><input type="checkbox" checked> IMAX</span>
+                <span style="padding-right: 8px; color: white"><input id="2d" type="checkbox" checked> 2D</span>
+                <span style="padding-right: 8px; color: white"><input id="3d" type="checkbox" checked> 3D</span>
+                <span style="padding-right: 8px; color: white"><input id="imax" type="checkbox" checked> IMAX</span>
             </div>
             <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
                 <select id="cinema" name="cinema" class="form-select">
-                    <option value="all">{% trans 'Кинотеатр' %}</option>
+                    <option value="all">{% trans 'Кинотеатр: все' %}</option>
                     {% for cinema in cinemas %}
                     <option value="{{ cinema.id }}">{{ cinema.name }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
-                <select name="date" class="form-select">
+                <select id="date" name="date" class="form-select">
                     <option value="default">{% trans 'Дата' %}</option>
                     {% for date in dates %}
                     <option value="{{ date }}">{{ date }}</option>
@@ -34,7 +44,7 @@
                 </select>
             </div>
             <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
-                <select name="film" class="form-select">
+                <select id="film" name="film" class="form-select">
                     <option value="default">{% trans 'Фильм: все' %}</option>
                     {% for film in films %}
                     <option value="{{ film.name }}">{{ film.name }}</option>
@@ -42,11 +52,8 @@
                 </select>
             </div>
             <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
-                <select name="hall" class="form-select">
-                    <option value="default">{% trans 'Зал: все' %}</option>
-                    {% for hall in halls %}
-                    <option value="{{ hall.hall_number }}">{% trans 'Зал' %} {{ hall.hall_number }}</option>
-                    {% endfor %}
+                <select id="select-halls" name="hall" class="form-select">
+                    <option value="all">{% trans 'Зал: все' %}</option>
                 </select>
             </div>
         </div>
@@ -54,29 +61,50 @@
 
         <div class="row" style="padding-top: 40px">
             <div class="col-xl-10 col-md-9">
-                <h5 class="text-muted" style="text-transform: uppercase">{{ date_now|date:"j E, l" }}</h5>
-                <table class="table-bordered table-responsive" style="border: 3px yellow solid">
-                    <thead>
-                        <tr style="text-align: center">
-                            <th style="width: 15%">{% trans 'ВРЕМЯ' %}</th>
-                            <th style="width: 55%">{% trans 'ФИЛЬМ' %}</th>
-                            <th style="width: 15%">{% trans 'ЗАЛ' %}</th>
-                            <th style="width: 15%">{% trans 'ЦЕНА В ГРН.' %}</th>
-                            <th style="color: red">{% trans 'БРОНИРОВАТЬ' %}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for session in sessions %}
-                        <tr style="text-align: center">
-                            <td style="width: 15%">{{ session.time|date:"H:i" }}</td>
-                            <td style="width: 55%; text-align: left; padding-left: 10px; text-decoration: underline"><a href="#" style="color: black">{{ session.film.name }}</a></td>
-                            <td style="width: 15%">{{ session.hall.hall_number }}</td>
-                            <td style="width: 15%">{{ session.cost }}</td>
-                            <td style="color: red"><a href="#"><img src="{% static 'cms/dist/img/ticket.png' %}"></a></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div id="table">
+                    <h5 class="text-muted" style="text-transform: uppercase">{{ date_now|date:"j E, l" }}</h5>
+                    <table class="table-bordered table-responsive" style="border: 3px yellow solid">
+                        <thead>
+                            <tr style="text-align: center">
+                                <th style="width: 15%">{% trans 'ВРЕМЯ' %}</th>
+                                <th style="width: 55%">{% trans 'ФИЛЬМ' %}</th>
+                                <th style="width: 15%">{% trans 'ЗАЛ' %}</th>
+                                <th style="width: 15%">{% trans 'ЦЕНА В ГРН.' %}</th>
+                                <th style="color: red">{% trans 'БРОНИРОВАТЬ' %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for session in sessions %}
+                                {% if session.time|date:"j E" == date_now|date:"j E" %}
+                                <tr class="text-center">
+                                    <td style="width: 15%">{{ session.time|date:"H:i" }}</td>
+                                    <td class="filmstr" style="width: 55%"><a href="#" style="color: black">{{ session.film.name }}</a></td>
+                                    <td style="width: 15%">{{ session.hall.hall_number }}</td>
+                                    <td style="width: 15%">{{ session.cost }}</td>
+                                    <td style="color: red"><a href="#"><img src="{% static 'cms/dist/img/ticket.png' %}"></a></td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="table1" style="display: none">
+                    <h5 class="text-muted" style="text-transform: uppercase">{{ date_now|date:"j E, l" }}</h5>
+                    <table id="table1" class="table-bordered table-responsive" style="border: 3px yellow solid">
+                        <thead>
+                            <tr style="text-align: center">
+                                <th style="width: 15%">{% trans 'ВРЕМЯ' %}</th>
+                                <th style="width: 55%">{% trans 'ФИЛЬМ' %}</th>
+                                <th style="width: 15%">{% trans 'ЗАЛ' %}</th>
+                                <th style="width: 15%">{% trans 'ЦЕНА В ГРН.' %}</th>
+                                <th style="color: red">{% trans 'БРОНИРОВАТЬ' %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="col-xl-2 col-md-3">
                 <div>
@@ -99,28 +127,65 @@
 {% block script %}
     <script src="{% static 'main/scripts/filters.js' %}"></script>
     <script>
-        let cinema_id = new Map()
-
-        function get_data() {
+        function get_data_cinema() {
             $.ajax({
                 url: '{% url "sessions" %}',
                 type: 'GET',
                 data: {
-                    'cinema_id': cinema_id.get('cinema_id')
+                    'cinema_id': cinema_id.get('cinema_id'),
+                    'hall_id': hall_id.get('hall_id'),
+                    'film': film.get('film'),
+                    'date': date.get('date'),
+                    '2d': d2.get('2d'),
+                    '3d': d3.get('3d'),
+                    'imax': imax.get('imax')
                 },
                 success: (data) => {
-                    console.log(data);
+                    let f_data = data.json_data;
+                    let html = '';
+                    let f_data1 = data.halls
+                    let halls = '';
+                    $(f_data).each(function(index, value) {
+                        html += "<tr class='text-center'><td>" + value.time + "</td><td class='filmstr'>" + value.film + "</td><td>" + value.hall + "</td><td>" + value.cost + "</td><td><a href='#'><img src='{% static 'cms/dist/img/ticket.png' %}'></a></td></tr>"
+                    })
+                    $("#table1 tbody").append(html)
+
+                    $(f_data1).each(function(index, value) {
+                        halls += "<option class='hall-option' value=" + value.hall_id + ">{% trans 'Зал' %} " + value.hall + "</option>"
+                    })
+                    $("#select-halls").append(halls)
                 },
                 error: (error) => {
                     console.log(error);
                 }
             })
         }
-        let filter_data = new Map()
 
-        $('#cinema').on('change', function () {
-            cinema_id.set('cinema_id', $(this).val())
-            get_data()
-        })
+        function get_data() {
+            $.ajax({
+                url: '{% url "sessions" %}',
+                type: 'GET',
+                data: {
+                    'cinema_id': cinema_id.get('cinema_id'),
+                    'hall_id': hall_id.get('hall_id'),
+                    'film': film.get('film'),
+                    'date': date.get('date'),
+                    '2d': d2.get('2d'),
+                    '3d': d3.get('3d'),
+                    'imax': imax.get('imax')
+                },
+                success: (data) => {
+                    let f_data = data.json_data;
+                    let html = '';
+                    $(f_data).each(function(index, value) {
+                        html += "<tr class='text-center'><td>" + value.time + "</td><td class='filmstr'>" + value.film + "</td><td>" + value.hall + "</td><td>" + value.cost + "</td><td><a href='#'><img src='{% static 'cms/dist/img/ticket.png' %}'></a></td></tr>"
+                    })
+                    $("#table1 tbody").append(html)
+                },
+                error: (error) => {
+                    console.log(error);
+                }
+            })
+        }
     </script>
 {% endblock %}
