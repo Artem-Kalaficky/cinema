@@ -78,13 +78,13 @@
             {% for film in current_films %}
             <div class="col-xl-3 col-md-4 col-sm-6" style="text-align: center; padding-top: 15px; padding-bottom: 20px">
                 <div>
-                    <a href="#"><img src="{{ film.main_picture.url }}" width="250" height="338"></a>
+                    <a href="{% url 'film_card' film.id %}"><img src="{{ film.main_picture.url }}" width="250" height="338"></a>
                 </div>
                 <div style="height: 60px">
-                    <a href="#"><p style="font-size: 20px; color: black"><b>{{ film.name }}</b></p></a>
+                    <a href="{% url 'film_card' film.id %}"><p style="font-size: 20px; color: black"><b>{{ film.name }}</b></p></a>
                 </div>
                 <div style="text-align: center; padding-top: 3px">
-                    <a href="{% url 'sessions' %}" class="btn btn-success" style="font-size: 18px; min-width: 200px"><b>{% translate 'Купить билет' %}</b></a>
+                    <button value="{{ film.name }}" type="button" class="sessions btn btn-success" style="font-size: 18px; min-width: 200px"><a href="{% url 'sessions' %}" style="color: white"><b>{% translate 'Купить билет' %}</b></a></button>
                 </div>
             </div>
             {% endfor %}
@@ -99,10 +99,10 @@
             {% for film in soon_films %}
             <div class="col-xl-3 col-md-4 col-sm-6" style="text-align: center; padding-top: 15px; padding-bottom: 20px">
                 <div>
-                    <a href="#"><img src="{{ film.main_picture.url }}" width="250" height="338"></a>
+                    <a href="{% url 'film_card' film.id %}"><img src="{{ film.main_picture.url }}" width="250" height="338"></a>
                 </div>
                 <div style="height: 60px">
-                    <a href="#"><p style="font-size: 20px; color: black"><b>{{ film.name }}</b></p></a>
+                    <a href="{% url 'film_card' film.id %}"><p style="font-size: 20px; color: black"><b>{{ film.name }}</b></p></a>
                 </div>
                 <div style="text-align: center; padding-top: 3px">
                     <p style="color: #00ec00; font-size: 25px">
@@ -154,6 +154,15 @@
         </div>
     </div>
     <!--end prom and seo_text-->
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('.sessions').on('click', function (){
+            localStorage.removeItem('cinema_id')
+            localStorage.setItem('film_name', $(this).val())
+        })
+    </script>
 {% endblock %}
 
 

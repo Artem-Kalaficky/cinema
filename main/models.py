@@ -71,7 +71,7 @@ class Film(models.Model):
     description = models.TextField(verbose_name="Описание")
     main_picture = models.ImageField(upload_to='gallery/', verbose_name="Главная картинка")
     images = models.ManyToManyField(Image, verbose_name="Галерея картинок")
-    trailer = models.URLField(verbose_name="Ссылка на трейлер")
+    trailer = models.CharField(max_length=128, verbose_name="Ссылка на трейлер")
     type_2d = models.BooleanField(default=True, verbose_name="2D")
     type_3d = models.BooleanField(default=False, verbose_name="3D")
     type_imax = models.BooleanField(default=False, verbose_name="IMax")

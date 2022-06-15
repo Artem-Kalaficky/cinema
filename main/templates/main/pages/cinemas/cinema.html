@@ -52,7 +52,7 @@
                     </table>
                 </div>
                 <div style="padding-top: 30px">
-                    <button class="btn btn-success" style="border: 2px black solid; max-width: 300px"><a href="#" style="color: black">{% trans 'Расписание всех сеансов' %}</a></button>
+                    <button value="{{ cinema.id }}" class="sessions btn btn-success" style="border: 2px black solid; max-width: 300px"><a href="{% url 'sessions' %}" style="color: black">{% trans 'Расписание всех сеансов' %}</a></button>
                 </div>
             </div>
             <!--Контент с боку конец-->
@@ -65,7 +65,7 @@
                         <img src="{{ cinema.logo.url }}" width="450px" height="300">
                     </div>
                     <div class="col-xl-4" style="text-align: center; padding-top: 30px">
-                        <button class="btn btn-success" style="border: 2px black solid; max-width: 300px; height: 50px"><a href="#" style="color: black">{% trans 'Расписание всех сеансов' %}</a></button>
+                        <button value="{{ cinema.id }}" class="sessions btn btn-success" style="border: 2px black solid; max-width: 300px; height: 50px"><a href="{% url 'sessions' %}" style="color: black">{% trans 'Расписание всех сеансов' %}</a></button>
                     </div>
                 </div>
 
@@ -134,4 +134,13 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('.sessions').on('click', function (){
+            localStorage.removeItem('film_name')
+            localStorage.setItem('cinema_id', $(this).val())
+        })
+    </script>
 {% endblock %}

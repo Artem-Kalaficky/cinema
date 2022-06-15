@@ -52,7 +52,7 @@ class FilmForm(ModelForm):
                    'description_uk': Textarea(attrs={'rows': 4,
                                                      'class': 'form-control',
                                                      'placeholder': 'Текст опису'}),
-                   'trailer': URLInput(attrs={'placeholder': 'Ссылка на видео в youtube',
+                   'trailer': TextInput(attrs={'placeholder': 'Ссылка на видео в youtube',
                                               'class': 'form-control'}),
                    'main_picture': FileInput(attrs={'type': 'file'}),
                    'premier_date': DateInputWidget(attrs={'type': 'date'})}

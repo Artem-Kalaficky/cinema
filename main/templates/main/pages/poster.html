@@ -22,16 +22,16 @@
                     {% for film in current_films %}
                         <div class="col-xl-3 col-md-4 col-sm-6" style="text-align: center; padding-top: 30px">
                             <span style="text-align: center; color: white"><b>{% trans 'Сейчас в кино' %} </b></span>
-                            <a href="#"><img src="{{ film.main_picture.url }}" height="270" width="200"></a>
-                            <p style="font-size: 19px; text-decoration: underline; height: 45px"><b><a href="#" style="color: black">{{ film.name }}</a></b></p>
-                            <button type="button" class="btn btn-warning" style="min-width: 190px; border-radius: 25px"><a href="{% url 'sessions' %}" style="color: black"><img src="{% static 'cms/dist/img/ticket.png' %}" height="28" width="28" style="margin-right: 15px"><b style="font-size: 16px"> {% trans 'КУПИТЬ' %}</b></a></button>
+                            <a href="{% url 'film_card' film.id %}"><img src="{{ film.main_picture.url }}" height="270" width="200"></a>
+                            <p style="font-size: 19px; text-decoration: underline; height: 45px"><b><a href="{% url 'film_card' film.id %}" style="color: black">{{ film.name }}</a></b></p>
+                            <button value="{{ film.name }}" type="button" class="sessions btn btn-warning" style="min-width: 190px; border-radius: 25px"><a href="{% url 'sessions' %}" style="color: black"><img src="{% static 'cms/dist/img/ticket.png' %}" height="28" width="28" style="margin-right: 15px"><b style="font-size: 16px"> {% trans 'КУПИТЬ' %}</b></a></button>
                         </div>
                     {% endfor %}
                     {% for film in soon_films %}
                         <div class="col-xl-3 col-md-4 col-sm-6" style="text-align: center; padding-top: 30px" id="soon-{{ forloop.counter }}">
                             <span style="text-align: center; color: white"><b>{% trans 'C' %} {{ film.premier_date|date:"d.m.Y" }}</b></span></br>
-                            <a href="#"><img src="{{ film.main_picture.url }}" height="270" width="200"></a>
-                            <p style="font-size: 19px; text-decoration: underline; height: 45px"><b><a href="#" style="color: black">{{ film.name }}</a></b></p>
+                            <a href="{% url 'film_card' film.id %}"><img src="{{ film.main_picture.url }}" height="270" width="200"></a>
+                            <p style="font-size: 19px; text-decoration: underline; height: 45px"><b><a href="{% url 'film_card' film.id %}" style="color: black">{{ film.name }}</a></b></p>
                             <button type="button" class="btn btn-warning" style="min-width: 190px; border-radius: 25px"><a href="{% url 'sessions' %}" style="color: black"><img src="{% static 'cms/dist/img/ticket.png' %}" height="28" width="28" style="margin-right: 15px"><b style="font-size: 16px"> {% trans 'КУПИТЬ' %}</b></a></button>
                         </div>
                     {% endfor %}
@@ -50,6 +50,10 @@
         $('#soon_btn').on('click', function () {
             $(this).addClass('btn-info').removeClass('btn-default')
             $('#poster_btn').removeClass('btn-info').addClass('btn-default')
+        })
+        $('.sessions').on('click', function (){
+            localStorage.removeItem('cinema_id')
+            localStorage.setItem('film_name', $(this).val())
         })
     </script>
 {% endblock %}

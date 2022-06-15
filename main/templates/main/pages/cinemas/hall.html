@@ -39,7 +39,7 @@
                     </table>
                 </div>
                 <div style="padding-top: 30px">
-                    <button class="btn btn-success" style="border: 2px black solid; max-width: 300px"><a href="#" style="color: black">{% trans 'Расписание всех сеансов' %}</a></button>
+                    <button class="sessions btn btn-success" style="border: 2px black solid; max-width: 300px"><a href="{% url 'sessions' %}" style="color: black">{% trans 'Расписание всех сеансов' %}</a></button>
                 </div>
             </div>
             <div class="col-xl-10 col-md-9" style="padding-top: 20px; padding-left: 20px; padding-right: 20px">
@@ -81,4 +81,13 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('.sessions').click(function (){
+            localStorage.removeItem('film_name')
+            localStorage.removeItem('cinema_id')
+        })
+    </script>
 {% endblock %}

@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import main, poster, soon, cinemas, DetailCinemaView, DetailHallView, promotions, concrete_promotion, \
-    about_cinema, news, concrete_news, mobile_app, contacts, sessions
+    about_cinema, news, concrete_news, mobile_app, contacts, sessions, film_card
 
 
 urlpatterns = [
@@ -22,5 +22,7 @@ urlpatterns = [
     path('mobile_app/', mobile_app, name='mobile_app'),
     path('contacts/', contacts, name='about_contacts'),
     # sessions
-    path('sessions/', sessions, name='sessions')
+    path('sessions/', sessions, name='sessions'),
+    # film card
+    path('film/<int:film_id>/', film_card, name='film_card')
 ]

@@ -1,0 +1,108 @@
+{% extends 'main/layout/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block meta %}
+    <meta property="og:url" content="{{ film.seo.url }}"/>
+    <meta name="title" content="{{ film.seo.title }}"/>
+    <meta name="keywords" content="{{ film.seo.keyword }}"/>
+    <meta name="description" content="{{ film.seo.description }}"/>
+{% endblock %}
+
+{% block title %}
+    {{ film.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 50px; padding-top: 20px">
+        <div>
+            <iframe width="100%" height="500" src="https://www.youtube.com/embed/{{ film.trailer }}?autoplay=1&mute=1"></iframe>
+        </div>
+        <div class="row" style="text-align: center; padding-top: 30px">
+            <div class="col-xl-1"></div>
+            <div class="col-xl-10">
+                <div class="row">
+                    <div class="col-xl-5">
+                        <h3>{% trans 'Расписание сеансов кинотеатра' %}:</h3>
+                    </div>
+                    <div class="col-xl-3  col-md-6" style="max-width: 250px; margin-bottom: 10px">
+                        <select id="cinema" name="cinema" class="form-select">
+                            <option value="all">{% trans 'Кинотеатр: все' %}</option>
+                            {% for cinema in cinemas %}
+                            <option id="cinema-{{ forloop.counter0 }}" class="selected-cinema" value="{{ cinema.id }}">{{ cinema.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-xl-4 col-md-6">
+                        <div class="row">
+                            <div class="col-xl-3 col-md-3 col-sm-3" style="padding-bottom: 5px">
+                                <button id="all" value="false" class="btn btn-dark" style="min-width: 59px"><b>Все</b></button>
+                            </div>
+                            <div class="col-xl-3 col-md-3 col-sm-3" style="padding-bottom: 5px">
+                                <button id="2d" value="false" class="btn btn-outline-dark" style="min-width: 59px"><b>2D</b></button>
+                            </div>
+                            <div class="col-xl-3 col-md-3 col-sm-3" style="padding-bottom: 5px">
+                                <button id="3d" value="false" class="btn btn-outline-dark" style="min-width: 59px"><b>3D</b></button>
+                            </div>
+                            <div class="col-xl-3 col-md-3 col-sm-3" style="padding-bottom: 5px">
+                                <button id="imax" value="false" class="btn btn-outline-dark" style="min-width: 59px"><b>IMAX</b></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-xl-1"></div>
+            <div class="col-xl-10" style="padding-top: 30px">
+                <div class="row">
+                    {% for date in dates %}
+                    <div class="col-xl-3 col-md-3 col-sm-4" style="padding-bottom: 20px">
+                        <button value="{{ date|date:"j" }}" type="button" style="border: black 0 solid">
+                            <table class="text-center table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size: 24px; min-width: 150px">{{ date|date:"j D" }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="font-size: 24px; width: 100%">{{ date|date:"E" }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-xl-1"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'main/scripts/film-filter.js' %}"></script>
+    <script>
+        function get_data(){
+            $.ajax({
+                url: '{% url "film_card" film.id %}',
+                type: 'GET',
+                data: {
+                    'cinema_id': cinema_id.get('cinema_id'),
+                    '2d': d2.get('2d'),
+                    '3d': d3.get('3d'),
+                    'imax': imax.get('imax'),
+                    'type_all': type_all.get('type_all')
+                },
+                success: (data) => {
+
+                },
+                error: (error) => {
+                    console.log(error);
+                }
+            })
+        }
+    </script>
+{% endblock %}

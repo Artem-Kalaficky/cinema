@@ -31,13 +31,13 @@
                 <select id="cinema" name="cinema" class="form-select">
                     <option value="all">{% trans 'Кинотеатр: все' %}</option>
                     {% for cinema in cinemas %}
-                    <option value="{{ cinema.id }}">{{ cinema.name }}</option>
+                    <option id="cinema-{{ forloop.counter0 }}" class="selected-cinema" value="{{ cinema.id }}">{{ cinema.name }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
                 <select id="date" name="date" class="form-select">
-                    <option value="default">{% trans 'Дата' %}</option>
+                    <option value="{{ date_now|date:"d.m.Y" }}">{% trans 'Дата' %}</option>
                     {% for date in dates %}
                     <option value="{{ date }}">{{ date }}</option>
                     {% endfor %}
@@ -45,9 +45,9 @@
             </div>
             <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
                 <select id="film" name="film" class="form-select">
-                    <option value="default">{% trans 'Фильм: все' %}</option>
+                    <option value="all">{% trans 'Фильм: все' %}</option>
                     {% for film in films %}
-                    <option value="{{ film.name }}">{{ film.name }}</option>
+                    <option id="film-{{ forloop.counter0 }}" class="selected-film" value="{{ film.name }}">{{ film.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -105,6 +105,7 @@
                         </tbody>
                     </table>
                 </div>
+                <p id="no-sessions" style="text-align: center; font-size: 28px; padding-top: 15px; display: none" class="text-muted">Нет доступных сеансов</p>
             </div>
             <div class="col-xl-2 col-md-3">
                 <div>
@@ -141,7 +142,15 @@
                     'imax': imax.get('imax')
                 },
                 success: (data) => {
+                    first_select()
                     let f_data = data.json_data;
+                    $(function (){
+                        if (f_data.length === 0){
+                            $('#no-sessions').css('display', 'block')
+                        } else {
+                            $('#no-sessions').css('display', 'none')
+                        }
+                    })
                     let html = '';
                     let f_data1 = data.halls
                     let halls = '';
@@ -175,10 +184,18 @@
                     'imax': imax.get('imax')
                 },
                 success: (data) => {
+                    first_select()
                     let f_data = data.json_data;
+                    $(function (){
+                        if (f_data.length === 0){
+                            $('#no-sessions').css('display', 'block')
+                        } else {
+                            $('#no-sessions').css('display', 'none')
+                        }
+                    })
                     let html = '';
                     $(f_data).each(function(index, value) {
-                        html += "<tr class='text-center'><td>" + value.time + "</td><td class='filmstr'>" + value.film + "</td><td>" + value.hall + "</td><td>" + value.cost + "</td><td><a href='#'><img src='{% static 'cms/dist/img/ticket.png' %}'></a></td></tr>"
+                        html += "<tr class='text-center'><td>" + value.time + "</td><td class='filmstr'><a style='color: black' href='/ru/film/" + value.film_id + "'>" + value.film + "</td><td>" + value.hall + "</td><td>" + value.cost + "</td><td><a href='#'><img src='{% static 'cms/dist/img/ticket.png' %}'></a></td></tr>"
                     })
                     $("#table1 tbody").append(html)
                 },
@@ -187,5 +204,6 @@
                 }
             })
         }
+        setTimeout(get_data(), 100)
     </script>
 {% endblock %}
