@@ -9,7 +9,8 @@ from django.views.generic import DetailView
 
 
 from .models import Page, Banner, Slide, Carousel, Film, Cinema, Hall, Session, NewsOrProm, Contact
-from .serializers import serialize
+from .serializers import serialize, serialize_for_film
+
 
 def main(request):
     context = {'main_page': Page.objects.get(is_main=True),
@@ -183,19 +184,40 @@ def sessions(request):
 
 # region FILM_CARD
 def film_card(request, film_id):
+    film = get_object_or_404(Film, pk=film_id)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         if request.method == 'GET':
             cinema_id = request.GET.get('cinema_id')
-            type_2d = request.GET.get('2d')
-            type_3d = request.GET.get('3d')
-            type_imax = request.GET.get('imax')
+            date = request.GET.get('date')
+            type_2d = True if request.GET.get('2d') == 'true' else False
+            type_3d = True if request.GET.get('3d') == 'true' else False
+            type_imax = True if request.GET.get('imax') == 'true' else False
             type_all = True if request.GET.get('type_all') == 'true' else False
-            print(cinema_id, type_2d, type_3d, type_imax, type_all)
-            return JsonResponse({}, status=200)
+            sessions = Session.objects.filter(film_id=film_id)
+            if type_imax:
+                sessions = sessions.filter(film__type_imax=type_imax)
+            if type_3d:
+                sessions = sessions.filter(film__type_3d=type_3d)
+            if type_2d:
+                sessions = sessions.filter(film__type_2d=type_2d)
+            if type_all:
+                sessions = sessions
+            if date:
+                sessions = sessions.filter(time__day=int(date))
+            if cinema_id != 'false':
+                halls = Hall.objects.filter(cinema=cinema_id)
+                idx = []
+                for hall in halls:
+                    idx.append(hall.id)
+                sessions = sessions.filter(hall_id__in=idx)
+            response = {'json_data': serialize_for_film(sessions)}
+            return JsonResponse(response, status=200)
     context = {'main_page': Page.objects.get(is_main=True),
                'pages': Page.objects.filter(is_main=False, is_base=True, is_contact=False),
-               'film': get_object_or_404(Film, pk=film_id),
+               'film': film,
                'cinemas': Cinema.objects.all(),
-               'dates': [(datetime.datetime.now() + datetime.timedelta(days=d)) for d in range(7)],}
+               'dates': [(datetime.datetime.now() + datetime.timedelta(days=d)) for d in range(7)],
+               'sessions': Session.objects.filter(film_id=film_id),
+               'images': film.images.all()}
     return render(request, 'main/pages/film_card.html', context)
 # endregion FILM_CARD

@@ -1,5 +1,6 @@
 //variables for concrete filters
 let cinema_id = new Map()
+let date = new Map()
 let type_all = new Map()
 let d2 = new Map()
 let d3 = new Map()
@@ -69,11 +70,16 @@ $(type_All).click(function (){
 })
 
 $('#cinema').on('change', function() {
+    $('#name_cinema').html($('#cinema option:selected').text())
     if ($(this).val() !== 'all') {
         cinema_id.set('cinema_id', $(this).val())
     } else {
         cinema_id.set('cinema_id', false)
     }
-    console.log(cinema_id.get('cinema_id'))
     get_data()
 })
+
+function get_date(index){
+    date.set('date', $('#' + index).val())
+    get_data()
+}

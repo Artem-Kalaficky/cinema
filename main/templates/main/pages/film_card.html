@@ -59,7 +59,7 @@
                 <div class="row">
                     {% for date in dates %}
                     <div class="col-xl-3 col-md-3 col-sm-4" style="padding-bottom: 20px">
-                        <button value="{{ date|date:"j" }}" type="button" style="border: black 0 solid">
+                        <button onclick="get_date(this.id)" id="date-{{ forloop.counter }}" value="{{ date|date:"j" }}" type="button" style="border: black 0 solid">
                             <table class="text-center table-bordered">
                                 <thead>
                                     <tr>
@@ -79,6 +79,80 @@
             </div>
             <div class="col-xl-1"></div>
         </div>
+        <div class="row" style="padding-top: 30px">
+            <div class="col-xl-2">
+                <h3 id="name_cinema">{% trans 'Кинотеатр: все' %}</h3>
+            </div>
+            <div class="col-xl-10">
+                <div class="row" id="sessionsrow">
+                    {% for session in sessions %}
+                        <div class="col-xl-3 col-md-3 col-sm-4" style="padding-bottom: 20px">
+                            <a href="#" style="color: black">
+                            <table class="text-center table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size: 24px; min-width: 150px">{{ session.time|date:"H:i" }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="font-size: 24px; width: 100%">{% trans 'Зал' %} {{ session.hall.hall_number }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row" id="sessions1" style="display: none">
+                    <p id="no-sessions" style="text-align: left; font-size: 28px; padding-top: 15px; display: none" class="text-muted">{% trans 'Нет доступных сеансов' %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 30px">
+            <div class="col-xl-4 col-md-5" style="text-align: -webkit-center; padding-right: 30px; padding-left: 30px; padding-bottom: 30px">
+                <img src="{{ film.main_picture.url }}" width="100%" height="500px">
+            </div>
+            <div class="col-xl-8 col-md-7" style="padding-left: 30px; padding-right: 30px">
+                <div style="text-align: center">
+                    <button class="btn btn-success" style="border: 2px black solid; width: 300px; height: 50px"><a href="#" style="color: black"><b>{% trans 'Купить билет' %}</b></a></button>
+                </div>
+                <div style="padding-top: 30px">
+                    <h3 style="text-align: center">{{ film.name }}</h3>
+                </div>
+                <div style="padding-top: 30px">
+                    <p style="text-indent: 2em">{{ film.description }}</p>
+                </div>
+            </div>
+        </div>
+        <div style="padding-top: 30px">
+            <h3 style="text-align: center">{% trans 'Кадры и постеры' %}</h3>
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                {% for image in images %}
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.counter0 == 0 %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter0 }}"></button>
+                {% endfor %}
+              </div>
+              <div class="carousel-inner">
+                {% for img in images %}
+                <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                  <img src="{{ img.image.url }}" height="400" class="d-block w-100" alt="...">
+                </div>
+                {% endfor %}
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Предыдущий</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Следующий</span>
+              </button>
+            </div>
+        </div>
+        <div style="padding: 80px">
+            <img src="{% static 'cms/dist/img/avada.png' %}" height="100" class="img-fluid">
+        </div>
     </div>
 {% endblock %}
 
@@ -91,13 +165,29 @@
                 type: 'GET',
                 data: {
                     'cinema_id': cinema_id.get('cinema_id'),
+                    'date': date.get('date'),
                     '2d': d2.get('2d'),
                     '3d': d3.get('3d'),
                     'imax': imax.get('imax'),
                     'type_all': type_all.get('type_all')
                 },
                 success: (data) => {
-
+                    $(function (){
+                        if (f_data.length === 0){
+                            $('#no-sessions').css('display', 'block')
+                        } else {
+                            $('#no-sessions').css('display', 'none')
+                        }
+                    })
+                    $('#sessionsrow').css('display', 'none')
+                    $('#sessions1').css('display', 'block')
+                    $('.old-data').css('display', 'none')
+                    let f_data = data.json_data;
+                    let html = '';
+                    $(f_data).each(function(index, value) {
+                        html += "<div class='old-data col-xl-3 col-md-3 col-sm-4' style='padding-bottom: 20px'><a href='#' style='color: black'><table class='text-center table-bordered'><thead><tr><th style='font-size: 24px; min-width: 150px'>" + value.time + "</th></tr></thead><tbody><tr><td style='font-size: 24px; width: 100%'>{% trans 'Зал' %} " + value.hall + "</td></tr></tbody></table></a></div>"
+                    })
+                    $('#sessions1').append(html)
                 },
                 error: (error) => {
                     console.log(error);
