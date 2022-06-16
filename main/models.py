@@ -156,7 +156,7 @@ class Session(models.Model):
     hall = models.ForeignKey(Hall, on_delete=models.CASCADE, verbose_name="Зал")
     film = models.ForeignKey(Film, on_delete=models.CASCADE, verbose_name="Фильм")
     time = models.DateTimeField(verbose_name="Время")
-    cost = models.FloatField(verbose_name="Цена")
+    cost = models.IntegerField(verbose_name="Цена")
 
     class Meta:
         verbose_name_plural = 'Сеансы'

@@ -1,0 +1,32 @@
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.part {
+    opacity: 0;
+}
+
+.part:hover {
+    cursor: pointer;
+}
+
+.selected {
+    opacity: .7;
+}
+
+.unselected:hover {
+    transition: opacity .1s ease;
+    opacity: .4;
+}
+
+.reserve {
+    opacity: .9;
+}
+
+.reserve:hover {
+    cursor: default;
+}

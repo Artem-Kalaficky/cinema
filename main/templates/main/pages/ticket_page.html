@@ -6,6 +6,10 @@
     Купить билет
 {% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'main/style/ticket.css' %}">
+{% endblock %}
+
 {% block content %}
     <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 50px; padding-top: 20px">
         <div style="text-align: -webkit-center;">
@@ -40,34 +44,64 @@
                 <p style="text-transform: uppercase; font-size: 18px" class="text-muted">{{ session.time|date:"j E, H:i" }}, {% trans 'Зал' %} №{{ session.hall.hall_number }}</p>
                 <div class="row">
                     <div class="col-xl-3 col-md-3" style="padding-top: 11px">
-                        <p style="font-size: 18px">{% trans 'ЦЕНА В ГРН.' %}: <span style="background-color: #f9c835; color: white; font-size: 20px; padding: 3px"><b>{{ session.cost }}</b></span></p>
+                        <p style="font-size: 18px">{% trans 'ЦЕНА В ГРН.' %}: <span id="cost" style="background-color: #f9c835; color: white; font-size: 20px; padding: 3px"><b>{{ session.cost }}</b></span></p>
                     </div>
                     <div class="col-xl-3 col-md-3" style="padding-top: 11px">
-                        <p style="font-size: 18px">{% trans 'ЗАБРОНИРОВАНО' %}: <span style="background-color: #cbcbcb; color: white; font-size: 20px; padding: 3px 10px 3px 10px"><b>0</b></span></p>
+                        <p style="font-size: 18px">{% trans 'ЗАБРОНИРОВАНО' %}: <span id="numb-reserved" style="background-color: #cbcbcb; color: white; font-size: 20px; padding: 3px 10px 3px 10px"><b>0</b></span></p>
                     </div>
                     <div class="col-xl-6 col-md-6">
                         <p style="font-size: 18px; display: inline-block; padding-right: 5px">
                             {% trans 'ВАШ ЗАКАЗ' %}:
                             <p style="font-size: 18px; display: inline-block; height: 50px; border: #f9c835 4px solid; padding-top: 9px; padding-right: 4px; padding-left: 4px">
                                 {% trans 'БИЛЕТОВ' %}:
-                                    <span style="color: red; font-size: 18px; padding-right: 40px">0</span>
+                                    <span id="num_tickets" style="color: red; font-size: 18px; padding-right: 40px">0</span>
                                 {% trans 'СУММА' %}:
-                                    <span style="color: red; font-size: 18px">0 </span ><span style="color: red; font-size: 18px">грн.</span>
+                                    <span id="num_cost" style="color: red; font-size: 18px">0 </span ><span style="color: red; font-size: 18px">грн.</span>
                             </p>
                         </p>
                     </div>
                 </div>
                 <div style="position: relative; text-align: -webkit-center">
-                    <img src="{{ session.hall.scheme.url }}" width="100%">
-                    <img src="{% static 'cms/dist/img/scheme.png' %}" width="100%">
+
+                    <svg viewBox="0 0 1036.5957 546.383">
+                        <path class="part unselected" d="m 775.91263,94.182751 -0.18561,37.190859 37.64305,0.43178 -0.43263,-37.55157 z" fill="#ba4027" row="1" place="11"></path>
+                        <path class="part unselected" d="m 367.3702,94.500159 -0.18561,37.190861 37.64305,0.43178 -0.43263,-37.551571 z" fill="#ba4027" row="1" place="1"></path>
+                    </svg>
+
+                    <img src="{% static 'cms/dist/img/scheme.jpg' %}" width="100%">
                 </div>
                 <p style="padding-top: 40px">{% trans 'Стоимость услуги бронирования' %} - {{ session.cost }} грн. {% trans 'за каждое место' %}.</p>
                 <p style="text-transform: uppercase; padding-bottom: 40px">{% trans 'Забронированные билеты нужно выкупить в кассе кинотеатра не позднее, чем за пол часа до начала сеанса' %}.</p>
                 <div style="text-align: center">
-                    <button type="button" class="btn btn-outline-dark" style="border: black 2px solid; width: 200px; margin-right: 30px"><b>{% trans 'Забронировать' %}</b></button>
-                    <button type="button" class="btn btn-success" style="border: black 2px solid; width: 200px; color: black"><b>{% trans 'Купить' %}</b></button>
+                    <button value="hi" id="reserve" type="button" class="btn btn-outline-dark" style="border: black 2px solid; width: 200px; margin-right: 30px"><b>{% trans 'Забронировать' %}</b></button>
+                    <button id="buy" type="button" class="btn btn-success" style="border: black 2px solid; width: 200px; color: black"><b>{% trans 'Купить' %}</b></button>
+                    <p id="error" style="text-align: center; color: red; display: none">Нужно выбрать места для бронирования или покупки билетов.</p>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'main/scripts/ticket.js' %}"></script>
+    <script>
+        function get_tickets(){
+            $.ajax({
+                url: '{% url "ticket" session.id %}',
+                type: 'GET',
+                data: {
+                    'place_list': collect_data.get('place_list')
+                },
+                success: (data) => {
+                    console.log('yes')
+                },
+                error: (error) => {
+                    console.log(error);
+                },
+                cache: false,
+                contentType: false,
+                processData: false,
+            })
+        }
+    </script>
 {% endblock %}

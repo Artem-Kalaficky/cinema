@@ -223,6 +223,14 @@ def film_card(request, film_id):
 
 # region TICKET page
 def ticket(request, session_id):
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if request.method == 'GET':
+            place_list = request.GET.get('place_list')
+            row_list = request.GET.get('row_list')
+            status = request.GET.get('status')
+            print(status)
+            print(f"Места: {place_list}, ряды: {row_list}")
+            return JsonResponse({}, status=200)
     context = {'main_page': Page.objects.get(is_main=True),
                'pages': Page.objects.filter(is_main=False, is_base=True, is_contact=False),
                'session': get_object_or_404(Session, pk=session_id)}
