@@ -1,0 +1,73 @@
+{% extends 'main/layout/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    Купить билет
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 50px; padding-top: 20px">
+        <div style="text-align: -webkit-center;">
+            <img src="{% static 'cms/dist/img/about_cinema.jpg' %}" width="100%" height="470">
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-md-3" style="padding-left: 30px; padding-right: 30px">
+                <div>
+                    <div style="text-align: -webkit-center; padding-top: 20px">
+                        <img src="{{ session.film.main_picture.url }}" width="100%" height="400">
+                    </div>
+                </div>
+                <div>
+                    <div style="text-align: -webkit-center; padding-top: 50px; padding-right: 20px; padding-left: 20px">
+                        <img src="{% static 'cms/dist/img/context_promo' %}" width="100%" height="350">
+                    </div>
+                    <p style="text-align: center; padding-top: 10px">{% trans 'Контекстная реклама' %}</p>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6" style="text-align: -webkit-center; padding: 30px; max-width: 150px">
+                        <a href="https://next.privat24.ua/"><img src="{% static 'cms/dist/img/privat.jpg' %}" width="100%" height="80"></a>
+                        <p style="font-size: 13px">{% trans 'Карта приват' %}</p>
+                    </div>
+                    <div class="col-xl-6" style="text-align: -webkit-center; padding: 30px; max-width: 150px">
+                        <a href="https://www.ipay.ua/ru"><img src="{% static 'cms/dist/img/ipay.png' %}" width="100%" height="80"></a>
+                        <p style="font-size: 13px">{% trans 'Другая карта' %}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-md-9">
+                <p style="text-align: center; max-width: 500px; margin-top: 40px; color: white; text-transform: uppercase; height: 40px; padding-top: 5px; font-size: 20px; background-color: #ba4027"><b>{{ session.film.name }}</b></p>
+                <p style="text-transform: uppercase; font-size: 18px" class="text-muted">{{ session.time|date:"j E, H:i" }}, {% trans 'Зал' %} №{{ session.hall.hall_number }}</p>
+                <div class="row">
+                    <div class="col-xl-3 col-md-3" style="padding-top: 11px">
+                        <p style="font-size: 18px">{% trans 'ЦЕНА В ГРН.' %}: <span style="background-color: #f9c835; color: white; font-size: 20px; padding: 3px"><b>{{ session.cost }}</b></span></p>
+                    </div>
+                    <div class="col-xl-3 col-md-3" style="padding-top: 11px">
+                        <p style="font-size: 18px">{% trans 'ЗАБРОНИРОВАНО' %}: <span style="background-color: #cbcbcb; color: white; font-size: 20px; padding: 3px 10px 3px 10px"><b>0</b></span></p>
+                    </div>
+                    <div class="col-xl-6 col-md-6">
+                        <p style="font-size: 18px; display: inline-block; padding-right: 5px">
+                            {% trans 'ВАШ ЗАКАЗ' %}:
+                            <p style="font-size: 18px; display: inline-block; height: 50px; border: #f9c835 4px solid; padding-top: 9px; padding-right: 4px; padding-left: 4px">
+                                {% trans 'БИЛЕТОВ' %}:
+                                    <span style="color: red; font-size: 18px; padding-right: 40px">0</span>
+                                {% trans 'СУММА' %}:
+                                    <span style="color: red; font-size: 18px">0 </span ><span style="color: red; font-size: 18px">грн.</span>
+                            </p>
+                        </p>
+                    </div>
+                </div>
+                <div style="position: relative; text-align: -webkit-center">
+                    <img src="{{ session.hall.scheme.url }}" width="100%">
+                    <img src="{% static 'cms/dist/img/scheme.png' %}" width="100%">
+                </div>
+                <p style="padding-top: 40px">{% trans 'Стоимость услуги бронирования' %} - {{ session.cost }} грн. {% trans 'за каждое место' %}.</p>
+                <p style="text-transform: uppercase; padding-bottom: 40px">{% trans 'Забронированные билеты нужно выкупить в кассе кинотеатра не позднее, чем за пол часа до начала сеанса' %}.</p>
+                <div style="text-align: center">
+                    <button type="button" class="btn btn-outline-dark" style="border: black 2px solid; width: 200px; margin-right: 30px"><b>{% trans 'Забронировать' %}</b></button>
+                    <button type="button" class="btn btn-success" style="border: black 2px solid; width: 200px; color: black"><b>{% trans 'Купить' %}</b></button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

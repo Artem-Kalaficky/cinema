@@ -47,7 +47,7 @@
                 <select id="film" name="film" class="form-select">
                     <option value="all">{% trans 'Фильм: все' %}</option>
                     {% for film in films %}
-                    <option id="film-{{ forloop.counter0 }}" class="selected-film" value="{{ film.name }}">{{ film.name }}</option>
+                    <option id="film-{{ forloop.counter0 }}" class="selected-film" value="{{ film.id }}">{{ film.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -155,7 +155,7 @@
                     let f_data1 = data.halls
                     let halls = '';
                     $(f_data).each(function(index, value) {
-                        html += "<tr class='text-center'><td>" + value.time + "</td><td class='filmstr'>" + value.film + "</td><td>" + value.hall + "</td><td>" + value.cost + "</td><td><a href='#'><img src='{% static 'cms/dist/img/ticket.png' %}'></a></td></tr>"
+                        html += "<tr class='text-center'><td>" + value.time + "</td><td class='filmstr'>" + value.film + "</td><td>" + value.hall + "</td><td>" + value.cost + "</td><td><a href=''><img src='{% static 'cms/dist/img/ticket.png' %}'></a></td></tr>"
                     })
                     $("#table1 tbody").append(html)
 
@@ -195,7 +195,7 @@
                     })
                     let html = '';
                     $(f_data).each(function(index, value) {
-                        html += "<tr class='text-center'><td>" + value.time + "</td><td class='filmstr'><a style='color: black' href='/ru/film/" + value.film_id + "'>" + value.film + "</td><td>" + value.hall + "</td><td>" + value.cost + "</td><td><a href='#'><img src='{% static 'cms/dist/img/ticket.png' %}'></a></td></tr>"
+                        html += "<tr class='text-center'><td>" + value.time + "</td><td class='filmstr'><a style='color: black' href='/ru/film/" + value.film_id + "'>" + value.film + "</td><td>" + value.hall + "</td><td>" + value.cost + "</td><td><a href='/ru/sessions/" + value.pk + "/buy-ticket'><img src='{% static 'cms/dist/img/ticket.png' %}'></a></td></tr>"
                     })
                     $("#table1 tbody").append(html)
                 },

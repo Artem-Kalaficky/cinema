@@ -1,9 +1,6 @@
-import datetime
-
 from django.db import models
 
-import users.models
-#from users.models import UserProfile
+from users.models import UserProfile
 
 
 class Image(models.Model):
@@ -169,7 +166,15 @@ class Session(models.Model):
 
 
 class Ticket(models.Model):
-    pass
+    sessions = models.ForeignKey(Session, on_delete=models.CASCADE, verbose_name="Сеанс")
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="Пользователь")
+    place = models.CharField(max_length=2, verbose_name="Место")
+    row = models.CharField(max_length=2, verbose_name="Ряд")
+    status = models.BooleanField(default=False, verbose_name="Куплено?")
+
+    class Meta:
+        verbose_name = 'Билет'
+        verbose_name_plural = 'Билеты'
 
 
 class Mailing(models.Model):

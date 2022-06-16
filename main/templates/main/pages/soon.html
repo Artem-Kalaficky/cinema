@@ -24,7 +24,7 @@
                             <span style="text-align: center; color: white"><b>{% trans 'C' %} {{ film.premier_date|date:"d.m.Y" }}</b></span></br>
                             <a href="{% url 'film_card' film.id %}"><img src="{{ film.main_picture.url }}" height="270" width="200"></a>
                             <p style="font-size: 19px; text-decoration: underline; height: 45px"><b><a href="{% url 'film_card' film.id %}" style="color: black">{{ film.name }}</a></b></p>
-                            <button type="button" class="btn btn-warning" style="min-width: 190px; border-radius: 25px"><a href="{% url 'sessions' %}" style="color: black"><img src="{% static 'cms/dist/img/ticket.png' %}" height="28" width="28" style="margin-right: 15px"><b style="font-size: 16px"> {% trans 'КУПИТЬ' %}</b></a></button>
+                            <button value="{{ film.id }}" type="button" class="sessions btn btn-warning" style="min-width: 190px; border-radius: 25px"><a href="{% url 'sessions' %}" style="color: black"><img src="{% static 'cms/dist/img/ticket.png' %}" height="28" width="28" style="margin-right: 15px"><b style="font-size: 16px"> {% trans 'КУПИТЬ' %}</b></a></button>
                         </div>
                     {% endfor %}
                     {% for film in current_films %}
@@ -32,7 +32,7 @@
                             <span style="text-align: center; color: white"><b>{% trans 'Сейчас в кино' %} </b></span>
                             <a href="{% url 'film_card' film.id %}"><img src="{{ film.main_picture.url }}" height="270" width="200"></a>
                             <p style="font-size: 19px; text-decoration: underline; height: 45px"><b><a href="{% url 'film_card' film.id %}" style="color: black">{{ film.name }}</a></b></p>
-                            <button value="{{ film.name }}" type="button" class="sessions btn btn-warning" style="min-width: 190px; border-radius: 25px"><a href="{% url 'sessions' %}" style="color: black"><img src="{% static 'cms/dist/img/ticket.png' %}" height="28" width="28" style="margin-right: 15px"><b style="font-size: 16px"> {% trans 'КУПИТЬ' %}</b></a></button>
+                            <button value="{{ film.id }}" type="button" class="sessions btn btn-warning" style="min-width: 190px; border-radius: 25px"><a href="{% url 'sessions' %}" style="color: black"><img src="{% static 'cms/dist/img/ticket.png' %}" height="28" width="28" style="margin-right: 15px"><b style="font-size: 16px"> {% trans 'КУПИТЬ' %}</b></a></button>
                         </div>
                     {% endfor %}
                 </div>

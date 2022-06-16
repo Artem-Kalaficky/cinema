@@ -158,7 +158,7 @@ def sessions(request):
             else:
                 sessions = sessions.filter(Q(film__type_2d=type_2d) & Q(film__type_3d=type_3d) & Q(film__type_imax=type_imax))
             if film != 'false' and film is not None:
-                sessions = sessions.filter(film__name=film)
+                sessions = sessions.filter(film_id=film)
             if hall_id != 'false':
                 sessions = sessions.filter(hall_id=hall_id)
             if cinema_id != 'false' and cinema_id is not None:
@@ -188,12 +188,12 @@ def film_card(request, film_id):
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         if request.method == 'GET':
             cinema_id = request.GET.get('cinema_id')
-            date = request.GET.get('date')
+            date = request.GET.get('date') if request.GET.get('date') is not None else datetime.datetime.now().strftime("%d")
             type_2d = True if request.GET.get('2d') == 'true' else False
             type_3d = True if request.GET.get('3d') == 'true' else False
             type_imax = True if request.GET.get('imax') == 'true' else False
             type_all = True if request.GET.get('type_all') == 'true' else False
-            sessions = Session.objects.filter(film_id=film_id)
+            sessions = Session.objects.filter(film_id=film_id, time__day=int(date))
             if type_imax:
                 sessions = sessions.filter(film__type_imax=type_imax)
             if type_3d:
@@ -202,8 +202,6 @@ def film_card(request, film_id):
                 sessions = sessions.filter(film__type_2d=type_2d)
             if type_all:
                 sessions = sessions
-            if date:
-                sessions = sessions.filter(time__day=int(date))
             if cinema_id != 'false':
                 halls = Hall.objects.filter(cinema=cinema_id)
                 idx = []
@@ -217,7 +215,16 @@ def film_card(request, film_id):
                'film': film,
                'cinemas': Cinema.objects.all(),
                'dates': [(datetime.datetime.now() + datetime.timedelta(days=d)) for d in range(7)],
-               'sessions': Session.objects.filter(film_id=film_id),
+               'sessions': Session.objects.filter(film_id=film_id, time__day=int(datetime.datetime.now().strftime("%d"))),
                'images': film.images.all()}
     return render(request, 'main/pages/film_card.html', context)
 # endregion FILM_CARD
+
+
+# region TICKET page
+def ticket(request, session_id):
+    context = {'main_page': Page.objects.get(is_main=True),
+               'pages': Page.objects.filter(is_main=False, is_base=True, is_contact=False),
+               'session': get_object_or_404(Session, pk=session_id)}
+    return render(request, 'main/pages/ticket_page.html', context)
+# endregion TICKET page
