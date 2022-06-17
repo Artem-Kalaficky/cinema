@@ -8,19 +8,14 @@ function get_place_list() {
     let list = $('.selected').map(function (){
         return $(this).attr('place')
     })
-    let s = []
-    $(list).each(function (value, obj){
-        s[value] = obj
-    })
-    console.log(typeof(s))
-    collect_data.set('place_list', s)
+    collect_data.set('place_list', list.toArray())
 }
 
 function get_row_list() {
     let list = $('.selected').map(function (){
         return $(this).attr('row')
     })
-    collect_data.set('row_list', list)
+    collect_data.set('row_list', list.toArray())
 }
 
 
@@ -36,23 +31,33 @@ $('.selected').click(function (){
 
 //count cost and ticket
 $('.part').click(function (){
+    block_btn()
     $('#num_tickets').html($('.selected').length)
-    $('#num_cost').html($('.selected').length * cost)
+    $('.num_cost').html($('.selected').length * cost)
 })
 
 
 //reserve or buy tickets
-$('#reserve').click(function (){
+function create_ticket() {
+    block_btn()
+    get_place_list()
+    get_row_list()
+    $('.selected').addClass('reserve').removeClass('selected').attr('fill', 'grey')
+    $('#numb-reserved').html($('.reserve').length)
+    $('#num_tickets').html(0)
+    $('.num_cost').html(0)
+    get_tickets()
+    collect_data.delete('place_list')
+    collect_data.delete('row_list')
+    collect_data.delete('status')
+    console.log(collect_data)
+    $('.reserve').unbind('click');
+    setTimeout(block_btn(), 100)
+}
+$('.reserve-btn').click(function (){
     if ($('.selected').length !== 0) {
-        get_place_list()
-        get_row_list()
         collect_data.set('status', false)
-        $('.selected').addClass('reserve').removeClass('selected').attr('fill', 'grey')
-        $('#numb-reserved').html($('.reserve').length)
-        $('#num_tickets').html(0)
-        $('#num_cost').html(0)
-        get_tickets()
-        $('.reserve').unbind('click');
+        create_ticket()
     } else {
         $('#error').css('display', 'block')
         setTimeout(function (){
@@ -63,7 +68,8 @@ $('#reserve').click(function (){
 
 $('#buy').click(function (){
     if ($('.selected').length !== 0) {
-
+        collect_data.set('status', true)
+        create_ticket()
     } else {
         $('#error').css('display', 'block')
         setTimeout(function (){
@@ -71,6 +77,20 @@ $('#buy').click(function (){
         }, 3000)
     }
 })
+
+function block_btn(){
+    if ($('.selected').length === 0) {
+        $('#for-buy').prop('disabled', true)
+    } else {
+        $('#for-buy').prop('disabled', false)
+    }
+}
+block_btn()
+
+
+
+
+
 
 
 

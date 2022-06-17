@@ -20,3 +20,10 @@ def serialize_for_film(queryset):
                                         'hall': obj.hall.hall_number,
                                         'pk': obj.id} for obj in queryset]))
     return json_data
+
+
+def serialize_for_ticket(queryset):
+    json_data = json.loads(json.dumps([{'place': obj.place,
+                                        'row': obj.row} for obj in queryset]))
+    return json_data
+

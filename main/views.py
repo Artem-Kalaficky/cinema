@@ -1,6 +1,7 @@
 import datetime
 import json
 
+from django.core import serializers
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
@@ -8,8 +9,8 @@ from django.utils import timezone
 from django.views.generic import DetailView
 
 
-from .models import Page, Banner, Slide, Carousel, Film, Cinema, Hall, Session, NewsOrProm, Contact
-from .serializers import serialize, serialize_for_film
+from .models import Page, Banner, Slide, Carousel, Film, Cinema, Hall, Session, NewsOrProm, Contact, Ticket
+from .serializers import serialize, serialize_for_film, serialize_for_ticket
 
 
 def main(request):
@@ -223,16 +224,21 @@ def film_card(request, film_id):
 
 # region TICKET page
 def ticket(request, session_id):
+    session = get_object_or_404(Session, pk=session_id)
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         if request.method == 'GET':
-            place_list = request.GET.get('place_list')
-            row_list = request.GET.get('row_list')
-            status = request.GET.get('status')
-            print(status)
-            print(f"Места: {place_list}, ряды: {row_list}")
-            return JsonResponse({}, status=200)
+            place_list = request.GET.getlist('place_list[]')
+            row_list = request.GET.getlist('row_list[]')
+            status = True if request.GET.get('status') == 'true' else False
+            tickets = serialize_for_ticket(Ticket.objects.filter(sessions=session.id))
+            if len(place_list) > 1:
+                for i in range(len(place_list)):
+                    Ticket.objects.create(sessions=session, user_id=request.user.id, place=place_list[i], row=row_list[i], status=status)
+            elif len(place_list) == 1:
+                Ticket.objects.create(sessions=session, user_id=request.user.id, place=place_list[0], row=row_list[0], status=status)
+            return JsonResponse({'tickets': tickets}, status=200)
     context = {'main_page': Page.objects.get(is_main=True),
                'pages': Page.objects.filter(is_main=False, is_base=True, is_contact=False),
-               'session': get_object_or_404(Session, pk=session_id)}
+               'session': session}
     return render(request, 'main/pages/ticket_page.html', context)
 # endregion TICKET page
