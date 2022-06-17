@@ -17,7 +17,12 @@ from .forms import *
 
 @user_passes_test(lambda u: u.is_staff)
 def statistics(request):
-    return render(request, 'cms/pages/statistics.html')
+    users = UserProfile.objects.all()
+    count_users = len(users)
+    visitors = len(users.filter(i))
+    context = {'users': users,
+               'count_users': count_users}
+    return render(request, 'cms/pages/statistics.html', context)
 
 # region FILM page
 @user_passes_test(lambda u: u.is_staff)
@@ -615,9 +620,9 @@ def task_progress(request):
 class EmailDeleteView(DeleteView):
     model = Mailing
     success_url = reverse_lazy('mailing')
-
-
 # endregion MAILING page
+
+
 
 
 

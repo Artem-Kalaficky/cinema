@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-14 13:52+0300\n"
+"POT-Creation-Date: 2022-06-17 19:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,6 +67,7 @@ msgid "Вы действительно хотите выйти с аккаунт
 msgstr "Ви дійсно хочете вийти з акаунту?"
 
 #: main/templates/main/layout/base.html:68
+#: main/templates/main/pages/ticket_page.html:246
 #: users/templates/users/profile.html:73
 msgid "Отмена"
 msgstr "Відміна"
@@ -201,9 +202,10 @@ msgstr "Зберегти"
 #: main/templates/main/pages/promotions/promotion.html:46
 #: main/templates/main/pages/promotions/promotions.html:33
 #: main/templates/main/pages/promotions/promotions.html:39
-#: main/templates/main/pages/sessions.html:117
-#: main/templates/main/pages/sessions.html:123
+#: main/templates/main/pages/sessions.html:115
+#: main/templates/main/pages/sessions.html:121
 #: main/templates/main/pages/soon.html:18
+#: main/templates/main/pages/ticket_page.html:29
 msgid "Контекстная реклама"
 msgstr "Контексна реклама"
 
@@ -214,7 +216,10 @@ msgstr "Кількість залів"
 #: main/templates/main/pages/cinemas/cinema.html:36
 #: main/templates/main/pages/cinemas/hall.html:13
 #: main/templates/main/pages/cinemas/hall.html:46
-#: main/templates/main/pages/sessions.html:58
+#: main/templates/main/pages/film_card.html:99
+#: main/templates/main/pages/film_card.html:197
+#: main/templates/main/pages/sessions.html:163
+#: main/templates/main/pages/ticket_page.html:44
 msgid "Зал"
 msgstr "Зала"
 
@@ -275,14 +280,34 @@ msgstr "Наші кінотеатри"
 msgid "Карта зала"
 msgstr "Карта зали"
 
-#: main/templates/main/pages/index.html:13 users/templates/users/profile.html:9
-msgid "Главная"
-msgstr "Головна"
+#: main/templates/main/pages/film_card.html:26
+msgid "Расписание сеансов кинотеатра"
+msgstr "Розклад сеансів кінотеатра"
 
+#: main/templates/main/pages/film_card.html:30
+#: main/templates/main/pages/film_card.html:84
+#: main/templates/main/pages/sessions.html:32
+msgid "Кинотеатр: все"
+msgstr "Кінотеатр: всі"
+
+#: main/templates/main/pages/film_card.html:108
+#: main/templates/main/pages/sessions.html:108
+msgid "Нет доступных сеансов"
+msgstr "Немає дійсних сеансів"
+
+#: main/templates/main/pages/film_card.html:118
 #: main/templates/main/pages/index.html:87
 #: users/templates/users/profile.html:248
 msgid "Купить билет"
 msgstr "Купити квиток"
+
+#: main/templates/main/pages/film_card.html:131
+msgid "Кадры и постеры"
+msgstr "Кадри та постери"
+
+#: main/templates/main/pages/index.html:13 users/templates/users/profile.html:9
+msgid "Главная"
+msgstr "Головна"
 
 #: main/templates/main/pages/index.html:97
 #: users/templates/users/profile.html:258
@@ -346,10 +371,6 @@ msgstr "З"
 msgid "Показывать только"
 msgstr "Показати тільки"
 
-#: main/templates/main/pages/sessions.html:32
-msgid "Кинотеатр: все"
-msgstr "Кінотеатр: всі"
-
 #: main/templates/main/pages/sessions.html:40
 msgid "Дата"
 msgstr "Дата"
@@ -362,30 +383,99 @@ msgstr "Фільм: усі"
 msgid "Зал: все"
 msgstr "Зала: всі"
 
-#: main/templates/main/pages/sessions.html:72
-#: main/templates/main/pages/sessions.html:99
+#: main/templates/main/pages/sessions.html:69
+#: main/templates/main/pages/sessions.html:96
 msgid "ВРЕМЯ"
 msgstr "ЧАС"
 
-#: main/templates/main/pages/sessions.html:73
-#: main/templates/main/pages/sessions.html:100
+#: main/templates/main/pages/sessions.html:70
+#: main/templates/main/pages/sessions.html:97
 msgid "ФИЛЬМ"
 msgstr "ФІЛЬМ"
 
-#: main/templates/main/pages/sessions.html:74
-#: main/templates/main/pages/sessions.html:101
+#: main/templates/main/pages/sessions.html:71
+#: main/templates/main/pages/sessions.html:98
 msgid "ЗАЛ"
 msgstr "ЗАЛА"
 
-#: main/templates/main/pages/sessions.html:75
-#: main/templates/main/pages/sessions.html:102
+#: main/templates/main/pages/sessions.html:72
+#: main/templates/main/pages/sessions.html:99
+#: main/templates/main/pages/ticket_page.html:47
 msgid "ЦЕНА В ГРН."
 msgstr "ЦІНА В ГРН."
 
-#: main/templates/main/pages/sessions.html:76
-#: main/templates/main/pages/sessions.html:103
+#: main/templates/main/pages/sessions.html:73
+#: main/templates/main/pages/sessions.html:100
 msgid "БРОНИРОВАТЬ"
 msgstr "БРОНЮВАТИ"
+
+#: main/templates/main/pages/ticket_page.html:34
+msgid "Карта приват"
+msgstr "Карта Приват"
+
+#: main/templates/main/pages/ticket_page.html:38
+msgid "Другая карта"
+msgstr "Інша кімната"
+
+#: main/templates/main/pages/ticket_page.html:50
+msgid "ЗАБРОНИРОВАНО"
+msgstr "ЗАБРОНЬОВАНО"
+
+#: main/templates/main/pages/ticket_page.html:54
+msgid "ВАШ ЗАКАЗ"
+msgstr "ВАШЕ ЗАМОВЛЕННЯ"
+
+#: main/templates/main/pages/ticket_page.html:56
+msgid "БИЛЕТОВ"
+msgstr "КВИТКІВ"
+
+#: main/templates/main/pages/ticket_page.html:58
+msgid "СУММА"
+msgstr "СУМА"
+
+#: main/templates/main/pages/ticket_page.html:220
+msgid "Стоимость услуги бронирования"
+msgstr "Вартість послуги бронювання"
+
+#: main/templates/main/pages/ticket_page.html:220
+msgid "за каждое место"
+msgstr "за кожне місце"
+
+#: main/templates/main/pages/ticket_page.html:221
+msgid ""
+"Забронированные билеты нужно выкупить в кассе кинотеатра не позднее, чем за "
+"пол часа до начала сеанса"
+msgstr ""
+"Заброньовані квитки потрібно викупити в касі кінотеатру не пізніше ніж за "
+"пів години до початку сеансу"
+
+#: main/templates/main/pages/ticket_page.html:223
+msgid "Забронировать"
+msgstr "Забронювати"
+
+#: main/templates/main/pages/ticket_page.html:224
+msgid "Купить"
+msgstr "Купити"
+
+#: main/templates/main/pages/ticket_page.html:225
+msgid "Нужно выбрать места для бронирования или покупки билетов"
+msgstr "Потрібно вибрати місця для бронювання або купівлі квитків"
+
+#: main/templates/main/pages/ticket_page.html:231
+msgid "Подтверждение покупки"
+msgstr "Підтвердження покупки"
+
+#: main/templates/main/pages/ticket_page.html:242
+msgid "К оплате"
+msgstr "До сплати"
+
+#: main/templates/main/pages/ticket_page.html:242
+msgid "грн."
+msgstr "грн."
+
+#: main/templates/main/pages/ticket_page.html:247
+msgid "Оплатить"
+msgstr "Сплатити"
 
 #: users/forms.py:14
 msgid "Введённые пароли не совпадают."

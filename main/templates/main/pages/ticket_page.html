@@ -18,12 +18,12 @@
         <div class="row">
             <div class="col-xl-3 col-md-3" style="padding-left: 30px; padding-right: 30px">
                 <div>
-                    <div style="text-align: -webkit-center; padding-top: 20px">
-                        <img src="{{ session.film.main_picture.url }}" width="100%" height="400">
+                    <div style="text-align: -webkit-center; padding-top: 20px; max-width: 275px;">
+                        <a href="{% url 'film_card' session.film.id %}"><img src="{{ session.film.main_picture.url }}" width="100%" height="400"></a>
                     </div>
                 </div>
                 <div>
-                    <div style="text-align: -webkit-center; padding-top: 50px; padding-right: 20px; padding-left: 20px">
+                    <div style="text-align: -webkit-center; padding-top: 50px; padding-right: 20px; padding-left: 20px; max-width: 235px;">
                         <img src="{% static 'cms/dist/img/context_promo' %}" width="100%" height="350">
                     </div>
                     <p style="text-align: center; padding-top: 10px">{% trans 'Контекстная реклама' %}</p>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="col-xl-9 col-md-9">
-                <p style="text-align: center; max-width: 500px; margin-top: 40px; color: white; text-transform: uppercase; height: 40px; padding-top: 5px; font-size: 20px; background-color: #ba4027"><b>{{ session.film.name }}</b></p>
+                <a href="{% url 'film_card' session.film.id %}"><p style="text-align: center; max-width: 500px; margin-top: 40px; color: white; text-transform: uppercase; height: 40px; padding-top: 5px; font-size: 20px; background-color: #ba4027"><b>{{ session.film.name }}</b></p></a>
                 <p style="text-transform: uppercase; font-size: 18px" class="text-muted">{{ session.time|date:"j E, H:i" }}, {% trans 'Зал' %} №{{ session.hall.hall_number }}</p>
                 <div class="row">
                     <div class="col-xl-3 col-md-3" style="padding-top: 11px">
@@ -166,18 +166,53 @@
                         <path class="part unselected" d="m 689.14471,371.8147 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="7" place="13"></path>
                         <!--ROW 8-->
                         <path class="part unselected" d="m 208.97789,411.42624 37.38093,-0.23677 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="8" place="1"></path>
-                        <path class="part unselected" d="m 249.29016,371.5323 37.38093,-0.23678 0.35683,36.97027 -38.07903,-0.06 z" fill="#ba4027" row="8" place="2"></path>
-                        <path class="part unselected" d="m 289.16072,371.5127 37.38093,-0.23678 0.35683,36.97027 -38.07903,-0.06 z" fill="#ba4027" row="8" place="3"></path>
-                        <path class="part unselected" d="m 329.18965,371.61005 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="8" place="4"></path>
-                        <path class="part unselected" d="m 369.38465,371.66156 37.38093,-0.23678 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="8" place="5"></path>
-                        <path class="part unselected" d="m 408.90383,371.61041 37.38093,-0.23677 0.35683,36.97024 -38.07903,-0.06 z" fill="#ba4027" row="8" place="6"></path>
-                        <path class="part unselected" d="m 449.04015,371.7673 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="8" place="7"></path>
-                        <path class="part unselected" d="m 488.95727,371.7485 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="8" place="8"></path>
-                        <path class="part unselected" d="m 529.16757,372.02663 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="8" place="9"></path>
-                        <path class="part unselected" d="m 569.51756,371.8974 37.38093,-0.23678 0.35683,36.97028 -38.07903,-0.06 z" fill="#ba4027" row="8" place="10"></path>
-                        <path class="part unselected" d="m 609.21348,371.90468 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="8" place="11"></path>
-                        <path class="part unselected" d="m 649.18319,371.89928 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="8" place="12"></path>
-                        <path class="part unselected" d="m 689.14471,371.8147 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="8" place="13"></path>
+                        <path class="part unselected" d="m 249.15263,411.43275 37.38093,-0.23678 0.35683,36.97027 -38.07903,-0.06 z" fill="#ba4027" row="8" place="2"></path>
+                        <path class="part unselected" d="m 289.02319,411.41315 37.38093,-0.23678 0.35683,36.97027 -38.07903,-0.06 z" fill="#ba4027" row="8" place="3"></path>
+                        <path class="part unselected" d="m 329.05212,411.5105 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="8" place="4"></path>
+                        <path class="part unselected" d="m 369.24712,411.56201 37.38093,-0.23678 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="8" place="5"></path>
+                        <path class="part unselected" d="m 408.7663,411.51086 37.38093,-0.23677 0.35683,36.97024 -38.07903,-0.06 z" fill="#ba4027" row="8" place="6"></path>
+                        <path class="part unselected" d="m 448.90262,411.66775 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="8" place="7"></path>
+                        <path class="part unselected" d="m 488.81974,411.64895 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="8" place="8"></path>
+                        <path class="part unselected" d="m 529.03004,411.92708 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="8" place="9"></path>
+                        <path class="part unselected" d="m 569.38003,411.79785 37.38093,-0.23678 0.35683,36.97028 -38.07903,-0.06 z" fill="#ba4027" row="8" place="10"></path>
+                        <path class="part unselected" d="m 609.07595,411.80513 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="8" place="11"></path>
+                        <path class="part unselected" d="m 649.04566,411.79973 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="8" place="12"></path>
+                        <path class="part unselected" d="m 689.00718,411.71515 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="8" place="13"></path>
+                        <!--ROW 9-->
+                        <path class="part unselected" d="m 209.16094,451.41278 37.38093,-0.23677 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="9" place="1"></path>
+                        <path class="part unselected" d="m 249.33568,451.41929 37.38093,-0.23678 0.35683,36.97027 -38.07903,-0.06 z" fill="#ba4027" row="9" place="2"></path>
+                        <path class="part unselected" d="m 289.20624,451.39969 37.38093,-0.23678 0.35683,36.97027 -38.07903,-0.06 z" fill="#ba4027" row="9" place="3"></path>
+                        <path class="part unselected" d="m 329.23517,451.49704 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="9" place="4"></path>
+                        <path class="part unselected" d="m 369.43017,451.54855 37.38093,-0.23678 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="9" place="5"></path>
+                        <path class="part unselected" d="m 408.94935,451.4974 37.38093,-0.23677 0.35683,36.97024 -38.07903,-0.06 z" fill="#ba4027" row="9" place="6"></path>
+                        <path class="part unselected" d="m 449.08567,451.65429 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="9" place="7"></path>
+                        <path class="part unselected" d="m 489.00279,451.63549 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="9" place="8"></path>
+                        <path class="part unselected" d="m 529.21309,451.91362 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="9" place="9"></path>
+                        <path class="part unselected" d="m 569.56308,451.78439 37.38093,-0.23678 0.35683,36.97028 -38.07903,-0.06 z" fill="#ba4027" row="9" place="10"></path>
+                        <path class="part unselected" d="m 609.259,451.79167 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="9" place="11"></path>
+                        <path class="part unselected" d="m 649.22871,451.78627 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="9" place="12"></path>
+                        <path class="part unselected" d="m 689.19023,451.70169 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="9" place="13"></path>
+                        <!--ROW 10-->
+                        <path class="part unselected" d="m 70.668368,491.58022 37.380932,-0.23678 0.35683,36.97028 -38.079032,-0.06 z" fill="#ba4027" row="10" place="1"></path>
+                        <path class="part unselected" d="m 110.92774,491.66135 37.38093,-0.23678 0.35683,36.97027 -38.07903,-0.06 z" fill="#ba4027" row="10" place="2"></path>
+                        <path class="part unselected" d="m 151.10248,491.66786 37.38093,-0.23678 0.35683,36.97027 -38.07903,-0.06 z" fill="#ba4027" row="10" place="3"></path>
+                        <path class="part unselected" d="m 190.97304,491.64826 37.38093,-0.23678 0.35683,36.97027 -38.07903,-0.06 z" fill="#ba4027" row="10" place="4"></path>
+                        <path class="part unselected" d="m 231.00197,491.74561 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="5"></path>
+                        <path class="part unselected" d="m 271.19697,491.79711 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="10" place="6"></path>
+                        <path class="part unselected" d="m 310.71615,491.74596 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="10" place="7"></path>
+                        <path class="part unselected" d="m 350.85247,491.90286 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="8"></path>
+                        <path class="part unselected" d="m 390.76959,491.88406 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="9"></path>
+                        <path class="part unselected" d="m 430.89637,492.02483 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="10"></path>
+                        <path class="part unselected" d="m 471.09106,491.96254 37.38093,-0.23678 0.35683,36.97028 -38.07903,-0.06 z" fill="#ba4027" row="10" place="11"></path>
+                        <path class="part unselected" d="m 511.0258,491.85289 37.38093,-0.23677 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="12"></path>
+                        <path class="part unselected" d="m 551.25378,491.76877 37.38093,-0.23677 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="13"></path>
+                        <path class="part unselected" d="m 591.13695,491.52566 37.38093,-0.23677 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="14"></path>
+                        <path class="part unselected" d="m 631.02877,491.33981 37.38093,-0.23677 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="15"></path>
+                        <path class="part unselected" d="m 670.93278,491.64741 37.38093,-0.23677 0.35683,36.97025 -38.07903,-0.06 z" fill="#ba4027" row="10" place="16"></path>
+                        <path class="part unselected" d="m 711.28277,491.51818 37.38093,-0.23678 0.35683,36.97028 -38.07903,-0.06 z" fill="#ba4027" row="10" place="17"></path>
+                        <path class="part unselected" d="m 750.97869,491.52546 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="18"></path>
+                        <path class="part unselected" d="m 790.9484,491.52006 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="19"></path>
+                        <path class="part unselected" d="m 830.90992,491.43548 37.38093,-0.23678 0.35683,36.97026 -38.07903,-0.06 z" fill="#ba4027" row="10" place="20"></path>
                     </svg>
 
                     <img src="{% static 'cms/dist/img/scheme.jpg' %}" width="100%">
@@ -185,16 +220,19 @@
                 <p style="padding-top: 40px">{% trans 'Стоимость услуги бронирования' %} - {{ session.cost }} грн. {% trans 'за каждое место' %}.</p>
                 <p style="text-transform: uppercase; padding-bottom: 40px">{% trans 'Забронированные билеты нужно выкупить в кассе кинотеатра не позднее, чем за пол часа до начала сеанса' %}.</p>
                 <div style="text-align: center">
+                    {% if user.is_authenticated %}
                     <button type="button" class="reserve-btn btn btn-outline-dark" style="border: black 2px solid; width: 200px; margin-right: 30px"><b>{% trans 'Забронировать' %}</b></button>
                     <button id="for-buy" type="button" class="btn btn-success" style="border: black 2px solid; width: 200px; color: black" data-bs-toggle="modal" data-bs-target="#buyModal"><b>{% trans 'Купить' %}</b></button>
-                    <button type="button" id="test">test</button>
-                    <p id="error" style="text-align: center; color: red; display: none">Нужно выбрать места для бронирования или покупки билетов.</p>
+                    {% else %}
+                    <p style="text-align: center; font-size: 18px; "><b>{% trans 'Бронирование и покупка билетов доступны только авторизированным пользователям' %}</b></p>
+                    {% endif %}
+                    <p id="error" style="text-align: center; color: red; display: none">{% trans 'Нужно выбрать места для бронирования или покупки билетов' %}.</p>
                     <!-- Modal -->
                     <div class="modal fade" id="buyModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                           <div class="modal-header bg-success">
-                            <h5 class="modal-title" id="deleteModal1Label-{{ forloop.counter }}">Подтверждение покупки</h5>
+                            <h5 class="modal-title" id="deleteModal1Label-{{ forloop.counter }}">{% trans 'Подтверждение покупки' %}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                               <div class="modal-body">
@@ -209,8 +247,8 @@
                                 </div>
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                                <button id="buy" type="button" class="btn btn-success" data-bs-dismiss="modal">Оплатить</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans 'Отмена' %}</button>
+                                <button id="buy" type="button" class="btn btn-success" data-bs-dismiss="modal">{% trans 'Оплатить' %}</button>
                               </div>
                         </div>
                       </div>
