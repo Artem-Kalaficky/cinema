@@ -1,0 +1,23 @@
+version: '2.6.0'
+
+services:
+  db:
+    image: postgres 12.11
+    volumes:
+      - postgres_data:/var/lib/postgresql_data/
+
+  web:
+    build: .
+      command: python /usr/src/cinema/manage.py runserver 0.0.0.0:8000
+      volumes:
+        - .:/usr/src/cinema
+      ports:
+        - 8000:8000
+      depends_on:
+        - cinema
+
+volumes:
+  postgres_data:
+
+
+

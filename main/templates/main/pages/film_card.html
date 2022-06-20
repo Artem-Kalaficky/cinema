@@ -58,7 +58,7 @@
             <div class="col-xl-10" style="padding-top: 30px">
                 <div class="row">
                     {% for date in dates %}
-                        <div class="col-xl-3 col-md-3 col-sm-4" style="padding-bottom: 20px; text-align: left">
+                        <div class="col-xl-3 col-md-3 col-sm-4 col-xs-6" style="padding-bottom: 20px; text-align: left">
                             <button onclick="get_date(this.id)" id="date-{{ forloop.counter }}" value="{{ date|date:"j" }}" type="button" style="border: black 0 solid">
                                 <table class="text-center table-bordered">
                                     <thead>
@@ -110,7 +110,7 @@
             </div>
         </div>
         <div class="row" style="padding-top: 30px">
-            <div class="col-xl-4 col-md-5" style="text-align: -webkit-center; padding-right: 30px; padding-left: 30px; padding-bottom: 30px">
+            <div class="col-xl-4 col-md-5" style="text-align: -webkit-center; padding-right: 30px; padding-left: 30px; padding-bottom: 30px; max-width: 387px">
                 <img src="{{ film.main_picture.url }}" width="100%" height="500px">
             </div>
             <div class="col-xl-8 col-md-7" style="padding-left: 30px; padding-right: 30px">
