@@ -11,18 +11,45 @@ from django.urls import reverse_lazy
 
 from users.models import UserProfile
 from users.forms import ChangeUserInfoForm
+from main.models import Ticket, Session
 from .tasks import send
 from .forms import *
 
 
+# region statistics
 @user_passes_test(lambda u: u.is_staff)
 def statistics(request):
-    users = UserProfile.objects.all()
-    count_users = len(users)
-    visitors = len(users.filter(i))
-    context = {'users': users,
-               'count_users': count_users}
+    films = Ticket.objects.all()
+    dates = [(datetime.datetime.now() + datetime.timedelta(days=d)) for d in range(7)]
+    sessions = Session.objects.all()
+    male = len(films.filter(user__is_male=True))
+    female = len(films.filter(user__is_male=False))
+    count_cinema_city = []
+    count_multiplex = []
+    count_sessions_list = []
+    for date in dates:
+        day = sessions.filter(time__day=date.strftime("%d"))
+        count_multiplex.append(len(day.filter(hall__cinema=2)))
+        count_cinema_city.append(len(day.filter(hall__cinema=6)))
+        count_sessions_list.append(len(day))
+    context = {'users': UserProfile.objects.all(),
+               'count_users': len(UserProfile.objects.all()),
+               'doc': films.filter(sessions__film__name='Доктор Стрэндж: В мультивселенной безумия'),
+               'mor': films.filter(sessions__film__name='Морбиус'),
+               'spider': films.filter(sessions__film__name='Человек-Паук: Нет пути домой'),
+               'venom': films.filter(sessions__film__name='Веном 2'),
+               'mutant': films.filter(sessions__film__name='Новые мутанты'),
+               'dates': dates,
+               'sum_sessions': count_sessions_list,
+               'male': male,
+               'female': female,
+               'male_percent': male / len(films) * 100,
+               'female_percent': female / len(films) * 100,
+               'count_multiplex': count_multiplex,
+               'count_cinema_city': count_cinema_city}
     return render(request, 'cms/pages/statistics.html', context)
+# endregion statistics
+
 
 # region FILM page
 @user_passes_test(lambda u: u.is_staff)
@@ -34,6 +61,7 @@ def film_list(request):
     return render(request, 'cms/pages/film/film_list.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def add_film(request):
     base_form = FilmForm(request.POST or None, request.FILES or None, prefix='base_form')
     gallery_formset = FilmGalleryFormSet(request.POST or None, request.FILES or None,
@@ -56,6 +84,7 @@ def add_film(request):
     return render(request, 'cms/pages/film/create_film.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def edit_film(request, film_id):
     film = get_object_or_404(Film, pk=film_id)
     seo = film.seo
@@ -95,6 +124,7 @@ def delete_film(request, film_id):
         return render(request, 'cms/pages/film/film_confirm_delete.html', context)
 # endregion FILM page
 
+
 # region CINEMA page
 @user_passes_test(lambda u: u.is_staff)
 def cinema_list(request):
@@ -102,10 +132,11 @@ def cinema_list(request):
     return render(request, 'cms/pages/cinema/cinema_list.html', {'cinemas': cinemas})
 
 
+@user_passes_test(lambda u: u.is_staff)
 def add_cinema(request):
     base_form = CinemaForm(request.POST or None, request.FILES or None, prefix='base_form')
-    gallery_formset = CinemaGalleryFormSet(request.POST or None, request.FILES or None,
-                                         queryset=Image.objects.none(), prefix='gallery_formset')
+    gallery_formset = CinemaGalleryFormSet(request.POST or None, request.FILES or None, queryset=Image.objects.none(),
+                                           prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, prefix='seo_form')
     if request.method == 'POST':
         if base_form.is_valid() and gallery_formset.is_valid() and seo_form.is_valid():
@@ -124,13 +155,14 @@ def add_cinema(request):
     return render(request, 'cms/pages/cinema/create_cinema.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def edit_cinema(request, cinema_id):
     cinema = get_object_or_404(Cinema, pk=cinema_id)
     halls = Hall.objects.filter(cinema=cinema_id)
     seo = cinema.seo
     base_form = CinemaForm(request.POST or None, request.FILES or None, instance=cinema, prefix='base_form')
-    gallery_formset = CinemaGalleryFormSet(request.POST or None, request.FILES or None,
-                                         queryset=cinema.images.all(), prefix='gallery_formset')
+    gallery_formset = CinemaGalleryFormSet(request.POST or None, request.FILES or None, queryset=cinema.images.all(),
+                                           prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
     if request.method == 'POST':
         if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
@@ -165,12 +197,14 @@ def delete_cinema(request, cinema_id):
         return render(request, 'cms/pages/cinema/cinema_confirm_delete.html', context)
 # endregion CINEMA page
 
+
 # region HALL page
+@user_passes_test(lambda u: u.is_staff)
 def add_hall(request, cinema_id):
     cinema = get_object_or_404(Cinema, pk=cinema_id)
     base_form = HallForm(request.POST or None, request.FILES or None, prefix='base_form')
-    gallery_formset = HallGalleryFormSet(request.POST or None, request.FILES or None,
-                                           queryset=Image.objects.none(), prefix='gallery_formset')
+    gallery_formset = HallGalleryFormSet(request.POST or None, request.FILES or None, queryset=Image.objects.none(),
+                                         prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, prefix='seo_form')
     if request.method == 'POST':
         if base_form.is_valid() and gallery_formset.is_valid() and seo_form.is_valid():
@@ -191,13 +225,14 @@ def add_hall(request, cinema_id):
     return render(request, 'cms/pages/hall/create_hall.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def edit_hall(request, cinema_id, hall_id):
     cinema = get_object_or_404(Cinema, pk=cinema_id)
     hall = get_object_or_404(Hall, pk=hall_id)
     seo = hall.seo
     base_form = HallForm(request.POST or None, request.FILES or None, instance=hall, prefix='base_form')
-    gallery_formset = HallGalleryFormSet(request.POST or None, request.FILES or None,
-                                           queryset=hall.images.all(), prefix='gallery_formset')
+    gallery_formset = HallGalleryFormSet(request.POST or None, request.FILES or None, queryset=hall.images.all(),
+                                         prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
     if request.method == 'POST':
         if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
@@ -235,6 +270,7 @@ def delete_hall(request, cinema_id, hall_id):
         return render(request, 'cms/pages/hall/hall_confirm_delete.html', context)
 # endregion HALL page
 
+
 # region NEWS page
 @user_passes_test(lambda u: u.is_staff)
 def news_list(request):
@@ -242,10 +278,11 @@ def news_list(request):
     return render(request, 'cms/pages/news/news_list.html', {'newss': newss})
 
 
+@user_passes_test(lambda u: u.is_staff)
 def add_news(request):
     base_form = NPForm(request.POST or None, request.FILES or None, prefix='base_form')
-    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None,
-                                         queryset=Image.objects.none(), prefix='gallery_formset')
+    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None, queryset=Image.objects.none(),
+                                       prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, prefix='seo_form')
     if request.method == 'POST':
         if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
@@ -264,12 +301,13 @@ def add_news(request):
     return render(request, 'cms/pages/news/create_news.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def edit_news(request, news_id):
     news = get_object_or_404(NewsOrProm, pk=news_id)
     seo = news.seo
     base_form = NPForm(request.POST or None, request.FILES or None, instance=news, prefix='base_form')
-    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None,
-                                         queryset=news.images.all(), prefix='gallery_formset')
+    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None, queryset=news.images.all(),
+                                       prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
     if request.method == 'POST':
         if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
@@ -303,16 +341,19 @@ def delete_news(request, news_id):
         return render(request, 'cms/pages/news/news_confirm_delete.html', context)
 # endregion NEWS page
 
+
 # region PROMOTION page
+@user_passes_test(lambda u: u.is_staff)
 def promotion_list(request):
     promotions = NewsOrProm.objects.filter(type=True)
     return render(request, 'cms/pages/promotion/promotion_list.html', {'promotions': promotions})
 
 
+@user_passes_test(lambda u: u.is_staff)
 def add_promotion(request):
     base_form = NPForm(request.POST or None, request.FILES or None, prefix='base_form')
-    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None,
-                                         queryset=Image.objects.none(), prefix='gallery_formset')
+    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None, queryset=Image.objects.none(),
+                                       prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, prefix='seo_form')
     if request.method == 'POST':
         if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
@@ -331,12 +372,13 @@ def add_promotion(request):
     return render(request, 'cms/pages/promotion/create_promotion.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def edit_promotion(request, promotion_id):
     promotion = get_object_or_404(NewsOrProm, pk=promotion_id)
     seo = promotion.seo
     base_form = NPForm(request.POST or None, request.FILES or None, instance=promotion, prefix='base_form')
-    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None,
-                                         queryset=promotion.images.all(), prefix='gallery_formset')
+    gallery_formset = NPGalleryFormSet(request.POST or None, request.FILES or None, queryset=promotion.images.all(),
+                                       prefix='gallery_formset')
     seo_form = SeoForm(request.POST or None, instance=seo, prefix='seo_form')
     if request.method == 'POST':
         if base_form.is_valid() and seo_form.is_valid() and gallery_formset.is_valid():
@@ -370,6 +412,7 @@ def delete_promotion(request, promotion_id):
         return render(request, 'cms/pages/promotion/promotion_confirm_delete.html', context)
 # endregion PROMOTION page
 
+
 # region PAGES page
 @user_passes_test(lambda u: u.is_staff)
 def pages_list(request):
@@ -382,6 +425,7 @@ def pages_list(request):
     return render(request, 'cms/pages/pages/pages_list.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def add_page(request):
     base_form = PageForm(request.POST or None, request.FILES or None, prefix='base_form')
     gallery_formset = PageGalleryFormSet(request.POST or None, request.FILES or None,
@@ -404,6 +448,7 @@ def add_page(request):
     return render(request, 'cms/pages/pages/create_page.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def edit_page(request, page_id):
     page = get_object_or_404(Page, pk=page_id)
     seo = page.seo
@@ -433,6 +478,7 @@ def edit_page(request, page_id):
     return render(request, 'cms/pages/pages/edit_page.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def edit_main_page(request, page_id):
     page = get_object_or_404(Page, pk=page_id)
     seo = page.seo
@@ -451,6 +497,7 @@ def edit_main_page(request, page_id):
     return render(request, 'cms/pages/pages/edit_main_page.html', context)
 
 
+@user_passes_test(lambda u: u.is_staff)
 def edit_contact_page(request, page_id):
     page = get_object_or_404(Page, pk=page_id)
     seo = page.seo
@@ -485,6 +532,7 @@ def delete_page(request, page_id):
         return render(request, 'cms/pages/pages/page_confirm_delete.html', context)
 # endregion PAGES page
 
+
 # region BANNERS page
 @user_passes_test(lambda u: u.is_staff)
 def banner_list(request):
@@ -493,7 +541,8 @@ def banner_list(request):
     queryset = Slide.objects.filter(is_main=True)
     queryset1 = Slide.objects.filter(is_main=False)
     base_form = CarouselForm(request.POST or None, request.FILES or None, instance=top_carousel, prefix='base_form')
-    base_form1 = CarouselForm(request.POST or None, request.FILES or None, instance=bottom_carousel, prefix='base_form1')
+    base_form1 = CarouselForm(request.POST or None, request.FILES or None, instance=bottom_carousel,
+                              prefix='base_form1')
     top_carousel_formset = SlideFormSet(request.POST or None, request.FILES or None,
                                         queryset=queryset, prefix='top_carousel_formset')
     bottom_carousel_formset = SlideFormSet(request.POST or None, request.FILES or None,
@@ -536,6 +585,7 @@ def banner_list(request):
     return render(request, 'cms/pages/banners/banners_list.html', context)
 # endregion BANNERS page
 
+
 # region USERS page
 class UsersView(LoginRequiredMixin, ListView):
     template_name = 'cms/pages/users/users_list.html'
@@ -549,7 +599,7 @@ class UsersView(LoginRequiredMixin, ListView):
         return context
 
 
-class UsersEditView(UpdateView):
+class UsersEditView(LoginRequiredMixin, UpdateView):
     model = UserProfile
     form_class = ChangeUserInfoForm
     template_name = 'cms/pages/users/edit_user.html'
@@ -570,6 +620,7 @@ class UsersDeleteView(DeleteView):
         context['users'] = UserProfile.objects.filter(is_staff=False)
         return context
 # endregion USERS page
+
 
 # region MAILING page
 @user_passes_test(lambda u: u.is_staff)
@@ -621,10 +672,3 @@ class EmailDeleteView(DeleteView):
     model = Mailing
     success_url = reverse_lazy('mailing')
 # endregion MAILING page
-
-
-
-
-
-
-

@@ -5,16 +5,40 @@
     Статистика
 {% endblock %}
 
+{% block style %}
+    <link type="text/css" rel="StyleSheet" href="https://bootstraptema.ru/plugins/2016/shieldui/style.css" />
+{% endblock %}
+
 {% block statistics-active %}
     active
 {% endblock %}
 
 {% block content %}
     <div class="container" style="max-width: 1550px">
+        <p>{{ user.online_now }}</p>
+        <!--films, session, users-->
         <div class="row" style="padding-top: 40px">
-            <div class="col-xl-9">
-
+            <div class="col-xl-4">
+                <select id="films" name="films" class="form-select" style="max-width: 250px">
+                    <option value="all">Лучшие фильмы</option>
+                </select>
             </div>
+            <div class="col-xl-4">
+                <select id="sessions" name="sessions" class="form-select" style="max-width: 250px">
+                    <option value="all">Колличество сеансов</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row" style="padding-top: 20px">
+            <div class="col-xl-3">
+                <canvas id="pieChart"></canvas>
+            </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-4">
+                <div id="chart"></div>
+            </div>
+            <div class="col-xl-1"></div>
             <div class="col-xl-3">
                 <div class="small-box bg-warning">
                     <div class="inner">
@@ -27,13 +51,22 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xl-6">
+        <!--end films, session, users-->
+
+        <!--Cinemas-->
+        <div class="row" style="padding-top: 30px">
+            <div id="chart2"></div>
+        </div>
+        <!--End Cinemas-->
+
+        <!--Visitors and Gender-->
+        <div class="row" style="padding-top: 40px; padding-bottom: 50px">
+            <div class="col-xl-5">
                 <div class="card bg-gradient-primary">
                     <div class="card-header border-0 ui-sortable-handle" style="cursor: move;">
                         <h3 class="card-title">
                         <i class="fas fa-map-marker-alt mr-1"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                        Посетители
+                        Пользователи
                         </font></font></h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-primary btn-sm daterange" title="Диапазон дат"><i class="far fa-calendar-alt"></i></button>
@@ -49,28 +82,156 @@
                         <div class="row">
                             <div class="col-4 text-center">
                                 <div id="sparkline-1"><canvas width="80" height="50" style="width: 80px; height: 50px;"></canvas></div>
-                                <div class="text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Посетители</font></font></div>
+                                <div class="text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Зарегистрированных {{ count_users }}</font></font></div>
                             </div>
                             <div class="col-4 text-center">
                                 <div id="sparkline-2"><canvas width="80" height="50" style="width: 80px; height: 50px;"></canvas></div>
-                                <div class="text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Онлайн</font></font></div>
+                                <div class="text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Активных {{ count_users }}</font></font></div>
                             </div>
                             <div class="col-4 text-center">
                                 <div id="sparkline-3"><canvas width="80" height="50" style="width: 80px; height: 50px;"></canvas></div>
-                                <div class="text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Продажи</font></font></div>
+                                <div class="text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Онлайн 1</font></font></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-xl-1"></div>
+            <div class="col-xl-6">
+                <div class="row" style="text-align: center">
+                    <div class="col-xl-2">
+                        <h2 style="padding-top: 90px" class="text-muted">Мужской- {{ male_percent }}%</h2>
+                    </div>
+                    <div class="col-xl-8">
+                        <div style="text-align: center">
+                            <span style="font-size: 24px">Пол - </span><span style="text-align: right; font-size: 24px" class="text-muted">100% от общего числа сеансов</span>
+                        </div>
+                        <canvas id="pieChart1"></canvas>
+                    </div>
+                    <div class="col-xl-2">
+                        <h2 style="padding-top: 90px" class="text-muted">-Женский {{ female_percent }}%</h2>
+                    </div>
+                </div>
+            </div>
         </div>
+        <!--End Visitors and Gender-->
 
     </div>
 {% endblock %}
 
 {% block script %}
     <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+    <script src="https://bootstraptema.ru/plugins/2016/shieldui/script.js"></script>
     <script>
+    // films diagram
+      var ctxP = document.getElementById("pieChart").getContext('2d');
+      var myPieChart = new Chart(ctxP, {
+        type: 'pie',
+        data: {
+          labels: ["Доктор Стрэндж: В мультивселенной безумия", "Человек-Паук: Нет пути домой", "Новые мутанты", "Морбиус", "Веном 2"],
+          datasets: [{
+            data: [{{ doc.count }}, {{ spider.count }}, {{ mutant.count }}, {{ mor.count }}, {{ venom.count }}],
+            backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
 
+
+      // films diagram
+      var ctxP1 = document.getElementById("pieChart1").getContext('2d');
+      var myPieChart1 = new Chart(ctxP1, {
+        type: 'pie',
+        data: {
+          labels: ["Женский", "Мужской"],
+          datasets: [{
+            data: ["{{ female }}", "{{ male }}"],
+            backgroundColor: ["#46BFBD", "#058dc7"],
+            hoverBackgroundColor: ["#46BFBD", "#058dc7"]
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+
+
+      // sessions
+      $(document).ready(function () {
+         $("#chart").shieldChart({
+         theme: "light",
+         primaryHeader: {
+         text: "Колличество сеансов"
+         },
+         exportOptions: {
+         image: false,
+         print: false
+         },
+         axisX: {
+         categoricalValues: [{% for date in dates %}"{{ date|date:"j E" }}", {% endfor %}]
+         },
+         tooltipSettings: {
+         chartBound: true,
+         axisMarkers: {
+         enabled: true,
+         mode: 'xy'
+         }
+         },
+         dataSeries: [{
+         seriesType: 'line',
+         collectionAlias: "Колличество сеансов на день",
+         data: [{% for sum in sum_sessions %}{{ sum }}, {% endfor %}]
+         }]
+         });
+         });
+
+
+      // cinemas
+      $(function () {
+         $("#chart2").shieldChart({
+         theme: "light",
+         seriesSettings: {
+         line: {
+         dataPointText: {
+         enabled: true
+         }
+         }
+         },
+         chartLegend: {
+         align: 'center',
+         borderRadius: 2,
+         borderWidth: 2,
+         verticalAlign: 'top'
+         },
+         exportOptions: {
+         image: true,
+         print: true
+         },
+         axisX: {
+         categoricalValues: [{% for date in dates %}"{{ date|date:"j E" }}", {% endfor %}]
+         },
+         axisY: {
+         title: {
+         text: "Колличество сеансов"
+         }
+         },
+         primaryHeader: {
+         text: "Рейтинг кинотеатров"
+         },
+         dataSeries: [{
+         seriesType: 'line',
+         collectionAlias: 'Синема Сити',
+         data: [{% for sum in count_cinema_city %}{{ sum }}, {% endfor %}]
+         }, {
+         seriesType: 'line',
+         collectionAlias: 'Мультиплекс',
+         data: [{% for sum in count_multiplex %}{{ sum }}, {% endfor %}]
+         }]
+         });
+         });
     </script>
 {% endblock %}
