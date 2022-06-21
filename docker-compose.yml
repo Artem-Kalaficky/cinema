@@ -2,9 +2,12 @@ version: '2.6.0'
 
 services:
   db:
-    image: postgres 12.11
+    image: postgres:12.11
     volumes:
       - postgres_data:/var/lib/postgresql_data/
+
+  redis-server:
+    image: 'redis'
 
   web:
     build: .

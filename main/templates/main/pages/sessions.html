@@ -37,7 +37,7 @@
             </div>
             <div class="col-xl-2" style="max-width: 250px; margin-bottom: 10px">
                 <select id="date" name="date" class="form-select">
-                    <option value="{{ date_now|date:"d.m.Y" }}">{% trans 'Дата' %}</option>
+                    <option value="{{ date_now|date:"d.m.Y" }}">{% trans 'Дата: сегодня' %}</option>
                     {% for date in dates %}
                     <option value="{{ date }}">{{ date }}</option>
                     {% endfor %}

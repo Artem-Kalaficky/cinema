@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-17 19:28+0300\n"
+"POT-Creation-Date: 2022-06-21 22:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgid "Вы действительно хотите выйти с аккаунт
 msgstr "Ви дійсно хочете вийти з акаунту?"
 
 #: main/templates/main/layout/base.html:68
-#: main/templates/main/pages/ticket_page.html:246
+#: main/templates/main/pages/ticket_page.html:250
 #: users/templates/users/profile.html:73
 msgid "Отмена"
 msgstr "Відміна"
@@ -372,8 +372,8 @@ msgid "Показывать только"
 msgstr "Показати тільки"
 
 #: main/templates/main/pages/sessions.html:40
-msgid "Дата"
-msgstr "Дата"
+msgid "Дата: сегодня"
+msgstr "Дата: сьогодні"
 
 #: main/templates/main/pages/sessions.html:48
 msgid "Фильм: все"
@@ -449,31 +449,36 @@ msgstr ""
 "Заброньовані квитки потрібно викупити в касі кінотеатру не пізніше ніж за "
 "пів години до початку сеансу"
 
-#: main/templates/main/pages/ticket_page.html:223
+#: main/templates/main/pages/ticket_page.html:224
 msgid "Забронировать"
 msgstr "Забронювати"
 
-#: main/templates/main/pages/ticket_page.html:224
+#: main/templates/main/pages/ticket_page.html:225
 msgid "Купить"
 msgstr "Купити"
 
-#: main/templates/main/pages/ticket_page.html:225
+#: main/templates/main/pages/ticket_page.html:227
+msgid ""
+"Бронирование и покупка билетов доступны только авторизированным пользователям"
+msgstr ""
+
+#: main/templates/main/pages/ticket_page.html:229
 msgid "Нужно выбрать места для бронирования или покупки билетов"
 msgstr "Потрібно вибрати місця для бронювання або купівлі квитків"
 
-#: main/templates/main/pages/ticket_page.html:231
+#: main/templates/main/pages/ticket_page.html:235
 msgid "Подтверждение покупки"
 msgstr "Підтвердження покупки"
 
-#: main/templates/main/pages/ticket_page.html:242
+#: main/templates/main/pages/ticket_page.html:246
 msgid "К оплате"
 msgstr "До сплати"
 
-#: main/templates/main/pages/ticket_page.html:242
+#: main/templates/main/pages/ticket_page.html:246
 msgid "грн."
 msgstr "грн."
 
-#: main/templates/main/pages/ticket_page.html:247
+#: main/templates/main/pages/ticket_page.html:251
 msgid "Оплатить"
 msgstr "Сплатити"
 
@@ -2207,6 +2212,9 @@ msgstr ""
 #: venv/lib/python3.9/site-packages/modeltranslation/widgets.py:26
 msgid "None"
 msgstr ""
+
+#~ msgid "Дата"
+#~ msgstr "Дата"
 
 #~ msgid "%(s)s"
 #~ msgstr "%(s)s"
