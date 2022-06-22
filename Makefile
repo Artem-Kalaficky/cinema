@@ -14,3 +14,10 @@ superuser:
 
 worker:
 	celery -A cinema worker --loglevel=info
+
+startapp:
+	$(MANAGE) migrate --no-input
+	$(MANAGE) loaddata db.json
+	$(MANAGE) compilemessages
+    gunicorn cinema.wsgi:application --bind 0.0.0.0:8000
+
