@@ -3,11 +3,7 @@ version: '3.7'
 services:
   web:
     build: .
-    command: >
-      sh -c "python manage.py migrate --no-input &&
-             python manage.py loaddata db.json &&
-             python manage.py collectstatic --no-input &&
-             gunicorn cinema.wsgi:application --bind 0.0.0.0:8000"
+    command: make startapp
     volumes:
       - static_volume:/usr/src/cinema/static
       - media_volume:/usr/src/cinema/media

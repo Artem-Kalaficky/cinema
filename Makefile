@@ -19,8 +19,8 @@ startapp:
 	$(MANAGE) migrate --no-input
 	$(MANAGE) loaddata db.json
 	$(MANAGE) collectstatic --no-input
+	django-admin compilemessages
 	gunicorn cinema.wsgi:application --bind 0.0.0.0:8000
-	$(MANAGE) compilemessages
 
 
 

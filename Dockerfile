@@ -1,9 +1,11 @@
-FROM python:3.9-alpine
+FROM python:3.9
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 WORKDIR /usr/src/cinema
+
+RUN apt update && apt -y install gettext
 
 RUN pip install --upgrade pip
 COPY ./requirements.txt /usr/src/requirements.txt
