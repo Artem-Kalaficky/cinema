@@ -43,8 +43,8 @@ def statistics(request):
                'sum_sessions': count_sessions_list,
                'male': male,
                'female': female,
-               'male_percent': male / len(films) * 100,
-               'female_percent': female / len(films) * 100,
+               'male_percent': int(male / len(films) * 100),
+               'female_percent': int(female / len(films) * 100),
                'count_multiplex': count_multiplex,
                'count_cinema_city': count_cinema_city}
     return render(request, 'cms/pages/statistics.html', context)

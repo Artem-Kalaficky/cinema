@@ -73,7 +73,7 @@
     
     <!--current_film-->
     <div class="container" style="max-width: 1340px; background: #f2f3f4; padding-bottom: 40px">
-        <h3 style="text-align: center; padding-bottom: 15px"><b>{% translate 'Смотрите сегодня' %}</b>, {% if LANGUAGE_CODE == 'uk' %}{{ day|date:"d.m" }}{% else %}{{ day|date:"j E"}}{% endif %} </h3>
+        <h3 style="text-align: center; padding-bottom: 15px"><b>{% translate 'Смотрите сегодня' %}</b>, {{ day|date:"j E"}}</h3>
         <div class="row">
             {% for film in current_films %}
             <div class="col-xl-3 col-md-4 col-sm-6" style="text-align: center; padding-top: 15px; padding-bottom: 20px">
@@ -106,7 +106,7 @@
                 </div>
                 <div style="text-align: center; padding-top: 3px">
                     <p style="color: #00ec00; font-size: 25px">
-                        <b>{% trans 'С' %} {% if LANGUAGE_CODE == 'uk' %}{{ film.premier_date|date:"d.m" }}{% else %}{{ film.premier_date|date:"j E"}}{% endif %}</b>
+                        <b>{% trans 'С' %} {{ film.premier_date|date:"j E"}}</b>
                     </p>
                 </div>
             </div>

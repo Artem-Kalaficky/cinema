@@ -2,17 +2,15 @@ version: '3.7'
 
 services:
   web:
-    build:
-      context: ./cinema
-      dockerfile: Dockerfile
+    build: .
     command: >
       sh -c "python manage.py migrate --no-input &&
              python manage.py loaddata db.json &&
              python manage.py collectstatic --no-input &&
              gunicorn cinema.wsgi:application --bind 0.0.0.0:8000"
     volumes:
-      - static_volume:/home/app/web/staticfiles
-      - media_volume:/home/app/web/mediafiles
+      - static_volume:/usr/src/cinema/static
+      - media_volume:/usr/src/cinema/media
     expose:
       - 8000
     env_file:
@@ -30,15 +28,30 @@ services:
       - POSTGRES_DB=hello_django_dev
 
   nginx:
-    build:
-      context: nginx/
-      dockerfile: Dockerfile
+    build: ./nginx
     volumes:
-      - static_volume:/home/app/web/staticfiles
-      - media_volume:/home/app/web/mediafiles
+      - static_volume:/usr/src/cinema/static
+      - media_volume:/usr/src/cinema/media
     ports:
-      - 1337:80
+      - 80:80
     depends_on:
+      - web
+
+  redis:
+    image: redis:alpine
+
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A cinema worker --loglevel=info
+    ports:
+      - 587:587
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis
       - web
 
 volumes:

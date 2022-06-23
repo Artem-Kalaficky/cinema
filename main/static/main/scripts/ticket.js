@@ -50,7 +50,6 @@ function create_ticket() {
     collect_data.delete('place_list')
     collect_data.delete('row_list')
     collect_data.delete('status')
-    console.log(collect_data)
     $('.reserve').unbind('click');
     setTimeout(block_btn(), 100)
 }
