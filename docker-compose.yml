@@ -42,7 +42,7 @@ services:
       context: .
     command: celery -A cinema worker --loglevel=info
     ports:
-      - 587:587
+      - 465:465
     env_file:
       - ./.env
     depends_on:
